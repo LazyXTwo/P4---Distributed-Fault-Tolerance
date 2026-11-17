@@ -1,0 +1,6 @@
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/generate_proto.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/server.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/client.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/web_server.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/edit_cache.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/rebuild_cache.dir
