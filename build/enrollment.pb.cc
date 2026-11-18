@@ -55,10 +55,346 @@ PROTOBUF_CONSTINIT ::google::protobuf::internal::ReflectionData
         {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
         // ::enrollment::AddCourseReply
         {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::UploadGradeRequest
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::UploadGradeReply
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::GetGradesRequest
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::Grade
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::GetGradesReply
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
 };
 }  // namespace
 #endif
 namespace enrollment {
+class UploadGradeRequest::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<UploadGradeRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_._has_bits_);
+};
+
+constexpr UploadGradeRequest::ParseTableT_ UploadGradeRequest::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_._has_bits_),
+      0, // no _extensions_
+      4, 24,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967280,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      4,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::UploadGradeRequest>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // double grade = 4;
+      {::_pbi::TcParser::FastF64S1,
+       {33, 3, 0,
+        PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.grade_)}},
+      // string session_token = 1;
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.session_token_)}},
+      // string student_username = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 1, 0,
+        PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.student_username_)}},
+      // string course_code = 3;
+      {::_pbi::TcParser::FastUS1,
+       {26, 2, 0,
+        PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.course_code_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string session_token = 1;
+      {PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.session_token_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string student_username = 2;
+      {PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.student_username_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string course_code = 3;
+      {PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.course_code_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // double grade = 4;
+      {PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_.grade_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
+    }},
+    // no aux_entries
+    {{
+      "\35\15\20\13\0\0\0\0"
+      "enrollment.UploadGradeRequest"
+      "session_token"
+      "student_username"
+      "course_code"
+    }},
+  };
+}
+
+
+inline constexpr UploadGradeRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        session_token_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        student_username_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        course_code_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        grade_{0} {}
+
+template <typename>
+constexpr UploadGradeRequest::UploadGradeRequest(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL UploadGradeRequest::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) UploadGradeRequest(arena);
+}
+constexpr auto UploadGradeRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(UploadGradeRequest), alignof(UploadGradeRequest));
+}
+constexpr auto UploadGradeRequest::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &UploadGradeRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<UploadGradeRequest>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &UploadGradeRequest::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<UploadGradeRequest>(), &UploadGradeRequest::ByteSizeLong,
+              &UploadGradeRequest::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(UploadGradeRequest, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[13],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct UploadGradeRequestGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr UploadGradeRequestGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 UploadGradeRequest_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(UploadGradeRequest::InternalGenerateClassData_(
+            _default, &UploadGradeRequest_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<UploadGradeRequest>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~UploadGradeRequestGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) UploadGradeRequest _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<UploadGradeRequest>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(UploadGradeRequestGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST UploadGradeRequestGlobalsTypeInternal UploadGradeRequest_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* UploadGradeRequest_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return UploadGradeRequest_globals_.GetClassData();
+#else
+  return UploadGradeRequest_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class UploadGradeReply::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<UploadGradeReply>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(UploadGradeReply, _impl_._has_bits_);
+};
+
+constexpr UploadGradeReply::ParseTableT_ UploadGradeReply::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(UploadGradeReply, _impl_._has_bits_),
+      0, // no _extensions_
+      2, 8,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967292,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      2,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::UploadGradeReply>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // string message = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 0, 0,
+        PROTOBUF_FIELD_OFFSET(UploadGradeReply, _impl_.message_)}},
+      // bool success = 1;
+      {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(UploadGradeReply, _impl_.success_), 1>(),
+       {8, 1, 0,
+        PROTOBUF_FIELD_OFFSET(UploadGradeReply, _impl_.success_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // bool success = 1;
+      {PROTOBUF_FIELD_OFFSET(UploadGradeReply, _impl_.success_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+      // string message = 2;
+      {PROTOBUF_FIELD_OFFSET(UploadGradeReply, _impl_.message_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    }},
+    // no aux_entries
+    {{
+      "\33\0\7\0\0\0\0\0"
+      "enrollment.UploadGradeReply"
+      "message"
+    }},
+  };
+}
+
+
+inline constexpr UploadGradeReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        message_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        success_{false} {}
+
+template <typename>
+constexpr UploadGradeReply::UploadGradeReply(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL UploadGradeReply::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) UploadGradeReply(arena);
+}
+constexpr auto UploadGradeReply::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(UploadGradeReply), alignof(UploadGradeReply));
+}
+constexpr auto UploadGradeReply::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &UploadGradeReply::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<UploadGradeReply>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &UploadGradeReply::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<UploadGradeReply>(), &UploadGradeReply::ByteSizeLong,
+              &UploadGradeReply::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(UploadGradeReply, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[14],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct UploadGradeReplyGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr UploadGradeReplyGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 UploadGradeReply_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(UploadGradeReply::InternalGenerateClassData_(
+            _default, &UploadGradeReply_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<UploadGradeReply>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~UploadGradeReplyGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) UploadGradeReply _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<UploadGradeReply>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(UploadGradeReplyGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST UploadGradeReplyGlobalsTypeInternal UploadGradeReply_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* UploadGradeReply_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return UploadGradeReply_globals_.GetClassData();
+#else
+  return UploadGradeReply_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
 class LogoutRequest::_Internal {
  public:
   using HasBits = decltype(::std::declval<LogoutRequest>()._impl_._has_bits_);
@@ -683,6 +1019,316 @@ const ::_pbi::ClassData* LoginReply_get_class_data() {
   return LoginReply_globals_.GetClassData();
 #else
   return LoginReply_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class Grade::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<Grade>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(Grade, _impl_._has_bits_);
+};
+
+constexpr Grade::ParseTableT_ Grade::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(Grade, _impl_._has_bits_),
+      0, // no _extensions_
+      3, 24,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967288,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      3,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::Grade>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      {::_pbi::TcParser::MiniParse, {}},
+      // string course_code = 1;
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(Grade, _impl_.course_code_)}},
+      // string course_name = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 1, 0,
+        PROTOBUF_FIELD_OFFSET(Grade, _impl_.course_name_)}},
+      // double grade = 3;
+      {::_pbi::TcParser::FastF64S1,
+       {25, 2, 0,
+        PROTOBUF_FIELD_OFFSET(Grade, _impl_.grade_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string course_code = 1;
+      {PROTOBUF_FIELD_OFFSET(Grade, _impl_.course_code_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string course_name = 2;
+      {PROTOBUF_FIELD_OFFSET(Grade, _impl_.course_name_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // double grade = 3;
+      {PROTOBUF_FIELD_OFFSET(Grade, _impl_.grade_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
+    }},
+    // no aux_entries
+    {{
+      "\20\13\13\0\0\0\0\0"
+      "enrollment.Grade"
+      "course_code"
+      "course_name"
+    }},
+  };
+}
+
+
+inline constexpr Grade::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        course_code_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        course_name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        grade_{0} {}
+
+template <typename>
+constexpr Grade::Grade(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL Grade::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) Grade(arena);
+}
+constexpr auto Grade::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(Grade), alignof(Grade));
+}
+constexpr auto Grade::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &Grade::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<Grade>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &Grade::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<Grade>(), &Grade::ByteSizeLong,
+              &Grade::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(Grade, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[16],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct GradeGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr GradeGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 Grade_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(Grade::InternalGenerateClassData_(
+            _default, &Grade_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<Grade>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~GradeGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) Grade _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<Grade>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(GradeGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST GradeGlobalsTypeInternal Grade_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* Grade_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return Grade_globals_.GetClassData();
+#else
+  return Grade_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class GetGradesRequest::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<GetGradesRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(GetGradesRequest, _impl_._has_bits_);
+};
+
+constexpr GetGradesRequest::ParseTableT_ GetGradesRequest::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(GetGradesRequest, _impl_._has_bits_),
+      0, // no _extensions_
+      1, 0,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967294,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      1,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::GetGradesRequest>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // string session_token = 1;
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(GetGradesRequest, _impl_.session_token_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string session_token = 1;
+      {PROTOBUF_FIELD_OFFSET(GetGradesRequest, _impl_.session_token_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    }},
+    // no aux_entries
+    {{
+      "\33\15\0\0\0\0\0\0"
+      "enrollment.GetGradesRequest"
+      "session_token"
+    }},
+  };
+}
+
+
+inline constexpr GetGradesRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        session_token_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()) {}
+
+template <typename>
+constexpr GetGradesRequest::GetGradesRequest(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL GetGradesRequest::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) GetGradesRequest(arena);
+}
+constexpr auto GetGradesRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(GetGradesRequest), alignof(GetGradesRequest));
+}
+constexpr auto GetGradesRequest::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &GetGradesRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<GetGradesRequest>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &GetGradesRequest::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<GetGradesRequest>(), &GetGradesRequest::ByteSizeLong,
+              &GetGradesRequest::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(GetGradesRequest, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[15],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct GetGradesRequestGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr GetGradesRequestGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 GetGradesRequest_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(GetGradesRequest::InternalGenerateClassData_(
+            _default, &GetGradesRequest_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<GetGradesRequest>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~GetGradesRequestGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) GetGradesRequest _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<GetGradesRequest>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(GetGradesRequestGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST GetGradesRequestGlobalsTypeInternal GetGradesRequest_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* GetGradesRequest_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return GetGradesRequest_globals_.GetClassData();
+#else
+  return GetGradesRequest_class_data_.base();
 #endif  // PROTOBUF_MESSAGE_GLOBALS
 }
 }  // namespace
@@ -1952,6 +2598,177 @@ const ::_pbi::ClassData* AddCourseReply_get_class_data() {
 }
 }  // namespace
 #endif  // PROTOBUF_CUSTOM_VTABLE
+class GetGradesReply::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<GetGradesReply>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_._has_bits_);
+};
+
+constexpr GetGradesReply::ParseTableT_ GetGradesReply::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_._has_bits_),
+      0, // no _extensions_
+      3, 24,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967288,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      3,  // num_field_entries
+      1,  // num_aux_entries
+      offsetof(ParseTableT_, aux_entries),
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::GetGradesReply>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      {::_pbi::TcParser::MiniParse, {}},
+      // bool success = 1;
+      {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(GetGradesReply, _impl_.success_), 2>(),
+       {8, 2, 0,
+        PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_.success_)}},
+      // string message = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 1, 0,
+        PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_.message_)}},
+      // repeated .enrollment.Grade grades = 3;
+      {::_pbi::TcParser::FastMtR1,
+       {26, 0, 0,
+        PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_.grades_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // bool success = 1;
+      {PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_.success_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+      // string message = 2;
+      {PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_.message_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // repeated .enrollment.Grade grades = 3;
+      {PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_.grades_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    }},
+    {{
+        #ifndef PROTOBUF_MESSAGE_GLOBALS
+        {::_pbi::TcParser::GetTable<::enrollment::Grade>()},
+        #else
+        {::_pbi::FieldAuxMessageGlobals(), &::enrollment::Grade_globals_},
+        #endif
+    }},
+    {{
+      "\31\0\7\0\0\0\0\0"
+      "enrollment.GetGradesReply"
+      "message"
+    }},
+  };
+}
+
+
+inline constexpr GetGradesReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        grades_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::enrollment::GetGradesReply,
+            PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesReply, _impl_.grades_)>()
+         }
+        ,
+        message_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        success_{false} {}
+
+template <typename>
+constexpr GetGradesReply::GetGradesReply(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL GetGradesReply::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) GetGradesReply(arena);
+}
+constexpr auto GetGradesReply::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(GetGradesReply), alignof(GetGradesReply));
+}
+constexpr auto GetGradesReply::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &GetGradesReply::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<GetGradesReply>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &GetGradesReply::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<GetGradesReply>(), &GetGradesReply::ByteSizeLong,
+              &GetGradesReply::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(GetGradesReply, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[17],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct GetGradesReplyGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr GetGradesReplyGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 GetGradesReply_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(GetGradesReply::InternalGenerateClassData_(
+            _default, &GetGradesReply_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<GetGradesReply>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~GetGradesReplyGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) GetGradesReply _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<GetGradesReply>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(GetGradesReplyGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST GetGradesReplyGlobalsTypeInternal GetGradesReply_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* GetGradesReply_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return GetGradesReply_globals_.GetClassData();
+#else
+  return GetGradesReply_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
 class GetCoursesReply::_Internal {
  public:
   using HasBits = decltype(::std::declval<GetCoursesReply>()._impl_._has_bits_);
@@ -2232,6 +3049,47 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseReply, _impl_.message_),
         1,
         0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeRequest, _impl_._has_bits_),
+        7, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeRequest, _impl_.session_token_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeRequest, _impl_.student_username_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeRequest, _impl_.course_code_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeRequest, _impl_.grade_),
+        0,
+        1,
+        2,
+        3,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeReply, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeReply, _impl_.success_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::UploadGradeReply, _impl_.message_),
+        1,
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesRequest, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesRequest, _impl_.session_token_),
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::Grade, _impl_._has_bits_),
+        6, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::Grade, _impl_.course_code_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::Grade, _impl_.course_name_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::Grade, _impl_.grade_),
+        0,
+        1,
+        2,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesReply, _impl_._has_bits_),
+        6, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesReply, _impl_.success_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesReply, _impl_.message_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesReply, _impl_.grades_),
+        2,
+        1,
+        0,
 };
 
 static const ::_pbi::MigrationSchema
@@ -2249,6 +3107,11 @@ static const ::_pbi::MigrationSchema
         {76, sizeof(::enrollment::AddStudentReply)},
         {83, sizeof(::enrollment::AddCourseRequest)},
         {94, sizeof(::enrollment::AddCourseReply)},
+        {101, sizeof(::enrollment::UploadGradeRequest)},
+        {112, sizeof(::enrollment::UploadGradeReply)},
+        {119, sizeof(::enrollment::GetGradesRequest)},
+        {124, sizeof(::enrollment::Grade)},
+        {133, sizeof(::enrollment::GetGradesReply)},
 };
 static const ::_pbi::MessageGlobalsBase* PROTOBUF_NONNULL const
     file_message_globals[] = {
@@ -2265,6 +3128,11 @@ static const ::_pbi::MessageGlobalsBase* PROTOBUF_NONNULL const
         &::enrollment::AddStudentReply_globals_,
         &::enrollment::AddCourseRequest_globals_,
         &::enrollment::AddCourseReply_globals_,
+        &::enrollment::UploadGradeRequest_globals_,
+        &::enrollment::UploadGradeReply_globals_,
+        &::enrollment::GetGradesRequest_globals_,
+        &::enrollment::Grade_globals_,
+        &::enrollment::GetGradesReply_globals_,
 };
 const char descriptor_table_protodef_enrollment_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -2289,30 +3157,42 @@ const char descriptor_table_protodef_enrollment_2eproto[] ABSL_ATTRIBUTE_SECTION
     "\022\025\n\rsession_token\030\001 \001(\t\022\023\n\013course_code\030\002"
     " \001(\t\022\023\n\013course_name\030\003 \001(\t\022\r\n\005slots\030\004 \001(\005"
     "\"2\n\016AddCourseReply\022\017\n\007success\030\001 \001(\010\022\017\n\007m"
-    "essage\030\002 \001(\t2\245\003\n\021EnrollmentService\0229\n\005Lo"
-    "gin\022\030.enrollment.LoginRequest\032\026.enrollme"
-    "nt.LoginReply\022<\n\006Logout\022\031.enrollment.Log"
-    "outRequest\032\027.enrollment.LogoutReply\022H\n\nG"
-    "etCourses\022\035.enrollment.GetCoursesRequest"
-    "\032\033.enrollment.GetCoursesReply\022<\n\006Enroll\022"
-    "\031.enrollment.EnrollRequest\032\027.enrollment."
-    "EnrollReply\022H\n\nAddStudent\022\035.enrollment.A"
-    "ddStudentRequest\032\033.enrollment.AddStudent"
-    "Reply\022E\n\tAddCourse\022\034.enrollment.AddCours"
-    "eRequest\032\032.enrollment.AddCourseReplyb\006pr"
-    "oto3"
+    "essage\030\002 \001(\t\"i\n\022UploadGradeRequest\022\025\n\rse"
+    "ssion_token\030\001 \001(\t\022\030\n\020student_username\030\002 "
+    "\001(\t\022\023\n\013course_code\030\003 \001(\t\022\r\n\005grade\030\004 \001(\001\""
+    "4\n\020UploadGradeReply\022\017\n\007success\030\001 \001(\010\022\017\n\007"
+    "message\030\002 \001(\t\")\n\020GetGradesRequest\022\025\n\rses"
+    "sion_token\030\001 \001(\t\"@\n\005Grade\022\023\n\013course_code"
+    "\030\001 \001(\t\022\023\n\013course_name\030\002 \001(\t\022\r\n\005grade\030\003 \001"
+    "(\001\"U\n\016GetGradesReply\022\017\n\007success\030\001 \001(\010\022\017\n"
+    "\007message\030\002 \001(\t\022!\n\006grades\030\003 \003(\0132\021.enrollm"
+    "ent.Grade2\271\004\n\021EnrollmentService\0229\n\005Login"
+    "\022\030.enrollment.LoginRequest\032\026.enrollment."
+    "LoginReply\022<\n\006Logout\022\031.enrollment.Logout"
+    "Request\032\027.enrollment.LogoutReply\022H\n\nGetC"
+    "ourses\022\035.enrollment.GetCoursesRequest\032\033."
+    "enrollment.GetCoursesReply\022<\n\006Enroll\022\031.e"
+    "nrollment.EnrollRequest\032\027.enrollment.Enr"
+    "ollReply\022H\n\nAddStudent\022\035.enrollment.AddS"
+    "tudentRequest\032\033.enrollment.AddStudentRep"
+    "ly\022E\n\tAddCourse\022\034.enrollment.AddCourseRe"
+    "quest\032\032.enrollment.AddCourseReply\022K\n\013Upl"
+    "oadGrade\022\036.enrollment.UploadGradeRequest"
+    "\032\034.enrollment.UploadGradeReply\022E\n\tGetGra"
+    "des\022\034.enrollment.GetGradesRequest\032\032.enro"
+    "llment.GetGradesReplyb\006proto3"
 };
 static ::absl::once_flag descriptor_table_enrollment_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_enrollment_2eproto = {
     false,
     false,
-    1284,
+    1789,
     descriptor_table_protodef_enrollment_2eproto,
     "enrollment.proto",
     &descriptor_table_enrollment_2eproto_once,
     nullptr,
     0,
-    13,
+    18,
     schemas,
     file_message_globals,
     TableStruct_enrollment_2eproto::offsets,
@@ -5680,6 +6560,1331 @@ void AddCourseReply::InternalSwap(AddCourseReply* PROTOBUF_RESTRICT PROTOBUF_NON
 }
 
 ::google::protobuf::Metadata AddCourseReply::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+UploadGradeRequest::UploadGradeRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, UploadGradeRequest_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.UploadGradeRequest)
+}
+PROTOBUF_NDEBUG_INLINE UploadGradeRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::UploadGradeRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        session_token_(arena, from.session_token_),
+        student_username_(arena, from.student_username_),
+        course_code_(arena, from.course_code_) {}
+
+UploadGradeRequest::UploadGradeRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const UploadGradeRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, UploadGradeRequest_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  UploadGradeRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.grade_ = from._impl_.grade_;
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.UploadGradeRequest)
+}
+PROTOBUF_NDEBUG_INLINE UploadGradeRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        session_token_(arena),
+        student_username_(arena),
+        course_code_(arena) {}
+
+inline void UploadGradeRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.grade_ = {};
+}
+UploadGradeRequest::~UploadGradeRequest() {
+  // @@protoc_insertion_point(destructor:enrollment.UploadGradeRequest)
+  SharedDtor(*this);
+}
+inline void UploadGradeRequest::SharedDtor(MessageLite& self) {
+  UploadGradeRequest& this_ = static_cast<UploadGradeRequest&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.session_token_.Destroy();
+  this_._impl_.student_username_.Destroy();
+  this_._impl_.course_code_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull UploadGradeRequest_class_data_ =
+        UploadGradeRequest::InternalGenerateClassData_(UploadGradeRequest_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+UploadGradeRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&UploadGradeRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(UploadGradeRequest_class_data_.tc_table);
+  return UploadGradeRequest_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+UploadGradeRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&UploadGradeRequest_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&UploadGradeRequest_globals_));
+  return UploadGradeRequest_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const UploadGradeRequest::ParseTableT_
+    UploadGradeRequest::_table_ =
+        UploadGradeRequest::InternalGenerateParseTable_(UploadGradeRequest_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void UploadGradeRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.UploadGradeRequest)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.session_token_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _impl_.student_username_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      _impl_.course_code_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_.grade_ = 0;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL UploadGradeRequest::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const UploadGradeRequest& this_ = static_cast<const UploadGradeRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL UploadGradeRequest::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const UploadGradeRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.UploadGradeRequest)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // string session_token = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_session_token().empty()) {
+      const ::std::string& _s = this_._internal_session_token();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.UploadGradeRequest.session_token");
+      target = stream->WriteStringMaybeAliased(1, _s, target);
+    }
+  }
+
+  // string student_username = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_student_username().empty()) {
+      const ::std::string& _s = this_._internal_student_username();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.UploadGradeRequest.student_username");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // string course_code = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (!this_._internal_course_code().empty()) {
+      const ::std::string& _s = this_._internal_course_code();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.UploadGradeRequest.course_code");
+      target = stream->WriteStringMaybeAliased(3, _s, target);
+    }
+  }
+
+  // double grade = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (::absl::bit_cast<::uint64_t>(this_._internal_grade()) != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+          4, this_._internal_grade(), target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.UploadGradeRequest)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t UploadGradeRequest::ByteSizeLong(const MessageLite& base) {
+  const UploadGradeRequest& this_ = static_cast<const UploadGradeRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t UploadGradeRequest::ByteSizeLong() const {
+  const UploadGradeRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.UploadGradeRequest)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+    // string session_token = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_session_token().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_session_token());
+      }
+    }
+    // string student_username = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_student_username().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_student_username());
+      }
+    }
+    // string course_code = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!this_._internal_course_code().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_course_code());
+      }
+    }
+    // double grade = 4;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (::absl::bit_cast<::uint64_t>(this_._internal_grade()) != 0) {
+        total_size += 9;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void UploadGradeRequest::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<UploadGradeRequest*>(&to_msg);
+  auto& from = static_cast<const UploadGradeRequest&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.UploadGradeRequest)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_session_token().empty()) {
+        _this->_internal_set_session_token(from._internal_session_token());
+      } else {
+        if (_this->_impl_.session_token_.IsDefault()) {
+          _this->_internal_set_session_token("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_student_username().empty()) {
+        _this->_internal_set_student_username(from._internal_student_username());
+      } else {
+        if (_this->_impl_.student_username_.IsDefault()) {
+          _this->_internal_set_student_username("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!from._internal_course_code().empty()) {
+        _this->_internal_set_course_code(from._internal_course_code());
+      } else {
+        if (_this->_impl_.course_code_.IsDefault()) {
+          _this->_internal_set_course_code("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (::absl::bit_cast<::uint64_t>(from._internal_grade()) != 0) {
+        _this->_impl_.grade_ = from._impl_.grade_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void UploadGradeRequest::CopyFrom(const UploadGradeRequest& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.UploadGradeRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void UploadGradeRequest::InternalSwap(UploadGradeRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.session_token_, &other->_impl_.session_token_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.student_username_, &other->_impl_.student_username_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.course_code_, &other->_impl_.course_code_, arena);
+  swap(_impl_.grade_, other->_impl_.grade_);
+}
+
+::google::protobuf::Metadata UploadGradeRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+UploadGradeReply::UploadGradeReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, UploadGradeReply_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.UploadGradeReply)
+}
+PROTOBUF_NDEBUG_INLINE UploadGradeReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::UploadGradeReply& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        message_(arena, from.message_) {}
+
+UploadGradeReply::UploadGradeReply(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const UploadGradeReply& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, UploadGradeReply_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  UploadGradeReply* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.success_ = from._impl_.success_;
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.UploadGradeReply)
+}
+PROTOBUF_NDEBUG_INLINE UploadGradeReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        message_(arena) {}
+
+inline void UploadGradeReply::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.success_ = {};
+}
+UploadGradeReply::~UploadGradeReply() {
+  // @@protoc_insertion_point(destructor:enrollment.UploadGradeReply)
+  SharedDtor(*this);
+}
+inline void UploadGradeReply::SharedDtor(MessageLite& self) {
+  UploadGradeReply& this_ = static_cast<UploadGradeReply&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.message_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull UploadGradeReply_class_data_ =
+        UploadGradeReply::InternalGenerateClassData_(UploadGradeReply_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+UploadGradeReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&UploadGradeReply_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(UploadGradeReply_class_data_.tc_table);
+  return UploadGradeReply_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+UploadGradeReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&UploadGradeReply_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&UploadGradeReply_globals_));
+  return UploadGradeReply_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const UploadGradeReply::ParseTableT_
+    UploadGradeReply::_table_ =
+        UploadGradeReply::InternalGenerateParseTable_(UploadGradeReply_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void UploadGradeReply::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.UploadGradeReply)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    _impl_.message_.ClearNonDefaultToEmpty();
+  }
+  _impl_.success_ = false;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL UploadGradeReply::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const UploadGradeReply& this_ = static_cast<const UploadGradeReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL UploadGradeReply::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const UploadGradeReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.UploadGradeReply)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // bool success = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (this_._internal_success() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          1, this_._internal_success(), target);
+    }
+  }
+
+  // string message = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_message().empty()) {
+      const ::std::string& _s = this_._internal_message();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.UploadGradeReply.message");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.UploadGradeReply)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t UploadGradeReply::ByteSizeLong(const MessageLite& base) {
+  const UploadGradeReply& this_ = static_cast<const UploadGradeReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t UploadGradeReply::ByteSizeLong() const {
+  const UploadGradeReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.UploadGradeReply)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    // string message = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_message().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_message());
+      }
+    }
+    // bool success = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (this_._internal_success() != 0) {
+        total_size += 2;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void UploadGradeReply::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<UploadGradeReply*>(&to_msg);
+  auto& from = static_cast<const UploadGradeReply&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.UploadGradeReply)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_message().empty()) {
+        _this->_internal_set_message(from._internal_message());
+      } else {
+        if (_this->_impl_.message_.IsDefault()) {
+          _this->_internal_set_message("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (from._internal_success() != 0) {
+        _this->_impl_.success_ = from._impl_.success_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void UploadGradeReply::CopyFrom(const UploadGradeReply& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.UploadGradeReply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void UploadGradeReply::InternalSwap(UploadGradeReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::google::protobuf::Metadata UploadGradeReply::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+GetGradesRequest::GetGradesRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, GetGradesRequest_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.GetGradesRequest)
+}
+PROTOBUF_NDEBUG_INLINE GetGradesRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::GetGradesRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        session_token_(arena, from.session_token_) {}
+
+GetGradesRequest::GetGradesRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const GetGradesRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, GetGradesRequest_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  GetGradesRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.GetGradesRequest)
+}
+PROTOBUF_NDEBUG_INLINE GetGradesRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        session_token_(arena) {}
+
+inline void GetGradesRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+GetGradesRequest::~GetGradesRequest() {
+  // @@protoc_insertion_point(destructor:enrollment.GetGradesRequest)
+  SharedDtor(*this);
+}
+inline void GetGradesRequest::SharedDtor(MessageLite& self) {
+  GetGradesRequest& this_ = static_cast<GetGradesRequest&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.session_token_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull GetGradesRequest_class_data_ =
+        GetGradesRequest::InternalGenerateClassData_(GetGradesRequest_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+GetGradesRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&GetGradesRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(GetGradesRequest_class_data_.tc_table);
+  return GetGradesRequest_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+GetGradesRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&GetGradesRequest_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&GetGradesRequest_globals_));
+  return GetGradesRequest_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const GetGradesRequest::ParseTableT_
+    GetGradesRequest::_table_ =
+        GetGradesRequest::InternalGenerateParseTable_(GetGradesRequest_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void GetGradesRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.GetGradesRequest)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    _impl_.session_token_.ClearNonDefaultToEmpty();
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL GetGradesRequest::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const GetGradesRequest& this_ = static_cast<const GetGradesRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL GetGradesRequest::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const GetGradesRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.GetGradesRequest)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // string session_token = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_session_token().empty()) {
+      const ::std::string& _s = this_._internal_session_token();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.GetGradesRequest.session_token");
+      target = stream->WriteStringMaybeAliased(1, _s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.GetGradesRequest)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t GetGradesRequest::ByteSizeLong(const MessageLite& base) {
+  const GetGradesRequest& this_ = static_cast<const GetGradesRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t GetGradesRequest::ByteSizeLong() const {
+  const GetGradesRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.GetGradesRequest)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+   {
+    // string session_token = 1;
+    cached_has_bits = this_._impl_._has_bits_[0];
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_session_token().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_session_token());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void GetGradesRequest::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<GetGradesRequest*>(&to_msg);
+  auto& from = static_cast<const GetGradesRequest&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.GetGradesRequest)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!from._internal_session_token().empty()) {
+      _this->_internal_set_session_token(from._internal_session_token());
+    } else {
+      if (_this->_impl_.session_token_.IsDefault()) {
+        _this->_internal_set_session_token("");
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void GetGradesRequest::CopyFrom(const GetGradesRequest& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.GetGradesRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void GetGradesRequest::InternalSwap(GetGradesRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.session_token_, &other->_impl_.session_token_, arena);
+}
+
+::google::protobuf::Metadata GetGradesRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+Grade::Grade(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, Grade_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.Grade)
+}
+PROTOBUF_NDEBUG_INLINE Grade::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::Grade& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        course_code_(arena, from.course_code_),
+        course_name_(arena, from.course_name_) {}
+
+Grade::Grade(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const Grade& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, Grade_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Grade* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.grade_ = from._impl_.grade_;
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.Grade)
+}
+PROTOBUF_NDEBUG_INLINE Grade::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        course_code_(arena),
+        course_name_(arena) {}
+
+inline void Grade::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.grade_ = {};
+}
+Grade::~Grade() {
+  // @@protoc_insertion_point(destructor:enrollment.Grade)
+  SharedDtor(*this);
+}
+inline void Grade::SharedDtor(MessageLite& self) {
+  Grade& this_ = static_cast<Grade&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.course_code_.Destroy();
+  this_._impl_.course_name_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull Grade_class_data_ =
+        Grade::InternalGenerateClassData_(Grade_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+Grade::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&Grade_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(Grade_class_data_.tc_table);
+  return Grade_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+Grade::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&Grade_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&Grade_globals_));
+  return Grade_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const Grade::ParseTableT_
+    Grade::_table_ =
+        Grade::InternalGenerateParseTable_(Grade_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void Grade::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.Grade)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.course_code_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _impl_.course_name_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_.grade_ = 0;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL Grade::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const Grade& this_ = static_cast<const Grade&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL Grade::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const Grade& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.Grade)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // string course_code = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_course_code().empty()) {
+      const ::std::string& _s = this_._internal_course_code();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.Grade.course_code");
+      target = stream->WriteStringMaybeAliased(1, _s, target);
+    }
+  }
+
+  // string course_name = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_course_name().empty()) {
+      const ::std::string& _s = this_._internal_course_name();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.Grade.course_name");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // double grade = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (::absl::bit_cast<::uint64_t>(this_._internal_grade()) != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+          3, this_._internal_grade(), target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.Grade)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t Grade::ByteSizeLong(const MessageLite& base) {
+  const Grade& this_ = static_cast<const Grade&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t Grade::ByteSizeLong() const {
+  const Grade& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.Grade)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    // string course_code = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_course_code().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_course_code());
+      }
+    }
+    // string course_name = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_course_name().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_course_name());
+      }
+    }
+    // double grade = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (::absl::bit_cast<::uint64_t>(this_._internal_grade()) != 0) {
+        total_size += 9;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void Grade::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<Grade*>(&to_msg);
+  auto& from = static_cast<const Grade&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.Grade)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_course_code().empty()) {
+        _this->_internal_set_course_code(from._internal_course_code());
+      } else {
+        if (_this->_impl_.course_code_.IsDefault()) {
+          _this->_internal_set_course_code("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_course_name().empty()) {
+        _this->_internal_set_course_name(from._internal_course_name());
+      } else {
+        if (_this->_impl_.course_name_.IsDefault()) {
+          _this->_internal_set_course_name("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (::absl::bit_cast<::uint64_t>(from._internal_grade()) != 0) {
+        _this->_impl_.grade_ = from._impl_.grade_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void Grade::CopyFrom(const Grade& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.Grade)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void Grade::InternalSwap(Grade* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.course_code_, &other->_impl_.course_code_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.course_name_, &other->_impl_.course_name_, arena);
+  swap(_impl_.grade_, other->_impl_.grade_);
+}
+
+::google::protobuf::Metadata Grade::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+GetGradesReply::GetGradesReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, GetGradesReply_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.GetGradesReply)
+}
+PROTOBUF_NDEBUG_INLINE GetGradesReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::GetGradesReply& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        grades_ {
+          visibility, ::_pbi::InternalMetadataOffset::Build<
+              ::enrollment::GetGradesReply,
+              PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesReply, _impl_.grades_)>()
+          , from.grades_
+        }
+        ,
+        message_(arena, from.message_) {}
+
+GetGradesReply::GetGradesReply(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const GetGradesReply& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, GetGradesReply_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  GetGradesReply* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.success_ = from._impl_.success_;
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.GetGradesReply)
+}
+PROTOBUF_NDEBUG_INLINE GetGradesReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        grades_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::enrollment::GetGradesReply,
+            PROTOBUF_FIELD_OFFSET(::enrollment::GetGradesReply, _impl_.grades_)>()
+         }
+        ,
+        message_(arena) {}
+
+inline void GetGradesReply::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.success_ = {};
+}
+GetGradesReply::~GetGradesReply() {
+  // @@protoc_insertion_point(destructor:enrollment.GetGradesReply)
+  SharedDtor(*this);
+}
+inline void GetGradesReply::SharedDtor(MessageLite& self) {
+  GetGradesReply& this_ = static_cast<GetGradesReply&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.message_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull GetGradesReply_class_data_ =
+        GetGradesReply::InternalGenerateClassData_(GetGradesReply_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+GetGradesReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&GetGradesReply_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(GetGradesReply_class_data_.tc_table);
+  return GetGradesReply_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+GetGradesReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&GetGradesReply_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&GetGradesReply_globals_));
+  return GetGradesReply_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const GetGradesReply::ParseTableT_
+    GetGradesReply::_table_ =
+        GetGradesReply::InternalGenerateParseTable_(GetGradesReply_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void GetGradesReply::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.GetGradesReply)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.grades_.Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _impl_.message_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_.success_ = false;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL GetGradesReply::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const GetGradesReply& this_ = static_cast<const GetGradesReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL GetGradesReply::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const GetGradesReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.GetGradesReply)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // bool success = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (this_._internal_success() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          1, this_._internal_success(), target);
+    }
+  }
+
+  // string message = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_message().empty()) {
+      const ::std::string& _s = this_._internal_message();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.GetGradesReply.message");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // repeated .enrollment.Grade grades = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    for (unsigned i = 0, n = static_cast<unsigned>(
+                             this_._internal_grades_size());
+         i < n; i++) {
+      const auto& repfield = this_._internal_grades().Get(i);
+      target =
+          ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+              3, repfield, repfield.GetCachedSize(),
+              target, stream);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.GetGradesReply)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t GetGradesReply::ByteSizeLong(const MessageLite& base) {
+  const GetGradesReply& this_ = static_cast<const GetGradesReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t GetGradesReply::ByteSizeLong() const {
+  const GetGradesReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.GetGradesReply)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    // repeated .enrollment.Grade grades = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      total_size += 1UL * this_._internal_grades_size();
+      for (const auto& msg : this_._internal_grades()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
+    // string message = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_message().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_message());
+      }
+    }
+    // bool success = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (this_._internal_success() != 0) {
+        total_size += 2;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void GetGradesReply::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<GetGradesReply*>(&to_msg);
+  auto& from = static_cast<const GetGradesReply&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.GetGradesReply)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _this->_internal_mutable_grades()->InternalMergeFromWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), arena,
+          from._internal_grades());
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_message().empty()) {
+        _this->_internal_set_message(from._internal_message());
+      } else {
+        if (_this->_impl_.message_.IsDefault()) {
+          _this->_internal_set_message("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (from._internal_success() != 0) {
+        _this->_impl_.success_ = from._impl_.success_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void GetGradesReply::CopyFrom(const GetGradesReply& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.GetGradesReply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void GetGradesReply::InternalSwap(GetGradesReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.grades_.InternalSwap(&other->_impl_.grades_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::google::protobuf::Metadata GetGradesReply::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

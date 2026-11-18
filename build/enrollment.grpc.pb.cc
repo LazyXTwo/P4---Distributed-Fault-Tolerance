@@ -29,6 +29,8 @@ static const char* EnrollmentService_method_names[] = {
   "/enrollment.EnrollmentService/Enroll",
   "/enrollment.EnrollmentService/AddStudent",
   "/enrollment.EnrollmentService/AddCourse",
+  "/enrollment.EnrollmentService/UploadGrade",
+  "/enrollment.EnrollmentService/GetGrades",
 };
 
 std::unique_ptr< EnrollmentService::Stub> EnrollmentService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -44,6 +46,8 @@ EnrollmentService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& 
   , rpcmethod_Enroll_(EnrollmentService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_AddStudent_(EnrollmentService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_AddCourse_(EnrollmentService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UploadGrade_(EnrollmentService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetGrades_(EnrollmentService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status EnrollmentService::Stub::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::enrollment::LoginReply* response) {
@@ -184,6 +188,52 @@ void EnrollmentService::Stub::async::AddCourse(::grpc::ClientContext* context, c
   return result;
 }
 
+::grpc::Status EnrollmentService::Stub::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::enrollment::UploadGradeReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UploadGrade_, context, request, response);
+}
+
+void EnrollmentService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, std::move(f));
+}
+
+void EnrollmentService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* EnrollmentService::Stub::PrepareAsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::UploadGradeReply, ::enrollment::UploadGradeRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UploadGrade_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* EnrollmentService::Stub::AsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncUploadGradeRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status EnrollmentService::Stub::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::enrollment::GetGradesReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetGrades_, context, request, response);
+}
+
+void EnrollmentService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, std::move(f));
+}
+
+void EnrollmentService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* EnrollmentService::Stub::PrepareAsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::GetGradesReply, ::enrollment::GetGradesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetGrades_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* EnrollmentService::Stub::AsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetGradesRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 EnrollmentService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       EnrollmentService_method_names[0],
@@ -245,6 +295,26 @@ EnrollmentService::Service::Service() {
              ::enrollment::AddCourseReply* resp) {
                return service->AddCourse(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      EnrollmentService_method_names[6],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](EnrollmentService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::UploadGradeRequest* req,
+             ::enrollment::UploadGradeReply* resp) {
+               return service->UploadGrade(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      EnrollmentService_method_names[7],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](EnrollmentService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::GetGradesRequest* req,
+             ::enrollment::GetGradesReply* resp) {
+               return service->GetGrades(ctx, req, resp);
+             }, this)));
 }
 
 EnrollmentService::Service::~Service() {
@@ -286,6 +356,20 @@ EnrollmentService::Service::~Service() {
 }
 
 ::grpc::Status EnrollmentService::Service::AddCourse(::grpc::ServerContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status EnrollmentService::Service::UploadGrade(::grpc::ServerContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status EnrollmentService::Service::GetGrades(::grpc::ServerContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response) {
   (void) context;
   (void) request;
   (void) response;

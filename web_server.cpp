@@ -1,10 +1,12 @@
-
 #include <iostream>
 #include <string>
-#include <thread>
 #include <sstream>
 #include <unordered_map>
 #include <mutex>
+#include <thread>
+#include <vector>
+#include <algorithm>
+#include <cctype>
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -17,71 +19,45 @@
 #pragma comment(lib, "ws2_32.lib")
 
 
-using enrollment::EnrollmentService;
-
-using enrollment::LoginRequest;
-using enrollment::LoginReply;
-
-using enrollment::LogoutRequest;
-using enrollment::LogoutReply;
-
-using enrollment::GetCoursesRequest;
-using enrollment::GetCoursesReply;
-
-using enrollment::EnrollRequest;
-using enrollment::EnrollReply;
-
-using enrollment::AddStudentRequest;
-using enrollment::AddStudentReply;
-
-using enrollment::AddCourseRequest;
-using enrollment::AddCourseReply;
+using grpc::Channel;
+using grpc::ClientContext;
+using grpc::Status;
 
 
 // ============================================================
-// gRPC backend
+// Web session
 // ============================================================
 
-std::shared_ptr<grpc::Channel> backend_channel;
-
-
-// ============================================================
-// Web sessions
-// ============================================================
-
-struct WebSession
-{
+struct WebSession {
     std::string grpc_token;
     std::string role;
 };
 
 
-std::unordered_map<
-    std::string,
-    WebSession
-> web_sessions;
+// ============================================================
+// Web session storage
+// ============================================================
 
+std::unordered_map<std::string, WebSession> web_sessions;
 
 std::mutex web_sessions_mutex;
 
+long long web_session_counter = 0;
 
-// ============================================================
-// Session counter
-// ============================================================
-
-unsigned long long session_counter = 0;
-
-std::mutex session_counter_mutex;
+std::mutex web_session_counter_mutex;
 
 
 // ============================================================
 // Create gRPC stub
 // ============================================================
 
-std::unique_ptr<EnrollmentService::Stub> create_stub()
+std::unique_ptr<enrollment::EnrollmentService::Stub> create_stub()
 {
-    return EnrollmentService::NewStub(
-        backend_channel
+    return enrollment::EnrollmentService::NewStub(
+        grpc::CreateChannel(
+            "192.168.100.22:50051",
+            grpc::InsecureChannelCredentials()
+        )
     );
 }
 
@@ -90,53 +66,93 @@ std::unique_ptr<EnrollmentService::Stub> create_stub()
 // URL decode
 // ============================================================
 
-std::string url_decode(
-    const std::string& value
-)
+std::string url_decode(const std::string& input)
 {
-    std::string result;
+    std::string output;
 
-    for (
-        size_t i = 0;
-        i < value.length();
-        i++
-    )
-    {
-        if (
-            value[i] == '%'
-            &&
-            i + 2 < value.length()
-        )
-        {
-            int number;
+    for (size_t i = 0; i < input.length(); ++i) {
 
-            std::stringstream stream;
+        if (input[i] == '+') {
+            output += ' ';
+        }
 
-            stream
-                << std::hex
-                << value.substr(
-                    i + 1,
-                    2
+        else if (
+            input[i] == '%' &&
+            i + 2 < input.length()
+        ) {
+
+            std::string hex =
+                input.substr(i + 1, 2);
+
+            char character =
+                static_cast<char>(
+                    std::stoi(
+                        hex,
+                        nullptr,
+                        16
+                    )
                 );
 
-            stream >> number;
-
-            result += static_cast<char>(
-                number
-            );
+            output += character;
 
             i += 2;
         }
-        else if (
-            value[i] == '+'
+
+        else {
+            output += input[i];
+        }
+    }
+
+    return output;
+}
+
+
+// ============================================================
+// Parse form data
+// ============================================================
+
+std::unordered_map<std::string, std::string>
+parse_form(const std::string& body)
+{
+    std::unordered_map<std::string, std::string> result;
+
+    std::stringstream stream(body);
+
+    std::string pair;
+
+    while (
+        std::getline(
+            stream,
+            pair,
+            '&'
         )
-        {
-            result += ' ';
+    ) {
+
+        size_t equals =
+            pair.find('=');
+
+        if (
+            equals ==
+            std::string::npos
+        ) {
+            continue;
         }
-        else
-        {
-            result += value[i];
-        }
+
+        std::string key =
+            pair.substr(
+                0,
+                equals
+            );
+
+        std::string value =
+            pair.substr(
+                equals + 1
+            );
+
+        result[
+            url_decode(key)
+        ] =
+            url_decode(value);
     }
 
     return result;
@@ -144,89 +160,22 @@ std::string url_decode(
 
 
 // ============================================================
-// Get form value
-// ============================================================
-
-std::string get_form_value(
-    const std::string& body,
-    const std::string& key
-)
-{
-    std::string search =
-        key + "=";
-
-
-    size_t position =
-        body.find(
-            search
-        );
-
-
-    if (
-        position ==
-        std::string::npos
-    )
-    {
-        return "";
-    }
-
-
-    position +=
-        search.length();
-
-
-    size_t end =
-        body.find(
-            '&',
-            position
-        );
-
-
-    if (
-        end ==
-        std::string::npos
-    )
-    {
-        return url_decode(
-            body.substr(
-                position
-            )
-        );
-    }
-
-
-    return url_decode(
-        body.substr(
-            position,
-            end - position
-        )
-    );
-}
-
-
-// ============================================================
-// Get cookie
+// Get cookie value
 // ============================================================
 
 std::string get_cookie(
     const std::string& request,
-    const std::string& cookie_name
-)
+    const std::string& cookie_name)
 {
     size_t cookie_position =
-        request.find(
-            "Cookie:"
-        );
-
+        request.find("Cookie:");
 
     if (
         cookie_position ==
         std::string::npos
-    )
-    {
+    ) {
         return "";
     }
-
 
     size_t line_end =
         request.find(
@@ -234,6 +183,12 @@ std::string get_cookie(
             cookie_position
         );
 
+    if (
+        line_end ==
+        std::string::npos
+    ) {
+        return "";
+    }
 
     std::string cookie_line =
         request.substr(
@@ -241,51 +196,38 @@ std::string get_cookie(
             line_end - cookie_position
         );
 
-
     std::string search =
         cookie_name + "=";
 
-
-    size_t value_position =
-        cookie_line.find(
-            search
-        );
-
+    size_t value_start =
+        cookie_line.find(search);
 
     if (
-        value_position ==
+        value_start ==
         std::string::npos
-    )
-    {
+    ) {
         return "";
     }
 
+    value_start += search.length();
 
-    value_position +=
-        search.length();
-
-
-    size_t end =
+    size_t value_end =
         cookie_line.find(
             ';',
-            value_position
+            value_start
         );
-
 
     if (
-        end ==
+        value_end ==
         std::string::npos
-    )
-    {
-        return cookie_line.substr(
-            value_position
-        );
+    ) {
+        value_end =
+            cookie_line.length();
     }
 
-
     return cookie_line.substr(
-        value_position,
-        end - value_position
+        value_start,
+        value_end - value_start
     );
 }
 
@@ -296,39 +238,33 @@ std::string get_cookie(
 
 std::string create_web_session(
     const std::string& grpc_token,
-    const std::string& role
-)
+    const std::string& role)
 {
-    std::lock_guard<std::mutex> lock(
-        web_sessions_mutex
-    );
-
-
     std::lock_guard<std::mutex> counter_lock(
-        session_counter_mutex
+        web_session_counter_mutex
     );
 
+    ++web_session_counter;
 
-    session_counter++;
-
-
-    std::string web_session =
+    std::string session_id =
         "web_" +
         std::to_string(
-            session_counter
+            web_session_counter
         );
 
-
-    web_sessions[
-        web_session
-    ] =
     {
-        grpc_token,
-        role
-    };
+        std::lock_guard<std::mutex> lock(
+            web_sessions_mutex
+        );
 
+        web_sessions[session_id] =
+            WebSession{
+                grpc_token,
+                role
+            };
+    }
 
-    return web_session;
+    return session_id;
 }
 
 
@@ -337,33 +273,33 @@ std::string create_web_session(
 // ============================================================
 
 bool get_web_session(
-    const std::string& web_session,
-    WebSession& session
-)
+    const std::string& session_id,
+    WebSession& session)
 {
+    if (
+        session_id.empty()
+    ) {
+        return false;
+    }
+
     std::lock_guard<std::mutex> lock(
         web_sessions_mutex
     );
 
-
-    auto iterator =
+    auto it =
         web_sessions.find(
-            web_session
+            session_id
         );
 
-
     if (
-        iterator ==
+        it ==
         web_sessions.end()
-    )
-    {
+    ) {
         return false;
     }
 
-
     session =
-        iterator->second;
-
+        it->second;
 
     return true;
 }
@@ -374,16 +310,20 @@ bool get_web_session(
 // ============================================================
 
 void remove_web_session(
-    const std::string& web_session
-)
+    const std::string& session_id)
 {
+    if (
+        session_id.empty()
+    ) {
+        return;
+    }
+
     std::lock_guard<std::mutex> lock(
         web_sessions_mutex
     );
 
-
     web_sessions.erase(
-        web_session
+        session_id
     );
 }
 
@@ -395,25 +335,23 @@ void remove_web_session(
 void send_response(
     SOCKET client_socket,
     const std::string& body,
-    const std::string& extra_headers = ""
-)
+    const std::string& status = "200 OK",
+    const std::string& extra_headers = "")
 {
     std::string response =
-        "HTTP/1.1 200 OK\r\n"
+        "HTTP/1.1 " +
+        status +
+        "\r\n"
         "Content-Type: text/html; charset=UTF-8\r\n"
         "Content-Length: " +
         std::to_string(
             body.size()
         ) +
-        "\r\n"
+        "\r\n" +
+        extra_headers +
         "Connection: close\r\n"
-        +
-        extra_headers
-        +
-        "\r\n"
-        +
+        "\r\n" +
         body;
-
 
     send(
         client_socket,
@@ -432,21 +370,16 @@ void send_response(
 
 void send_redirect(
     SOCKET client_socket,
-    const std::string& location,
-    const std::string& extra_headers = ""
-)
+    const std::string& location)
 {
     std::string response =
         "HTTP/1.1 302 Found\r\n"
         "Location: " +
         location +
         "\r\n"
+        "Content-Length: 0\r\n"
         "Connection: close\r\n"
-        +
-        extra_headers
-        +
         "\r\n";
-
 
     send(
         client_socket,
@@ -460,243 +393,370 @@ void send_redirect(
 
 
 // ============================================================
-// Login
+// HTML header
+// ============================================================
+
+std::string html_header(
+    const std::string& title)
+{
+    std::stringstream html;
+
+    html
+        << "<!DOCTYPE html>"
+        << "<html>"
+        << "<head>"
+        << "<meta charset='UTF-8'>"
+        << "<meta name='viewport' "
+           "content='width=device-width, initial-scale=1.0'>"
+        << "<title>"
+        << title
+        << "</title>"
+
+        << "<style>"
+
+        << "body {"
+        << "font-family: Arial, sans-serif;"
+        << "background:#f4f6f8;"
+        << "margin:0;"
+        << "padding:0;"
+        << "color:#222;"
+        << "}"
+
+        << ".container {"
+        << "max-width:900px;"
+        << "margin:40px auto;"
+        << "background:white;"
+        << "padding:30px;"
+        << "border-radius:12px;"
+        << "box-shadow:0 4px 15px rgba(0,0,0,0.08);"
+        << "}"
+
+        << "h1 {"
+        << "margin-top:0;"
+        << "}"
+
+        << "h2 {"
+        << "margin-top:30px;"
+        << "}"
+
+        << "input, select {"
+        << "width:100%;"
+        << "padding:12px;"
+        << "margin:8px 0 16px 0;"
+        << "box-sizing:border-box;"
+        << "border:1px solid #ccc;"
+        << "border-radius:6px;"
+        << "}"
+
+        << "button {"
+        << "background:#2563eb;"
+        << "color:white;"
+        << "border:none;"
+        << "padding:11px 18px;"
+        << "border-radius:6px;"
+        << "cursor:pointer;"
+        << "}"
+
+        << "button:hover {"
+        << "background:#1d4ed8;"
+        << "}"
+
+        << ".danger {"
+        << "background:#dc2626;"
+        << "}"
+
+        << ".danger:hover {"
+        << "background:#b91c1c;"
+        << "}"
+
+        << ".success {"
+        << "background:#dcfce7;"
+        << "color:#166534;"
+        << "padding:12px;"
+        << "border-radius:6px;"
+        << "margin:15px 0;"
+        << "}"
+
+        << ".error {"
+        << "background:#fee2e2;"
+        << "color:#991b1b;"
+        << "padding:12px;"
+        << "border-radius:6px;"
+        << "margin:15px 0;"
+        << "}"
+
+        << ".info {"
+        << "background:#dbeafe;"
+        << "color:#1e40af;"
+        << "padding:12px;"
+        << "border-radius:6px;"
+        << "margin:15px 0;"
+        << "}"
+
+        << ".course {"
+        << "border:1px solid #ddd;"
+        << "padding:18px;"
+        << "margin:12px 0;"
+        << "border-radius:8px;"
+        << "}"
+
+        << ".grade {"
+        << "border:1px solid #ddd;"
+        << "padding:18px;"
+        << "margin:12px 0;"
+        << "border-radius:8px;"
+        << "display:flex;"
+        << "justify-content:space-between;"
+        << "align-items:center;"
+        << "}"
+
+        << ".nav {"
+        << "display:flex;"
+        << "gap:10px;"
+        << "flex-wrap:wrap;"
+        << "margin-bottom:25px;"
+        << "}"
+
+        << ".nav a {"
+        << "text-decoration:none;"
+        << "background:#e5e7eb;"
+        << "color:#111827;"
+        << "padding:10px 15px;"
+        << "border-radius:6px;"
+        << "}"
+
+        << ".nav a:hover {"
+        << "background:#d1d5db;"
+        << "}"
+
+        << "table {"
+        << "width:100%;"
+        << "border-collapse:collapse;"
+        << "margin-top:15px;"
+        << "}"
+
+        << "th, td {"
+        << "border:1px solid #ddd;"
+        << "padding:12px;"
+        << "text-align:left;"
+        << "}"
+
+        << "th {"
+        << "background:#f3f4f6;"
+        << "}"
+
+        << "</style>"
+
+        << "</head>"
+        << "<body>";
+
+    return html.str();
+}
+
+
+// ============================================================
+// HTML footer
+// ============================================================
+
+std::string html_footer()
+{
+    return
+        "</body>"
+        "</html>";
+}
+
+
+// ============================================================
+// Login page
+// ============================================================
+
+void handle_login_page(
+    SOCKET client_socket,
+    const std::string& message = "",
+    bool error = false)
+{
+    std::stringstream html;
+
+    html
+        << html_header(
+            "Distributed Enrollment System"
+        )
+
+        << "<div class='container'>"
+
+        << "<h1>Distributed Enrollment System</h1>"
+
+        << "<p>"
+        << "Login to continue."
+        << "</p>";
+
+    if (!message.empty()) {
+
+        html
+            << "<div class='"
+            << (error ? "error" : "success")
+            << "'>"
+            << message
+            << "</div>";
+    }
+
+    html
+        << "<form method='POST' action='/login'>"
+
+        << "<label>Username</label>"
+        << "<input "
+           "type='text' "
+           "name='username' "
+           "required>"
+
+        << "<label>Password</label>"
+        << "<input "
+           "type='password' "
+           "name='password' "
+           "required>"
+
+        << "<button type='submit'>"
+        << "Login"
+        << "</button>"
+
+        << "</form>"
+
+        << "</div>"
+
+        << html_footer();
+
+    send_response(
+        client_socket,
+        html.str()
+    );
+}
+
+
+// ============================================================
+// Handle login
 // ============================================================
 
 void handle_login(
     SOCKET client_socket,
-    const std::string& request
-)
+    const std::string& body)
 {
-    size_t body_position =
-        request.find(
-            "\r\n\r\n"
-        );
-
-
-    if (
-        body_position ==
-        std::string::npos
-    )
-    {
-        closesocket(
-            client_socket
-        );
-
-        return;
-    }
-
-
-    std::string body =
-        request.substr(
-            body_position + 4
-        );
-
+    auto form =
+        parse_form(body);
 
     std::string username =
-        get_form_value(
-            body,
-            "username"
-        );
-
+        form["username"];
 
     std::string password =
-        get_form_value(
-            body,
-            "password"
-        );
-
-
-    std::cout
-        << "Login request from: "
-        << username
-        << std::endl;
-
+        form["password"];
 
     auto stub =
         create_stub();
 
+    enrollment::LoginRequest request;
 
-    LoginRequest login_request;
-
-
-    login_request.set_username(
+    request.set_username(
         username
     );
 
-
-    login_request.set_password(
+    request.set_password(
         password
     );
 
+    enrollment::LoginReply reply;
 
-    LoginReply login_reply;
+    ClientContext context;
 
-
-    grpc::ClientContext context;
-
-
-    grpc::Status status =
+    Status status =
         stub->Login(
             &context,
-            login_request,
-            &login_reply
+            request,
+            &reply
         );
-
 
     if (
         !status.ok()
-    )
-    {
-        std::string html =
-            R"(
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Online Enrollment</title>
-</head>
-<body>
+    ) {
 
-<h1>Online Enrollment</h1>
-
-<h2>Backend unavailable</h2>
-
-<p>
-The enrollment server could not be reached.
-</p>
-
-<a href="/">
-Back to login
-</a>
-
-</body>
-</html>
-)";
-
-
-        send_response(
+        handle_login_page(
             client_socket,
-            html
+            "Could not connect to enrollment server.",
+            true
         );
-
-
-        closesocket(
-            client_socket
-        );
-
 
         return;
     }
-
 
     if (
-        !login_reply.success()
-    )
-    {
-        std::string html =
-            "<!DOCTYPE html>"
-            "<html>"
-            "<head>"
-            "<meta charset=\"UTF-8\">"
-            "<title>Login Failed</title>"
-            "</head>"
-            "<body>"
-            "<h1>Login failed</h1>"
-            "<p>" +
-            login_reply.message() +
-            "</p>"
-            "<a href=\"/\">Try again</a>"
-            "</body>"
-            "</html>";
+        !reply.success()
+    ) {
 
-
-        send_response(
+        handle_login_page(
             client_socket,
-            html
+            reply.message(),
+            true
         );
-
-
-        closesocket(
-            client_socket
-        );
-
 
         return;
     }
-
-
-    // --------------------------------------------------------
-    // Create web session
-    // --------------------------------------------------------
 
     std::string web_session =
         create_web_session(
-            login_reply.session_token(),
-            login_reply.role()
+            reply.session_token(),
+            reply.role()
         );
 
-
-    std::cout
-        << "Login successful: "
-        << username
-        << " ("
-        << login_reply.role()
-        << ")"
-        << std::endl;
-
-
-    // --------------------------------------------------------
-    // Admin
-    // --------------------------------------------------------
+    std::string location;
 
     if (
-        login_reply.role() ==
+        reply.role() ==
         "admin"
-    )
+    ) {
+
+        location =
+            "/admin";
+    }
+
+    else if (
+        reply.role() ==
+        "faculty"
+    ) {
+
+        location =
+            "/faculty";
+    }
+
+    else {
+
+        location =
+            "/courses";
+    }
+
+    send_redirect_with_cookie:
     {
         std::string headers =
             "Set-Cookie: session=" +
             web_session +
-            "; Path=/\r\n";
+            "; HttpOnly; SameSite=Lax\r\n";
 
+        std::string response =
+            "HTTP/1.1 302 Found\r\n"
+            "Location: " +
+            location +
+            "\r\n" +
+            headers +
+            "Content-Length: 0\r\n"
+            "Connection: close\r\n"
+            "\r\n";
 
-        send_redirect(
+        send(
             client_socket,
-            "/admin",
-            headers
+            response.c_str(),
+            static_cast<int>(
+                response.size()
+            ),
+            0
         );
-
-
-        closesocket(
-            client_socket
-        );
-
-
-        return;
     }
-
-
-    // --------------------------------------------------------
-    // Student
-    // --------------------------------------------------------
-
-    std::string headers =
-        "Set-Cookie: session=" +
-        web_session +
-        "; Path=/\r\n";
-
-
-    send_redirect(
-        client_socket,
-        "/courses",
-        headers
-    );
-
-
-    closesocket(
-        client_socket
-    );
 }
 
 
@@ -706,182 +766,121 @@ Back to login
 
 void handle_admin(
     SOCKET client_socket,
-    const std::string& request
-)
+    const WebSession& session,
+    const std::string& message = "",
+    bool error = false)
 {
-    std::string web_session =
-        get_cookie(
-            request,
-            "session"
-        );
-
-
-    WebSession session;
-
-
     if (
-        web_session.empty()
-        ||
-        !get_web_session(
-            web_session,
-            session
-        )
-        ||
-        session.role != "admin"
-    )
-    {
+        session.role !=
+        "admin"
+    ) {
+
         send_redirect(
             client_socket,
-            "/"
+            "/courses"
         );
-
-
-        closesocket(
-            client_socket
-        );
-
 
         return;
     }
 
+    std::stringstream html;
 
-    std::string html =
-        R"(
-<!DOCTYPE html>
+    html
+        << html_header(
+            "Admin Dashboard"
+        )
 
-<html>
+        << "<div class='container'>"
 
-<head>
+        << "<h1>Admin Dashboard</h1>"
 
-    <meta charset="UTF-8">
+        << "<div class='nav'>"
+        << "<a href='/admin'>Admin</a>"
+        << "<a href='/courses'>Courses</a>"
+        << "<a href='/logout'>Logout</a>"
+        << "</div>";
 
-    <title>Administrator</title>
+    if (!message.empty()) {
 
-</head>
+        html
+            << "<div class='"
+            << (error ? "error" : "success")
+            << "'>"
+            << message
+            << "</div>";
+    }
 
-<body>
+    // ========================================================
+    // Add student
+    // ========================================================
 
-    <h1>Administrator Panel</h1>
+    html
+        << "<h2>Add Student</h2>"
 
-    <hr>
+        << "<form method='POST' "
+           "action='/admin/add-student'>"
 
-    <h2>Add Student Account</h2>
+        << "<label>Username</label>"
+        << "<input "
+           "type='text' "
+           "name='username' "
+           "required>"
 
-    <form
-        method="POST"
-        action="/admin/add-student"
-    >
+        << "<label>Password</label>"
+        << "<input "
+           "type='password' "
+           "name='password' "
+           "required>"
 
-        <label>
-            Username:
-        </label>
+        << "<button type='submit'>"
+        << "Add Student"
+        << "</button>"
 
-        <input
-            type="text"
-            name="username"
-            required
-        >
+        << "</form>";
 
-        <br><br>
 
-        <label>
-            Password:
-        </label>
+    // ========================================================
+    // Add course
+    // ========================================================
 
-        <input
-            type="password"
-            name="password"
-            required
-        >
+    html
+        << "<h2>Add Course</h2>"
 
-        <br><br>
+        << "<form method='POST' "
+           "action='/admin/add-course'>"
 
-        <button type="submit">
-            Add Student
-        </button>
+        << "<label>Course Code</label>"
+        << "<input "
+           "type='text' "
+           "name='course_code' "
+           "required>"
 
-    </form>
+        << "<label>Course Name</label>"
+        << "<input "
+           "type='text' "
+           "name='course_name' "
+           "required>"
 
-    <hr>
+        << "<label>Slots</label>"
+        << "<input "
+           "type='number' "
+           "name='slots' "
+           "min='0' "
+           "required>"
 
-    <h2>Add Course</h2>
+        << "<button type='submit'>"
+        << "Add Course"
+        << "</button>"
 
-    <form
-        method="POST"
-        action="/admin/add-course"
-    >
+        << "</form>"
 
-        <label>
-            Course Code:
-        </label>
+        << "</div>"
 
-        <input
-            type="text"
-            name="course_code"
-            placeholder="CS104"
-            required
-        >
-
-        <br><br>
-
-        <label>
-            Course Name:
-        </label>
-
-        <input
-            type="text"
-            name="course_name"
-            placeholder="Computer Networks"
-            required
-        >
-
-        <br><br>
-
-        <label>
-            Number of Slots:
-        </label>
-
-        <input
-            type="number"
-            name="slots"
-            min="0"
-            required
-        >
-
-        <br><br>
-
-        <button type="submit">
-            Add Course
-        </button>
-
-    </form>
-
-    <hr>
-
-    <a href="/courses">
-        View Courses
-    </a>
-
-    <br><br>
-
-    <a href="/logout">
-        Logout
-    </a>
-
-</body>
-
-</html>
-)";
-
+        << html_footer();
 
     send_response(
         client_socket,
-        html
-    );
-
-
-    closesocket(
-        client_socket
+        html.str()
     );
 }
 
@@ -892,160 +891,72 @@ void handle_admin(
 
 void handle_add_student(
     SOCKET client_socket,
-    const std::string& request
-)
+    const WebSession& session,
+    const std::string& body)
 {
-    std::string web_session =
-        get_cookie(
-            request,
-            "session"
-        );
-
-
-    WebSession session;
-
-
     if (
-        !get_web_session(
-            web_session,
-            session
-        )
-        ||
-        session.role != "admin"
-    )
-    {
+        session.role !=
+        "admin"
+    ) {
+
         send_redirect(
             client_socket,
-            "/"
-        );
-
-
-        closesocket(
-            client_socket
-        );
-
-
-        return;
-    }
-
-
-    size_t body_position =
-        request.find(
-            "\r\n\r\n"
-        );
-
-
-    if (
-        body_position ==
-        std::string::npos
-    )
-    {
-        closesocket(
-            client_socket
+            "/courses"
         );
 
         return;
     }
 
-
-    std::string body =
-        request.substr(
-            body_position + 4
-        );
-
-
-    std::string username =
-        get_form_value(
-            body,
-            "username"
-        );
-
-
-    std::string password =
-        get_form_value(
-            body,
-            "password"
-        );
-
+    auto form =
+        parse_form(body);
 
     auto stub =
         create_stub();
 
+    enrollment::AddStudentRequest request;
 
-    AddStudentRequest add_request;
-
-
-    add_request.set_session_token(
+    request.set_session_token(
         session.grpc_token
     );
 
-
-    add_request.set_username(
-        username
+    request.set_username(
+        form["username"]
     );
 
-
-    add_request.set_password(
-        password
+    request.set_password(
+        form["password"]
     );
 
+    enrollment::AddStudentReply reply;
 
-    AddStudentReply reply;
+    ClientContext context;
 
-
-    grpc::ClientContext context;
-
-
-    grpc::Status status =
+    Status status =
         stub->AddStudent(
             &context,
-            add_request,
+            request,
             &reply
         );
 
-
-    std::string message;
-
-
     if (
         !status.ok()
-    )
-    {
-        message =
-            "Backend unavailable.";
+    ) {
+
+        handle_admin(
+            client_socket,
+            session,
+            "Could not connect to enrollment server.",
+            true
+        );
+
+        return;
     }
-    else
-    {
-        message =
-            reply.message();
-    }
 
-
-    std::string html =
-        "<!DOCTYPE html>"
-        "<html>"
-        "<head>"
-        "<meta charset=\"UTF-8\">"
-        "<title>Add Student</title>"
-        "</head>"
-        "<body>"
-        "<h1>Add Student</h1>"
-        "<p>" +
-        message +
-        "</p>"
-        "<a href=\"/admin\">Back to Admin Panel</a>"
-        "</body>"
-        "</html>";
-
-
-    send_response(
+    handle_admin(
         client_socket,
-        html
-    );
-
-
-    closesocket(
-        client_socket
+        session,
+        reply.message(),
+        !reply.success()
     );
 }
 
@@ -1056,422 +967,275 @@ void handle_add_student(
 
 void handle_add_course(
     SOCKET client_socket,
-    const std::string& request
-)
+    const WebSession& session,
+    const std::string& body)
 {
-    std::string web_session =
-        get_cookie(
-            request,
-            "session"
-        );
-
-
-    WebSession session;
-
-
     if (
-        !get_web_session(
-            web_session,
-            session
-        )
-        ||
-        session.role != "admin"
-    )
-    {
+        session.role !=
+        "admin"
+    ) {
+
         send_redirect(
             client_socket,
-            "/"
-        );
-
-
-        closesocket(
-            client_socket
-        );
-
-
-        return;
-    }
-
-
-    size_t body_position =
-        request.find(
-            "\r\n\r\n"
-        );
-
-
-    if (
-        body_position ==
-        std::string::npos
-    )
-    {
-        closesocket(
-            client_socket
+            "/courses"
         );
 
         return;
     }
 
-
-    std::string body =
-        request.substr(
-            body_position + 4
-        );
-
-
-    std::string course_code =
-        get_form_value(
-            body,
-            "course_code"
-        );
-
-
-    std::string course_name =
-        get_form_value(
-            body,
-            "course_name"
-        );
-
-
-    std::string slots_text =
-        get_form_value(
-            body,
-            "slots"
-        );
-
+    auto form =
+        parse_form(body);
 
     int slots = 0;
 
+    try {
 
-    try
-    {
         slots =
             std::stoi(
-                slots_text
+                form["slots"]
             );
     }
-    catch (...)
-    {
+
+    catch (...) {
+
         slots = -1;
     }
-
 
     auto stub =
         create_stub();
 
+    enrollment::AddCourseRequest request;
 
-    AddCourseRequest add_request;
-
-
-    add_request.set_session_token(
+    request.set_session_token(
         session.grpc_token
     );
 
-
-    add_request.set_course_code(
-        course_code
+    request.set_course_code(
+        form["course_code"]
     );
 
-
-    add_request.set_course_name(
-        course_name
+    request.set_course_name(
+        form["course_name"]
     );
 
-
-    add_request.set_slots(
+    request.set_slots(
         slots
     );
 
+    enrollment::AddCourseReply reply;
 
-    AddCourseReply reply;
+    ClientContext context;
 
-
-    grpc::ClientContext context;
-
-
-    grpc::Status status =
+    Status status =
         stub->AddCourse(
             &context,
-            add_request,
+            request,
             &reply
         );
 
-
-    std::string message;
-
-
     if (
         !status.ok()
-    )
-    {
-        message =
-            "Backend unavailable.";
+    ) {
+
+        handle_admin(
+            client_socket,
+            session,
+            "Could not connect to enrollment server.",
+            true
+        );
+
+        return;
     }
-    else
-    {
-        message =
-            reply.message();
-    }
 
-
-    std::string html =
-        "<!DOCTYPE html>"
-        "<html>"
-        "<head>"
-        "<meta charset=\"UTF-8\">"
-        "<title>Add Course</title>"
-        "</head>"
-        "<body>"
-        "<h1>Add Course</h1>"
-        "<p>" +
-        message +
-        "</p>"
-        "<a href=\"/admin\">Back to Admin Panel</a>"
-        "</body>"
-        "</html>";
-
-
-    send_response(
+    handle_admin(
         client_socket,
-        html
-    );
-
-
-    closesocket(
-        client_socket
+        session,
+        reply.message(),
+        !reply.success()
     );
 }
 
 
 // ============================================================
-// Show courses
+// Courses page
 // ============================================================
 
 void handle_courses(
     SOCKET client_socket,
-    const std::string& request
-)
+    const WebSession& session)
 {
-    std::string web_session =
-        get_cookie(
-            request,
-            "session"
-        );
-
-
-    WebSession session;
-
-
-    if (
-        web_session.empty()
-        ||
-        !get_web_session(
-            web_session,
-            session
-        )
-    )
-    {
-        send_redirect(
-            client_socket,
-            "/"
-        );
-
-
-        closesocket(
-            client_socket
-        );
-
-
-        return;
-    }
-
-
     auto stub =
         create_stub();
 
+    enrollment::GetCoursesRequest request;
 
-    GetCoursesRequest courses_request;
-
-
-    courses_request.set_session_token(
+    request.set_session_token(
         session.grpc_token
     );
 
+    enrollment::GetCoursesReply reply;
 
-    GetCoursesReply courses_reply;
+    ClientContext context;
 
-
-    grpc::ClientContext context;
-
-
-    grpc::Status status =
+    Status status =
         stub->GetCourses(
             &context,
-            courses_request,
-            &courses_reply
+            request,
+            &reply
         );
-
 
     if (
         !status.ok()
-    )
-    {
-        std::string html =
-            "<!DOCTYPE html>"
-            "<html>"
-            "<body>"
-            "<h1>Available Courses</h1>"
-            "<h2>Backend unavailable</h2>"
-            "<p>The enrollment server could not be reached.</p>"
-            "</body>"
-            "</html>";
-
+    ) {
 
         send_response(
             client_socket,
-            html
+            html_header(
+                "Courses"
+            ) +
+            "<div class='container'>"
+            "<div class='error'>"
+            "Could not connect to enrollment server."
+            "</div>"
+            "</div>" +
+            html_footer()
         );
-
-
-        closesocket(
-            client_socket
-        );
-
 
         return;
     }
-
 
     if (
-        !courses_reply.success()
-    )
-    {
-        remove_web_session(
-            web_session
-        );
+        !reply.success()
+    ) {
 
-
-        send_redirect(
+        send_response(
             client_socket,
-            "/"
+            html_header(
+                "Courses"
+            ) +
+            "<div class='container'>"
+            "<div class='error'>" +
+            reply.message() +
+            "</div>"
+            "</div>" +
+            html_footer()
         );
-
-
-        closesocket(
-            client_socket
-        );
-
 
         return;
     }
 
+    std::stringstream html;
 
-    std::string html =
-        R"(
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <title>Available Courses</title>
-
-</head>
-
-<body>
-
-    <h1>Available Courses</h1>
-
-    <hr>
-)";
-
-
-    for (
-        const auto& course :
-        courses_reply.courses()
-    )
-    {
-        html +=
-            "<div>"
-            "<h2>" +
-            course.course_code() +
-            " - " +
-            course.course_name() +
-            "</h2>"
-            "<p>Available slots: " +
-            std::to_string(
-                course.slots()
-            ) +
-            "</p>";
-
-
-        if (
-            session.role ==
-            "student"
-            &&
-            course.slots() > 0
+    html
+        << html_header(
+            "Courses"
         )
-        {
-            html +=
-                "<form method=\"POST\" action=\"/enroll\">"
-                "<input type=\"hidden\" name=\"course_code\" value=\"" +
-                course.course_code() +
-                "\">"
-                "<button type=\"submit\">Enroll</button>"
-                "</form>";
-        }
-        else if (
-            course.slots() <= 0
-        )
-        {
-            html +=
-                "<p><strong>Course Full</strong></p>";
-        }
 
+        << "<div class='container'>"
 
-        html +=
-            "</div>"
-            "<hr>";
-    }
+        << "<h1>Available Courses</h1>"
 
+        << "<div class='nav'>";
 
     if (
         session.role ==
         "admin"
-    )
-    {
-        html +=
-            R"(
-    <a href="/admin">
-        Administrator Panel
-    </a>
+    ) {
 
-    <br><br>
-)";
+        html
+            << "<a href='/admin'>"
+            << "Admin"
+            << "</a>";
     }
 
+    if (
+        session.role ==
+        "student"
+    ) {
 
-    html +=
-        R"(
-    <a href="/logout">
-        Logout
-    </a>
+        html
+            << "<a href='/grades'>"
+            << "My Grades"
+            << "</a>";
+    }
 
-</body>
+    html
+        << "<a href='/logout'>"
+        << "Logout"
+        << "</a>"
 
-</html>
-)";
+        << "</div>";
 
+
+    for (
+        const auto& course :
+        reply.courses()
+    ) {
+
+        html
+            << "<div class='course'>"
+
+            << "<h2>"
+            << course.course_code()
+            << "</h2>"
+
+            << "<p>"
+            << course.course_name()
+            << "</p>"
+
+            << "<p>"
+            << "<strong>Available slots:</strong> "
+            << course.slots()
+            << "</p>";
+
+        if (
+            session.role ==
+            "student"
+        ) {
+
+            if (
+                course.slots() > 0
+            ) {
+
+                html
+                    << "<form method='POST' "
+                       "action='/enroll'>"
+
+                    << "<input "
+                       "type='hidden' "
+                       "name='course_code' "
+                       "value='" +
+                       course.course_code() +
+                       "'>"
+
+                    << "<button type='submit'>"
+                    << "Enroll"
+                    << "</button>"
+
+                    << "</form>";
+            }
+
+            else {
+
+                html
+                    << "<p>"
+                    << "<strong>No slots available.</strong>"
+                    << "</p>";
+            }
+        }
+
+        html
+            << "</div>";
+    }
+
+    html
+        << "</div>"
+
+        << html_footer();
 
     send_response(
         client_socket,
-        html
-    );
-
-
-    closesocket(
-        client_socket
+        html.str()
     );
 }
 
@@ -1482,167 +1246,558 @@ void handle_courses(
 
 void handle_enroll(
     SOCKET client_socket,
-    const std::string& request
-)
+    const WebSession& session,
+    const std::string& body)
 {
-    std::string web_session =
-        get_cookie(
-            request,
-            "session"
-        );
-
-
-    WebSession session;
-
-
     if (
-        !get_web_session(
-            web_session,
-            session
-        )
-        ||
-        session.role != "student"
-    )
-    {
+        session.role !=
+        "student"
+    ) {
+
         send_redirect(
             client_socket,
-            "/"
-        );
-
-
-        closesocket(
-            client_socket
-        );
-
-
-        return;
-    }
-
-
-    size_t body_position =
-        request.find(
-            "\r\n\r\n"
-        );
-
-
-    if (
-        body_position ==
-        std::string::npos
-    )
-    {
-        closesocket(
-            client_socket
+            "/courses"
         );
 
         return;
     }
 
-
-    std::string body =
-        request.substr(
-            body_position + 4
-        );
-
-
-    std::string course_code =
-        get_form_value(
-            body,
-            "course_code"
-        );
-
+    auto form =
+        parse_form(body);
 
     auto stub =
         create_stub();
 
+    enrollment::EnrollRequest request;
 
-    EnrollRequest enroll_request;
-
-
-    enroll_request.set_session_token(
+    request.set_session_token(
         session.grpc_token
     );
 
-
-    enroll_request.set_course_code(
-        course_code
+    request.set_course_code(
+        form["course_code"]
     );
 
+    enrollment::EnrollReply reply;
 
-    EnrollReply enroll_reply;
+    ClientContext context;
 
-
-    grpc::ClientContext context;
-
-
-    grpc::Status status =
+    Status status =
         stub->Enroll(
             &context,
-            enroll_request,
-            &enroll_reply
+            request,
+            &reply
         );
-
-
-    std::string message;
-
 
     if (
         !status.ok()
-    )
-    {
-        message =
-            "Backend unavailable.";
-    }
-    else
-    {
-        message =
-            enroll_reply.message();
-    }
+    ) {
 
+        send_response(
+            client_socket,
+            html_header(
+                "Enrollment"
+            ) +
+            "<div class='container'>"
+            "<div class='error'>"
+            "Could not connect to enrollment server."
+            "</div>"
+            "<a href='/courses'>Back to Courses</a>"
+            "</div>" +
+            html_footer()
+        );
 
-    std::string html =
-        "<!DOCTYPE html>"
-        "<html>"
-        "<head>"
-        "<meta charset=\"UTF-8\">"
-        "<title>Enrollment</title>"
-        "</head>"
-        "<body>"
-        "<h1>Enrollment</h1>";
-
-
-    if (
-        status.ok()
-        &&
-        enroll_reply.success()
-    )
-    {
-        html +=
-            "<h2>Enrollment successful</h2>";
-    }
-    else
-    {
-        html +=
-            "<h2>Enrollment failed</h2>";
+        return;
     }
 
+    std::stringstream html;
 
-    html +=
-        "<p>" +
-        message +
-        "</p>"
-        "<a href=\"/courses\">Back to Courses</a>"
-        "</body>"
-        "</html>";
+    html
+        << html_header(
+            "Enrollment"
+        )
 
+        << "<div class='container'>"
+
+        << "<h1>Enrollment</h1>"
+
+        << "<div class='"
+        << (
+            reply.success()
+                ? "success"
+                : "error"
+        )
+        << "'>"
+        << reply.message()
+        << "</div>"
+
+        << "<a href='/courses'>"
+        << "Back to Courses"
+        << "</a>"
+
+        << "</div>"
+
+        << html_footer();
 
     send_response(
         client_socket,
+        html.str()
+    );
+}
+
+
+// ============================================================
+// Faculty dashboard
+// ============================================================
+
+void handle_faculty(
+    SOCKET client_socket,
+    const WebSession& session,
+    const std::string& message = "",
+    bool error = false)
+{
+    if (
+        session.role !=
+        "faculty"
+    ) {
+
+        if (
+            session.role ==
+            "admin"
+        ) {
+
+            send_redirect(
+                client_socket,
+                "/admin"
+            );
+        }
+
+        else {
+
+            send_redirect(
+                client_socket,
+                "/courses"
+            );
+        }
+
+        return;
+    }
+
+    std::stringstream html;
+
+    html
+        << html_header(
+            "Faculty Dashboard"
+        )
+
+        << "<div class='container'>"
+
+        << "<h1>Faculty Dashboard</h1>"
+
+        << "<div class='nav'>"
+
+        << "<a href='/faculty'>"
+        << "Faculty"
+        << "</a>"
+
+        << "<a href='/courses'>"
+        << "Courses"
+        << "</a>"
+
+        << "<a href='/logout'>"
+        << "Logout"
+        << "</a>"
+
+        << "</div>";
+
+    if (!message.empty()) {
+
         html
+            << "<div class='"
+            << (
+                error
+                    ? "error"
+                    : "success"
+            )
+            << "'>"
+            << message
+            << "</div>";
+    }
+
+
+    // ========================================================
+    // Upload grade
+    // ========================================================
+
+    html
+        << "<h2>Upload Grade</h2>"
+
+        << "<div class='info'>"
+        << "Grades must be between 0 and 100. "
+        << "If a grade already exists for the student and course, "
+        << "the grade will be updated."
+        << "</div>"
+
+        << "<form method='POST' "
+           "action='/faculty/upload-grade'>"
+
+        << "<label>Student Username</label>"
+
+        << "<input "
+           "type='text' "
+           "name='student_username' "
+           "placeholder='Example: student1' "
+           "required>"
+
+        << "<label>Course Code</label>"
+
+        << "<input "
+           "type='text' "
+           "name='course_code' "
+           "placeholder='Example: CS101' "
+           "required>"
+
+        << "<label>Grade</label>"
+
+        << "<input "
+           "type='number' "
+           "name='grade' "
+           "min='0' "
+           "max='100' "
+           "step='0.01' "
+           "placeholder='Example: 92' "
+           "required>"
+
+        << "<button type='submit'>"
+        << "Upload Grade"
+        << "</button>"
+
+        << "</form>"
+
+        << "</div>"
+
+        << html_footer();
+
+    send_response(
+        client_socket,
+        html.str()
+    );
+}
+
+
+// ============================================================
+// Upload grade
+// ============================================================
+
+void handle_upload_grade(
+    SOCKET client_socket,
+    const WebSession& session,
+    const std::string& body)
+{
+    if (
+        session.role !=
+        "faculty"
+    ) {
+
+        if (
+            session.role ==
+            "admin"
+        ) {
+
+            send_redirect(
+                client_socket,
+                "/admin"
+            );
+        }
+
+        else {
+
+            send_redirect(
+                client_socket,
+                "/courses"
+            );
+        }
+
+        return;
+    }
+
+    auto form =
+        parse_form(body);
+
+    double grade = 0.0;
+
+    try {
+
+        grade =
+            std::stod(
+                form["grade"]
+            );
+    }
+
+    catch (...) {
+
+        handle_faculty(
+            client_socket,
+            session,
+            "Invalid grade.",
+            true
+        );
+
+        return;
+    }
+
+    auto stub =
+        create_stub();
+
+    enrollment::UploadGradeRequest request;
+
+    request.set_session_token(
+        session.grpc_token
     );
 
+    request.set_student_username(
+        form["student_username"]
+    );
 
-    closesocket(
-        client_socket
+    request.set_course_code(
+        form["course_code"]
+    );
+
+    request.set_grade(
+        grade
+    );
+
+    enrollment::UploadGradeReply reply;
+
+    ClientContext context;
+
+    Status status =
+        stub->UploadGrade(
+            &context,
+            request,
+            &reply
+        );
+
+    if (
+        !status.ok()
+    ) {
+
+        handle_faculty(
+            client_socket,
+            session,
+            "Could not connect to enrollment server.",
+            true
+        );
+
+        return;
+    }
+
+    handle_faculty(
+        client_socket,
+        session,
+        reply.message(),
+        !reply.success()
+    );
+}
+
+
+// ============================================================
+// Student grades page
+// ============================================================
+
+void handle_grades(
+    SOCKET client_socket,
+    const WebSession& session)
+{
+    if (
+        session.role !=
+        "student"
+    ) {
+
+        if (
+            session.role ==
+            "faculty"
+        ) {
+
+            send_redirect(
+                client_socket,
+                "/faculty"
+            );
+        }
+
+        else if (
+            session.role ==
+            "admin"
+        ) {
+
+            send_redirect(
+                client_socket,
+                "/admin"
+            );
+        }
+
+        else {
+
+            send_redirect(
+                client_socket,
+                "/courses"
+            );
+        }
+
+        return;
+    }
+
+    auto stub =
+        create_stub();
+
+    enrollment::GetGradesRequest request;
+
+    request.set_session_token(
+        session.grpc_token
+    );
+
+    enrollment::GetGradesReply reply;
+
+    ClientContext context;
+
+    Status status =
+        stub->GetGrades(
+            &context,
+            request,
+            &reply
+        );
+
+    if (
+        !status.ok()
+    ) {
+
+        send_response(
+            client_socket,
+            html_header(
+                "My Grades"
+            ) +
+            "<div class='container'>"
+            "<div class='error'>"
+            "Could not connect to enrollment server."
+            "</div>"
+            "<a href='/courses'>"
+            "Back to Courses"
+            "</a>"
+            "</div>" +
+            html_footer()
+        );
+
+        return;
+    }
+
+    if (
+        !reply.success()
+    ) {
+
+        send_response(
+            client_socket,
+            html_header(
+                "My Grades"
+            ) +
+            "<div class='container'>"
+            "<div class='error'>" +
+            reply.message() +
+            "</div>"
+            "<a href='/courses'>"
+            "Back to Courses"
+            "</a>"
+            "</div>" +
+            html_footer()
+        );
+
+        return;
+    }
+
+    std::stringstream html;
+
+    html
+        << html_header(
+            "My Grades"
+        )
+
+        << "<div class='container'>"
+
+        << "<h1>My Grades</h1>"
+
+        << "<div class='nav'>"
+
+        << "<a href='/courses'>"
+        << "Courses"
+        << "</a>"
+
+        << "<a href='/grades'>"
+        << "My Grades"
+        << "</a>"
+
+        << "<a href='/logout'>"
+        << "Logout"
+        << "</a>"
+
+        << "</div>";
+
+    if (
+        reply.grades_size() == 0
+    ) {
+
+        html
+            << "<div class='info'>"
+            << "No grades available yet."
+            << "</div>";
+    }
+
+    else {
+
+        html
+            << "<table>"
+
+            << "<tr>"
+            << "<th>Course Code</th>"
+            << "<th>Course Name</th>"
+            << "<th>Grade</th>"
+            << "</tr>";
+
+        for (
+            const auto& grade :
+            reply.grades()
+        ) {
+
+            html
+                << "<tr>"
+
+                << "<td>"
+                << grade.course_code()
+                << "</td>"
+
+                << "<td>"
+                << grade.course_name()
+                << "</td>"
+
+                << "<td>"
+                << std::fixed
+                << std::setprecision(2)
+                << grade.grade()
+                << "</td>"
+
+                << "</tr>";
+        }
+
+        html
+            << "</table>";
+    }
+
+    html
+        << "</div>"
+
+        << html_footer();
+
+    send_response(
+        client_socket,
+        html.str()
     );
 }
 
@@ -1653,86 +1808,66 @@ void handle_enroll(
 
 void handle_logout(
     SOCKET client_socket,
-    const std::string& request
-)
+    const WebSession& session,
+    const std::string& web_session_id)
 {
-    std::string web_session =
-        get_cookie(
-            request,
-            "session"
-        );
+    auto stub =
+        create_stub();
 
+    enrollment::LogoutRequest request;
 
-    WebSession session;
+    request.set_session_token(
+        session.grpc_token
+    );
 
+    enrollment::LogoutReply reply;
 
-    if (
-        get_web_session(
-            web_session,
-            session
-        )
-    )
-    {
-        auto stub =
-            create_stub();
+    ClientContext context;
 
-
-        LogoutRequest logout_request;
-
-
-        logout_request.set_session_token(
-            session.grpc_token
-        );
-
-
-        LogoutReply logout_reply;
-
-
-        grpc::ClientContext context;
-
-
-        stub->Logout(
-            &context,
-            logout_request,
-            &logout_reply
-        );
-    }
-
+    stub->Logout(
+        &context,
+        request,
+        &reply
+    );
 
     remove_web_session(
-        web_session
+        web_session_id
     );
-
 
     std::string headers =
-        "Set-Cookie: session=; Max-Age=0; Path=/\r\n";
+        "Set-Cookie: session=; "
+        "Expires=Thu, 01 Jan 1970 00:00:00 GMT; "
+        "HttpOnly; SameSite=Lax\r\n";
 
+    std::string response =
+        "HTTP/1.1 302 Found\r\n"
+        "Location: /\r\n" +
+        headers +
+        "Content-Length: 0\r\n"
+        "Connection: close\r\n"
+        "\r\n";
 
-    send_redirect(
+    send(
         client_socket,
-        "/",
-        headers
-    );
-
-
-    closesocket(
-        client_socket
+        response.c_str(),
+        static_cast<int>(
+            response.size()
+        ),
+        0
     );
 }
 
 
 // ============================================================
-// Handle browser connection
+// Handle client
 // ============================================================
 
 void handle_client(
-    SOCKET client_socket
-)
+    SOCKET client_socket)
 {
-    char buffer[16384];
+    char buffer[65536];
 
-
-    int bytes_received =
+    int received =
         recv(
             client_socket,
             buffer,
@@ -1740,11 +1875,144 @@ void handle_client(
             0
         );
 
+    if (
+        received <= 0
+    ) {
+
+        closesocket(
+            client_socket
+        );
+
+        return;
+    }
+
+    buffer[received] =
+        '\0';
+
+    std::string request(
+        buffer
+    );
+
+
+    // ========================================================
+    // Request method
+    // ========================================================
+
+    bool is_post =
+        request.rfind(
+            "POST ",
+            0
+        ) == 0;
+
+    bool is_get =
+        request.rfind(
+            "GET ",
+            0
+        ) == 0;
+
+
+    // ========================================================
+    // Request path
+    // ========================================================
+
+    size_t path_start =
+        request.find(' ');
 
     if (
-        bytes_received <= 0
-    )
-    {
+        path_start ==
+        std::string::npos
+    ) {
+
+        closesocket(
+            client_socket
+        );
+
+        return;
+    }
+
+    ++path_start;
+
+    size_t path_end =
+        request.find(
+            ' ',
+            path_start
+        );
+
+    if (
+        path_end ==
+        std::string::npos
+    ) {
+
+        closesocket(
+            client_socket
+        );
+
+        return;
+    }
+
+    std::string path =
+        request.substr(
+            path_start,
+            path_end - path_start
+        );
+
+
+    // ========================================================
+    // Request body
+    // ========================================================
+
+    std::string body;
+
+    size_t body_start =
+        request.find(
+            "\r\n\r\n"
+        );
+
+    if (
+        body_start !=
+        std::string::npos
+    ) {
+
+        body =
+            request.substr(
+                body_start + 4
+            );
+    }
+
+
+    // ========================================================
+    // Session
+    // ========================================================
+
+    std::string web_session_id =
+        get_cookie(
+            request,
+            "session"
+        );
+
+    WebSession session;
+
+    bool logged_in =
+        get_web_session(
+            web_session_id,
+            session
+        );
+
+
+    // ========================================================
+    // POST /login
+    // ========================================================
+
+    if (
+        is_post &&
+        path == "/login"
+    ) {
+
+        handle_login(
+            client_socket,
+            body
+        );
+
         closesocket(
             client_socket
         );
@@ -1753,31 +2021,54 @@ void handle_client(
     }
 
 
-    buffer[
-        bytes_received
-    ] =
-        '\0';
-
-
-    std::string request(
-        buffer
-    );
-
-
     // ========================================================
-    // Login
+    // GET /
     // ========================================================
 
     if (
-        request.rfind(
-            "POST /login",
-            0
-        ) == 0
-    )
-    {
-        handle_login(
-            client_socket,
-            request
+        is_get &&
+        path == "/"
+    ) {
+
+        if (!logged_in) {
+
+            handle_login_page(
+                client_socket
+            );
+        }
+
+        else if (
+            session.role ==
+            "admin"
+        ) {
+
+            send_redirect(
+                client_socket,
+                "/admin"
+            );
+        }
+
+        else if (
+            session.role ==
+            "faculty"
+        ) {
+
+            send_redirect(
+                client_socket,
+                "/faculty"
+            );
+        }
+
+        else {
+
+            send_redirect(
+                client_socket,
+                "/courses"
+            );
+        }
+
+        closesocket(
+            client_socket
         );
 
         return;
@@ -1785,19 +2076,40 @@ void handle_client(
 
 
     // ========================================================
-    // Admin page
+    // Everything below this point requires login
+    // ========================================================
+
+    if (!logged_in) {
+
+        send_redirect(
+            client_socket,
+            "/"
+        );
+
+        closesocket(
+            client_socket
+        );
+
+        return;
+    }
+
+
+    // ========================================================
+    // GET /admin
     // ========================================================
 
     if (
-        request.rfind(
-            "GET /admin",
-            0
-        ) == 0
-    )
-    {
+        is_get &&
+        path == "/admin"
+    ) {
+
         handle_admin(
             client_socket,
-            request
+            session
+        );
+
+        closesocket(
+            client_socket
         );
 
         return;
@@ -1805,19 +2117,22 @@ void handle_client(
 
 
     // ========================================================
-    // Add student
+    // POST /admin/add-student
     // ========================================================
 
     if (
-        request.rfind(
-            "POST /admin/add-student",
-            0
-        ) == 0
-    )
-    {
+        is_post &&
+        path == "/admin/add-student"
+    ) {
+
         handle_add_student(
             client_socket,
-            request
+            session,
+            body
+        );
+
+        closesocket(
+            client_socket
         );
 
         return;
@@ -1825,19 +2140,22 @@ void handle_client(
 
 
     // ========================================================
-    // Add course
+    // POST /admin/add-course
     // ========================================================
 
     if (
-        request.rfind(
-            "POST /admin/add-course",
-            0
-        ) == 0
-    )
-    {
+        is_post &&
+        path == "/admin/add-course"
+    ) {
+
         handle_add_course(
             client_socket,
-            request
+            session,
+            body
+        );
+
+        closesocket(
+            client_socket
         );
 
         return;
@@ -1845,19 +2163,66 @@ void handle_client(
 
 
     // ========================================================
-    // Courses
+    // GET /faculty
     // ========================================================
 
     if (
-        request.rfind(
-            "GET /courses",
-            0
-        ) == 0
-    )
-    {
+        is_get &&
+        path == "/faculty"
+    ) {
+
+        handle_faculty(
+            client_socket,
+            session
+        );
+
+        closesocket(
+            client_socket
+        );
+
+        return;
+    }
+
+
+    // ========================================================
+    // POST /faculty/upload-grade
+    // ========================================================
+
+    if (
+        is_post &&
+        path == "/faculty/upload-grade"
+    ) {
+
+        handle_upload_grade(
+            client_socket,
+            session,
+            body
+        );
+
+        closesocket(
+            client_socket
+        );
+
+        return;
+    }
+
+
+    // ========================================================
+    // GET /courses
+    // ========================================================
+
+    if (
+        is_get &&
+        path == "/courses"
+    ) {
+
         handle_courses(
             client_socket,
-            request
+            session
+        );
+
+        closesocket(
+            client_socket
         );
 
         return;
@@ -1865,19 +2230,22 @@ void handle_client(
 
 
     // ========================================================
-    // Enroll
+    // POST /enroll
     // ========================================================
 
     if (
-        request.rfind(
-            "POST /enroll",
-            0
-        ) == 0
-    )
-    {
+        is_post &&
+        path == "/enroll"
+    ) {
+
         handle_enroll(
             client_socket,
-            request
+            session,
+            body
+        );
+
+        closesocket(
+            client_socket
         );
 
         return;
@@ -1885,19 +2253,21 @@ void handle_client(
 
 
     // ========================================================
-    // Logout
+    // GET /grades
     // ========================================================
 
     if (
-        request.rfind(
-            "GET /logout",
-            0
-        ) == 0
-    )
-    {
-        handle_logout(
+        is_get &&
+        path == "/grades"
+    ) {
+
+        handle_grades(
             client_socket,
-            request
+            session
+        );
+
+        closesocket(
+            client_socket
         );
 
         return;
@@ -1905,77 +2275,47 @@ void handle_client(
 
 
     // ========================================================
-    // Login page
+    // GET /logout
     // ========================================================
 
-    std::string html =
-        R"(
-<!DOCTYPE html>
+    if (
+        is_get &&
+        path == "/logout"
+    ) {
 
-<html>
+        handle_logout(
+            client_socket,
+            session,
+            web_session_id
+        );
 
-<head>
+        closesocket(
+            client_socket
+        );
 
-    <meta charset="UTF-8">
+        return;
+    }
 
-    <title>Online Enrollment</title>
 
-</head>
-
-<body>
-
-    <h1>Online Enrollment</h1>
-
-    <p>Login to continue.</p>
-
-    <hr>
-
-    <form
-        method="POST"
-        action="/login"
-    >
-
-        <label>
-            Username:
-        </label>
-
-        <input
-            type="text"
-            name="username"
-            required
-        >
-
-        <br><br>
-
-        <label>
-            Password:
-        </label>
-
-        <input
-            type="password"
-            name="password"
-            required
-        >
-
-        <br><br>
-
-        <button type="submit">
-            Login
-        </button>
-
-    </form>
-
-</body>
-
-</html>
-)";
-
+    // ========================================================
+    // Unknown route
+    // ========================================================
 
     send_response(
         client_socket,
-        html
+        html_header(
+            "404"
+        ) +
+        "<div class='container'>"
+        "<h1>404</h1>"
+        "<p>Page not found.</p>"
+        "<a href='/'>"
+        "Return to Login"
+        "</a>"
+        "</div>" +
+        html_footer(),
+        "404 Not Found"
     );
-
 
     closesocket(
         client_socket
@@ -1989,52 +2329,22 @@ void handle_client(
 
 int main()
 {
-    // ========================================================
-    // Connect to backend
-    // ========================================================
-
-    backend_channel =
-        grpc::CreateChannel(
-            "192.168.100.22:50051",
-            grpc::InsecureChannelCredentials()
-        );
-
-
-    std::cout
-        << "Connecting to backend:"
-        << std::endl;
-
-
-    std::cout
-        << "192.168.100.22:50051"
-        << std::endl;
-
-
-    // ========================================================
-    // Initialize Winsock
-    // ========================================================
-
     WSADATA wsa_data;
-
 
     if (
         WSAStartup(
             MAKEWORD(2, 2),
             &wsa_data
         ) != 0
-    )
-    {
-        std::cout
+    ) {
+
+        std::cerr
             << "WSAStartup failed."
             << std::endl;
 
         return 1;
     }
 
-
-    // ========================================================
-    // Create socket
-    // ========================================================
 
     SOCKET server_socket =
         socket(
@@ -2043,13 +2353,12 @@ int main()
             IPPROTO_TCP
         );
 
-
     if (
         server_socket ==
         INVALID_SOCKET
-    )
-    {
-        std::cout
+    ) {
+
+        std::cerr
             << "Failed to create socket."
             << std::endl;
 
@@ -2059,28 +2368,30 @@ int main()
     }
 
 
-    // ========================================================
-    // Server address
-    // ========================================================
+    int reuse = 1;
+
+    setsockopt(
+        server_socket,
+        SOL_SOCKET,
+        SO_REUSEADDR,
+        reinterpret_cast<const char*>(
+            &reuse
+        ),
+        sizeof(reuse)
+    );
+
 
     sockaddr_in server_address{};
-
 
     server_address.sin_family =
         AF_INET;
 
-
     server_address.sin_addr.s_addr =
         INADDR_ANY;
-
 
     server_address.sin_port =
         htons(8080);
 
-
-    // ========================================================
-    // Bind
-    // ========================================================
 
     if (
         bind(
@@ -2089,12 +2400,11 @@ int main()
                 &server_address
             ),
             sizeof(server_address)
-        )
-        == SOCKET_ERROR
-    )
-    {
-        std::cout
-            << "Bind failed."
+        ) == SOCKET_ERROR
+    ) {
+
+        std::cerr
+            << "Failed to bind to port 8080."
             << std::endl;
 
         closesocket(
@@ -2106,21 +2416,16 @@ int main()
         return 1;
     }
 
-
-    // ========================================================
-    // Listen
-    // ========================================================
 
     if (
         listen(
             server_socket,
             SOMAXCONN
-        )
-        == SOCKET_ERROR
-    )
-    {
-        std::cout
-            << "Listen failed."
+        ) == SOCKET_ERROR
+    ) {
+
+        std::cerr
+            << "Failed to listen."
             << std::endl;
 
         closesocket(
@@ -2134,42 +2439,37 @@ int main()
 
 
     std::cout
+        << "Web server running on "
+        << "0.0.0.0:8080"
         << std::endl;
-
 
     std::cout
-        << "Web server running at:"
+        << "Backend gRPC server: "
+        << "192.168.100.22:50051"
         << std::endl;
 
 
-    std::cout
-        << "http://192.168.100.4:8080"
-        << std::endl;
+    while (true) {
 
+        sockaddr_in client_address{};
 
-    std::cout
-        << std::endl;
+        int client_address_size =
+            sizeof(client_address);
 
-
-    // ========================================================
-    // Main request loop
-    // ========================================================
-
-    while (true)
-    {
         SOCKET client_socket =
             accept(
                 server_socket,
-                nullptr,
-                nullptr
+                reinterpret_cast<sockaddr*>(
+                    &client_address
+                ),
+                &client_address_size
             );
-
 
         if (
             client_socket ==
             INVALID_SOCKET
-        )
-        {
+        ) {
+
             continue;
         }
 
@@ -2185,9 +2485,7 @@ int main()
         server_socket
     );
 
-
     WSACleanup();
-
 
     return 0;
 }

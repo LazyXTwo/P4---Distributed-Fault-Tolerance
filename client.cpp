@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <chrono>
 
 using grpc::Channel;
 using grpc::ClientContext;
@@ -21,19 +22,35 @@ int main()
     // Connect to backend
     // ============================================================
 
+    std::cout
+        << "Creating gRPC channel..."
+        << std::endl;
+
     auto channel =
         grpc::CreateChannel(
             "192.168.100.22:50051",
             grpc::InsecureChannelCredentials()
         );
 
+    std::cout
+        << "Creating gRPC stub..."
+        << std::endl;
+
     std::unique_ptr<EnrollmentService::Stub> stub =
         EnrollmentService::NewStub(channel);
+
+    std::cout
+        << "gRPC stub created."
+        << std::endl;
 
 
     // ============================================================
     // Login
     // ============================================================
+
+    std::cout
+        << "Preparing Login request..."
+        << std::endl;
 
     LoginRequest request;
 
@@ -43,6 +60,25 @@ int main()
     LoginReply reply;
 
     ClientContext context;
+
+
+    // ============================================================
+    // Set RPC timeout
+    // ============================================================
+
+    context.set_deadline(
+        std::chrono::system_clock::now()
+        + std::chrono::seconds(10)
+    );
+
+
+    // ============================================================
+    // Send Login RPC
+    // ============================================================
+
+    std::cout
+        << "Sending Login RPC to 192.168.100.22:50051..."
+        << std::endl;
 
     Status status =
         stub->Login(
@@ -55,6 +91,10 @@ int main()
     // ============================================================
     // Display result
     // ============================================================
+
+    std::cout
+        << "Login RPC returned."
+        << std::endl;
 
     if (!status.ok())
     {

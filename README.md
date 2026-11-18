@@ -1,89 +1,124 @@
 # Distributed Enrollment System
 
-A distributed online enrollment system built with **C++**, **gRPC**, and a simple **HTTP/MVC-style web interface** running across two physical PCs.
+A distributed web-based student enrollment system built using **C++**, **gRPC**, and a two-node network architecture.
+
+The system separates the web/view layer from the backend services and runs them on two physically separate Windows computers connected through a local network.
 
 ---
 
-## 1. Project Overview
+# 1. System Architecture
 
-This project is a distributed enrollment system where the **web interface** and **backend/API** run on separate computers.
-
-The browser connects to the Web/View node, which communicates with the Backend node using **gRPC**.
-
-### Current Architecture
+The system consists of two physical PCs.
 
 ```text
-                    USER BROWSER
-                         |
-                         | HTTP :8080
-                         v
-              +-----------------------+
-              | PC1 - WEB / VIEW NODE |
-              | IP: 192.168.100.4     |
-              |                       |
-              | web_server.exe         |
-              +-----------------------+
-                         |
-                         | gRPC :50051
-                         v
-             +------------------------+
-             | PC2 - BACKEND NODE     |
-             | IP: 192.168.100.22     |
-             |                        |
-             | server.exe             |
-             | EnrollmentService      |
-             +------------------------+
+                         ┌──────────────────────────────┐
+                         │           PC1                │
+                         │       192.168.100.4          │
+                         │                              │
+Browser ────────────────►│     Web / View Node          │
+                         │       web_server.exe         │
+                         │                              │
+                         │          Port 8080           │
+                         └──────────────┬───────────────┘
+                                        │
+                                        │ gRPC over LAN
+                                        │
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │           PC2                │
+                         │      192.168.100.22          │
+                         │                              │
+                         │       Backend Node           │
+                         │         server.exe           │
+                         │                              │
+                         │          Port 50051          │
+                         │                              │
+                         │  Authentication              │
+                         │  Sessions                    │
+                         │  Courses                     │
+                         │  Enrollment                  │
+                         │  Grades                      │
+                         └──────────────────────────────┘
 ```
 
-### Responsibilities
+## PC1 — Web/View Node
 
-**PC1 – Web/View Node**
+IP address:
 
-- Serves the web pages
-- Handles browser HTTP requests
-- Maintains browser sessions
-- Sends requests to the backend through gRPC
-- Displays courses and enrollment results
-- Provides admin pages
+```text
+192.168.100.4
+```
 
-**PC2 – Backend Node**
+Runs:
 
-- Handles authentication
-- Maintains student accounts
-- Maintains course information
-- Handles enrollment
-- Tracks backend sessions
-- Enforces permissions
-- Handles concurrent enrollment requests
+```text
+web_server.exe
+```
+
+Port:
+
+```text
+8080
+```
+
+Responsibilities:
+
+- Serves the website
+- Displays HTML pages
+- Handles browser requests
+- Maintains web sessions/cookies
+- Sends requests to the backend using gRPC
+- Does not directly access the backend's data
 
 ---
 
-# 2. Technologies
+## PC2 — Backend Node
+
+IP address:
+
+```text
+192.168.100.22
+```
+
+Runs:
+
+```text
+server.exe
+```
+
+Port:
+
+```text
+50051
+```
+
+Responsibilities:
+
+- Authentication
+- JWT creation and validation
+- Session management
+- Student management
+- Course management
+- Enrollment
+- Grade management
+- Business logic
+- Concurrency protection
+
+---
+
+# 2. Technologies Used
 
 - C++
 - gRPC
 - Protocol Buffers
 - CMake
 - MinGW / MSYS2
-- Winsock
-- HTTP
-- VS Code
 - Windows
-- Two physical PCs
-
-### gRPC Installation
-
-```text
-D:\grpc\grpc
-D:\grpc\grpc\cmake\build
-D:\grpc\install
-```
-
-### Compiler
-
-```text
-D:\MSYS2\ucrt64\bin\c++.exe
-```
+- HTTP
+- JWT
+- HMAC-SHA256
+- Winsock
+- Visual Studio Code
 
 ---
 
@@ -108,874 +143,791 @@ GRPC Test/
     └── enrollment.grpc.pb.h
 ```
 
+## Important files
+
+### `enrollment.proto`
+
+Defines the gRPC service and messages.
+
+RPC methods currently include:
+
+```text
+Login
+Logout
+GetCourses
+Enroll
+AddStudent
+AddCourse
+UploadGrade
+GetGrades
+```
+
+### `server.cpp`
+
+The backend server.
+
+Contains:
+
+- Authentication
+- JWT implementation
+- Session registry
+- Course data
+- Student data
+- Faculty data
+- Enrollment logic
+- Grade logic
+- Mutex synchronization
+- gRPC service implementation
+
+### `web_server.cpp`
+
+The web/view node.
+
+Contains:
+
+- HTTP server
+- Login page
+- Admin pages
+- Student pages
+- Faculty pages
+- Course display
+- Enrollment interface
+- Grade interface
+- gRPC client communication
+
+### `client.cpp`
+
+A development/testing gRPC client.
+
+It is useful for directly testing the backend without going through the browser.
+
+It is **not required for the normal browser-based operation** of the system.
+
 ---
 
-# 4. Network Configuration
+# 4. Requirements Implemented
 
-## PC1
+## Authentication
 
-```text
-IP: 192.168.100.4
-Web Server: 0.0.0.0:8080
-```
+Implemented:
 
-The browser accesses:
+- Login
+- Logout
+- JWT authentication
+- JWT expiration
+- Server-side session tracking
+- Session invalidation on logout
+- Role-based access
 
-```text
-http://192.168.100.4:8080
-```
-
-## PC2
-
-```text
-IP: 192.168.100.22
-gRPC Server: 0.0.0.0:50051
-```
-
-PC1 connects to:
+Roles:
 
 ```text
-192.168.100.22:50051
+Admin
+Student
+Faculty
 ```
+
+JWT uses:
+
+```text
+HS256 / HMAC-SHA256
+```
+
+JWT lifetime:
+
+```text
+3600 seconds
+```
+
+The server also maintains an active session registry using the JWT's JTI.
+
+This allows a token to be invalidated immediately when the user logs out instead of waiting for the JWT to expire.
 
 ---
 
-# 5. Current Features
+# 5. Student Features
 
-## Login
+Students can:
 
-The system currently supports:
+- Log in
+- Log out
+- View available courses
+- See remaining course slots
+- Enroll in courses
+- Prevent duplicate enrollment
+- View their grades
 
-- Admin login
-- Student login
-- Password checking
-- Session creation
-- Role detection
+Example:
 
-### Admin Account
+```text
+CS101 - Introduction to Computing
+CS102 - Data Structures
+CS103 - Database Systems
+```
+
+When a student enrolls, the available course slots decrease.
+
+The server also prevents the same student from enrolling in the same course twice.
+
+---
+
+# 6. Faculty Features
+
+Faculty users can:
+
+- Log in
+- Log out
+- Upload grades
+- Update existing grades
+
+Faculty must provide:
+
+```text
+Student Username
+Course Code
+Grade
+```
+
+Grades are restricted to:
+
+```text
+0 - 100
+```
+
+The server also verifies that the student is actually enrolled in the specified course before accepting the grade.
+
+---
+
+# 7. Admin Features
+
+Administrators can:
+
+- Log in
+- Log out
+- Add students
+- Add courses
+
+The system checks for:
+
+- Duplicate usernames
+- Duplicate course codes
+- Invalid course slot values
+- Invalid administrative operations
+
+---
+
+# 8. Current Accounts
+
+## Administrator
 
 ```text
 Username: admin123
 Password: password123
 ```
 
-### Student Accounts
+## Faculty
 
 ```text
-student1 / password123
-student2 / password123
+Username: faculty1
+Password: password123
 ```
+
+## Students
+
+```text
+Username: student1
+Password: password123
+```
+
+```text
+Username: student2
+Password: password123
+```
+
+Additional students can be created through the Admin interface.
 
 ---
 
-## Logout
+# 9. Initial Courses
 
-Users can log out through the web interface.
+The server starts with:
 
-Logout performs two actions:
+| Code | Course | Slots |
+|---|---|---:|
+| CS101 | Introduction to Computing | 30 |
+| CS102 | Data Structures | 25 |
+| CS103 | Database Systems | 20 |
 
-1. Calls the backend `Logout` gRPC method.
-2. Removes the browser-side web session.
-
----
-
-## View Available Courses
-
-Students can view the currently available courses.
-
-Current courses:
-
-```text
-CS101 - Introduction to Computing - 30 slots
-CS102 - Data Structures            - 25 slots
-CS103 - Database Systems           - 20 slots
-```
-
-The course list is retrieved from the backend through gRPC.
+Course slots decrease when students enroll.
 
 ---
 
-## Student Enrollment
+# 10. Running the System
 
-Students can enroll in available courses.
+## Step 1 — Start the Backend
 
-The backend checks:
-
-- Whether the session is valid
-- Whether the user is a student
-- Whether the course exists
-- Whether the student is already enrolled
-- Whether available slots remain
-
-When enrollment succeeds:
-
-```text
-Student enrollment is added
-Course slot count decreases by 1
-```
-
----
-
-# 6. Concurrent Enrollment Handling
-
-The backend uses a mutex to protect shared enrollment data.
-
-The important operations are performed while holding the same mutex:
-
-```text
-Check course
-Check remaining slots
-Check duplicate enrollment
-Add enrollment
-Decrease available slots
-```
-
-This prevents a race condition where two students attempt to take the final available slot simultaneously.
-
-For example:
-
-```text
-Course has 1 slot remaining
-
-Student A ---> Enroll
-Student B ---> Enroll
-```
-
-The mutex ensures that only one request can successfully claim the final slot.
-
-This is important because the application is intended to support multiple users concurrently.
-
----
-
-# 7. Admin Features
-
-The admin page currently supports:
-
-### Add Student
-
-Admin can create a new student account.
-
-Validation includes:
-
-- Username cannot be empty
-- Password cannot be empty
-- Username must not already exist
-- `admin123` cannot be created as a normal student account
-
-### Add Course
-
-Admin can create a new course.
-
-Validation includes:
-
-- Course code cannot be empty
-- Course name cannot be empty
-- Slots cannot be negative
-- Course code must be unique
-
----
-
-# 8. gRPC Service
-
-The system uses the following gRPC service:
-
-```proto
-service EnrollmentService {
-    rpc Login (LoginRequest) returns (LoginReply);
-    rpc Logout (LogoutRequest) returns (LogoutReply);
-    rpc GetCourses (GetCoursesRequest) returns (GetCoursesReply);
-    rpc Enroll (EnrollRequest) returns (EnrollReply);
-    rpc AddStudent (AddStudentRequest) returns (AddStudentReply);
-    rpc AddCourse (AddCourseRequest) returns (AddCourseReply);
-}
-```
-
-The `.proto` file is used to generate:
-
-```text
-enrollment.pb.cc
-enrollment.pb.h
-enrollment.grpc.pb.cc
-enrollment.grpc.pb.h
-```
-
----
-
-# 9. Session System
-
-There are currently two session layers.
-
-## Backend Session
-
-The backend stores:
-
-```text
-session token -> username
-```
-
-Example:
-
-```text
-session_1 -> student1
-session_2 -> student2
-```
-
-The backend uses a mutex to protect the session map.
-
-## Web Session
-
-The web server stores:
-
-```text
-browser session -> gRPC token + role
-```
-
-Example:
-
-```text
-web_1 -> session_1 + student
-```
-
-The browser receives a cookie:
-
-```text
-session=web_1
-```
-
-The web server uses this cookie to identify the logged-in browser.
-
----
-
-# 10. Current Authentication Limitation
-
-The assignment requires:
-
-> Login/logout. Track sessions across different nodes. (Use OAuth / JWT)
-
-The current system **does track sessions across the two nodes**, but it does **not yet use JWT or OAuth**.
-
-Currently, the backend generates simple tokens:
-
-```text
-session_1
-session_2
-session_3
-```
-
-Therefore requirement #1 is currently only partially complete.
-
-### Required Improvement
-
-Replace the current simple session token with a properly signed **JWT**.
-
-The intended flow is:
-
-```text
-Browser
-   |
-   | Login
-   v
-PC1 Web Server
-   |
-   | gRPC Login
-   v
-PC2 Backend
-   |
-   | Generate JWT
-   v
-PC1
-   |
-   | JWT cookie
-   v
-Browser
-```
-
-For subsequent requests:
-
-```text
-Browser
-   |
-   | JWT
-   v
-PC1
-   |
-   | gRPC + JWT
-   v
-PC2
-   |
-   | Validate JWT
-   v
-Request accepted/rejected
-```
-
-JWT should contain information such as:
-
-```text
-username
-role
-session ID / jti
-expiration time
-```
-
-The backend should also maintain a server-side revocation/session registry so that logout can invalidate the JWT before its expiration.
-
----
-
-# 11. Database Status
-
-SQLite was previously investigated but is **not currently being used**.
-
-SQLite is installed in the MSYS2 environment:
-
-```text
-/ucrt64/include/sqlite3.h
-/ucrt64/lib/libsqlite3.a
-/ucrt64/lib/libsqlite3.dll.a
-```
-
-However, the SQLite implementation was abandoned because:
-
-- Build times became excessive
-- CMake/linking became complicated
-- Runtime persistence was not successfully verified
-- The current in-memory implementation is working
-
-The current backend therefore uses:
-
-```text
-C++ vectors
-C++ unordered_map
-```
-
-for its data.
-
-### Current Limitation
-
-All data is lost when:
-
-```text
-server.exe
-```
-
-is stopped.
-
----
-
-# 12. Assignment Requirement Status
-
-| Requirement | Status |
-|---|---|
-| 1. Login/logout + distributed sessions + OAuth/JWT | 🟡 Partially Complete |
-| 2. View available courses | 🟢 Complete |
-| 3. Students enroll in open courses | 🟢 Complete |
-| 4. Students view previous grades | 🔴 Not Implemented |
-| 5. Faculty upload grades | 🔴 Not Implemented |
-| 6. Web-based using MVC | 🟡 Partially Complete |
-| 7. View is a separate node | 🟢 Complete |
-| 8. Networked physical PCs/VMs | 🟢 Complete |
-| 9. Node failure affects only its features | 🟢 Mostly Complete |
-| 10. gRPC inter-node communication | 🟢 Complete |
-| Bonus: Persistent/redundant DB | 🔴 Not Implemented |
-
----
-
-# 13. MVC / Distributed Design
-
-The project separates the View/Web node from the Backend node.
-
-### View
-
-Located on:
-
-```text
-PC1
-```
-
-Handled by:
-
-```text
-web_server.cpp
-```
-
-### Controller / API
-
-Located on:
-
-```text
-PC2
-```
-
-Handled by:
-
-```text
-server.cpp
-```
-
-### Communication
-
-Handled using:
-
-```text
-gRPC
-```
-
-This means the browser does not directly communicate with the backend.
-
-Instead:
-
-```text
-Browser
-   ↓
-Web/View
-   ↓
-gRPC
-   ↓
-Backend
-```
-
----
-
-# 14. Node Failure Behavior
-
-The architecture allows different parts of the application to fail independently.
-
-## If PC2 / Backend goes down
-
-PC1's web server can still technically be running, but backend-dependent features will fail because gRPC requests cannot reach:
-
-```text
-192.168.100.22:50051
-```
-
-Affected functionality includes:
-
-- Login
-- Course retrieval
-- Enrollment
-- Admin operations
-- Logout
-
-## If PC1 / Web Node goes down
-
-The browser cannot access the web interface.
-
-The backend itself can still be running and listening for gRPC requests.
-
----
-
-# 15. Building the Project
-
-From:
-
-```text
-D:\School\STDISCIM\GRPC Test
-```
-
-create/use the build directory:
+On **PC2**:
 
 ```cmd
 cd /d "D:\School\STDISCIM\GRPC Test\build"
-```
-
-Configure:
-
-```cmd
-cmake .. -G "MinGW Makefiles"
-```
-
-Build:
-
-```cmd
 cmake --build . --parallel 4
+server.exe
 ```
 
-Successful builds generate:
+The server should display:
 
 ```text
-server.exe
-client.exe
-web_server.exe
+Enrollment server running on 0.0.0.0:50051
+JWT authentication enabled.
+JWT lifetime: 3600 seconds.
+Faculty account: faculty1 / password123
 ```
 
----
-
-# 16. Running the System
-
-## PC2 — Backend
-
-On PC2:
-
-```cmd
-cd /d "D:\School\STDISCIM\GRPC Test\build"
-server.exe
-```
-
-The server should listen on:
+The backend listens on:
 
 ```text
 0.0.0.0:50051
 ```
 
-Expected output:
+---
 
-```text
-Server listening on 0.0.0.0:50051
+# 11. Verify the Backend Port
+
+On PC2:
+
+```cmd
+netstat -ano | findstr :50051
 ```
 
-Keep this window open.
+Expected:
+
+```text
+TCP    0.0.0.0:50051    0.0.0.0:0    LISTENING
+```
 
 ---
 
-## PC1 — Web Server
+# 12. Test PC1 → PC2 Connectivity
 
 On PC1:
 
 ```cmd
+powershell -Command "Test-NetConnection 192.168.100.22 -Port 50051"
+```
+
+Expected:
+
+```text
+TcpTestSucceeded : True
+```
+
+ICMP ping does not need to work for this test. The important requirement is that TCP port `50051` is reachable.
+
+---
+
+# 13. Start the Web Server
+
+On **PC1**:
+
+```cmd
 cd /d "D:\School\STDISCIM\GRPC Test\build"
+cmake --build . --parallel 4
 web_server.exe
 ```
 
-The web server should listen on:
+Expected:
 
 ```text
-0.0.0.0:8080
+Web server running on 0.0.0.0:8080
+Backend gRPC server: 192.168.100.22:50051
 ```
 
-The browser can then access:
+---
+
+# 14. Open the Website
+
+From a browser on the network:
 
 ```text
 http://192.168.100.4:8080
 ```
 
----
+The browser connects to PC1.
 
-# 17. Client.exe
-
-`client.exe` is currently a development/testing client for the gRPC backend.
-
-It is **not required for normal browser operation**.
-
-The final application flow is:
-
-```text
-Browser
-    ↓
-web_server.exe
-    ↓
-server.exe
-```
-
-`client.exe` is useful for testing the gRPC service directly.
+PC1 then communicates with PC2 through gRPC.
 
 ---
 
-# 18. Windows Firewall
+# 15. Testing
 
-The following ports may need to be allowed through Windows Firewall.
+The following tests have been completed successfully.
 
-## PC1
+## Student Login
 
-```text
-TCP 8080
-```
-
-Required so other computers can access the web server.
-
-## PC2
+Login with:
 
 ```text
-TCP 50051
+student1
+password123
 ```
 
-Required so PC1 can connect to the gRPC backend.
+Expected:
+
+```text
+Login successful
+```
+
+The user is redirected to the course page.
 
 ---
 
-# 19. Current CMake Linking
+## View Courses
 
-The project uses static gRPC libraries.
-
-The CMake configuration currently links a limited set of required libraries rather than every `.a` file in the gRPC installation.
-
-Important libraries include:
+The student should see:
 
 ```text
-libabsl_*.a
-libupb*.a
-libutf8*.a
-libre2.a
-libcares.a
-libzlibstatic.a
-libprotobuf.a
-libgrpc_unsecure.a
-libgrpc++_unsecure.a
-libgpr.a
-libaddress_sorting.a
-```
-
-Windows libraries include:
-
-```text
-ws2_32
-advapi32
-iphlpapi
-bcrypt
-crypt32
-dbghelp
-```
-
-`dbghelp` was required to resolve linker errors involving:
-
-```text
-SymSetOptions
-SymInitialize
-SymFromAddr
+CS101 - Introduction to Computing
+CS102 - Data Structures
+CS103 - Database Systems
 ```
 
 ---
 
-# 20. Previous Build Issue
+## Enrollment
 
-The project previously had very long build/link times.
-
-The main cause was excessive static library linking.
-
-The CMake configuration was initially globbing a very large number of `.a` libraries from the gRPC installation.
-
-This caused the linker to process many unnecessary libraries.
-
-The configuration was changed to only include the required library groups.
-
-The project now builds successfully.
-
----
-
-# 21. Current Executable Sizes
-
-The current statically linked executables are large:
+Enroll:
 
 ```text
-server.exe      ~119 MB
-client.exe      ~116 MB
-web_server.exe  ~116 MB
+student1 → CS101
 ```
 
-This is primarily because gRPC, Protocol Buffers, Abseil, and related dependencies are statically linked.
-
-This is not currently preventing the application from working.
-
----
-
-# 22. Current Data Model
-
-### Student
+Expected:
 
 ```text
-username
-password
+Enrollment successful
 ```
 
-### Course
+CS101 slots decrease from:
 
 ```text
-course_code
-course_name
-slots
-```
-
-### Session
-
-```text
-session_token
-username
-```
-
-### Enrollment
-
-```text
-username
-course_code
-```
-
-At the moment, enrollment information is stored in memory.
-
----
-
-# 23. Remaining Work
-
-The next major features that need to be implemented are:
-
-## 1. JWT Authentication
-
-Replace:
-
-```text
-session_1
-session_2
-```
-
-with properly signed JWT tokens.
-
-This will complete the OAuth/JWT portion of requirement #1.
-
----
-
-## 2. Previous Grades
-
-Students need a way to view their previous grades.
-
-This will require:
-
-- Grade data
-- Student/grade relationship
-- gRPC request/reply
-- Backend implementation
-- Web page
-- Student navigation
-
-Possible flow:
-
-```text
-Student
-   ↓
-View Grades
-   ↓
-PC1 Web Server
-   ↓
-gRPC
-   ↓
-PC2 Backend
-   ↓
-Student's Grades
+30 → 29
 ```
 
 ---
 
-## 3. Faculty Accounts / Faculty Role
+## Duplicate Enrollment
 
-The current system has:
+Attempt to enroll `student1` in CS101 again.
+
+Expected:
 
 ```text
-admin
-student
+You are already enrolled in this course.
 ```
 
-A faculty role should be added.
+---
 
-Example:
+## Faculty Grade Upload
+
+Log in:
 
 ```text
 faculty1
+password123
 ```
 
-Faculty should be able to upload grades.
-
----
-
-## 4. Faculty Grade Upload
-
-Add a gRPC operation similar to:
+Upload:
 
 ```text
-UploadGrade
+Student: student1
+Course: CS101
+Grade: 92
 ```
 
-The backend should validate:
-
-- Session
-- Faculty role
-- Student
-- Course
-- Grade
-
-Then store the grade.
-
----
-
-## 5. Student Grade Viewing
-
-Add a gRPC operation such as:
+Expected:
 
 ```text
-GetGrades
+Grade uploaded successfully.
 ```
-
-Students should only be able to retrieve **their own grades**.
 
 ---
 
-# 24. Recommended Development Order
+## Student Grade Viewing
 
-The remaining implementation should be done in this order:
+Log out of faculty.
+
+Log in as:
 
 ```text
-1. JWT authentication
-       ↓
-2. Faculty role
-       ↓
-3. Grade data structure
-       ↓
-4. UploadGrade gRPC method
-       ↓
-5. GetGrades gRPC method
-       ↓
-6. Faculty web page
-       ↓
-7. Student grades web page
-       ↓
-8. Test concurrent users
-       ↓
-9. Test node failure
-       ↓
-10. Final documentation/demo
+student1
+password123
+```
+
+Open:
+
+```text
+My Grades
+```
+
+Expected:
+
+```text
+CS101
+Introduction to Computing
+92.00
 ```
 
 ---
 
-# 25. Current Overall State
+## Invalid Grade Enrollment Test
 
-The distributed foundation is working.
+Attempt to upload a grade for:
 
-The following has already been demonstrated:
+```text
+student2
+CS101
+85
+```
+
+before student2 has enrolled in CS101.
+
+Expected:
+
+```text
+Student is not enrolled in this course.
+```
+
+---
+
+## Admin Test
+
+Log in:
+
+```text
+admin123
+password123
+```
+
+Create a new student.
+
+Then log out and log in using the newly created student's credentials.
+
+This verifies that the admin-created account is available to the backend authentication system.
+
+---
+
+# 16. Concurrency Protection
+
+The backend uses mutex synchronization to protect shared data.
+
+Protected operations include:
+
+- Session management
+- Course data
+- Enrollment data
+- Grade data
+- Course slot updates
+
+This is important because multiple clients can send requests to the gRPC server simultaneously.
+
+For example, two students attempting to enroll in the last available slot should not both be allowed to consume the same slot.
+
+The enrollment operation checks and updates the course data while holding the appropriate mutex.
+
+---
+
+# 17. Distributed Failure Test
+
+The system also supports the required node-failure demonstration.
+
+## Normal operation
+
+```text
+Browser
+   ↓
+PC1
+   ↓
+gRPC
+   ↓
+PC2
+```
+
+Both nodes are running.
+
+---
+
+## Stop PC2
+
+Close:
+
+```text
+server.exe
+```
+
+on PC2.
+
+PC1's web server continues running.
+
+The website itself remains available, but operations requiring the backend cannot be completed.
+
+For example:
+
+```text
+Login
+Course retrieval
+Enrollment
+Grade operations
+```
+
+will fail because the backend node is unavailable.
+
+---
+
+## Restart PC2
+
+Run:
+
+```cmd
+server.exe
+```
+
+again.
+
+The backend starts listening on:
+
+```text
+192.168.100.22:50051
+```
+
+The web server on PC1 can communicate with it again.
+
+This demonstrates that the application is composed of independently running network nodes rather than a single process.
+
+---
+
+# 18. Distributed System Characteristics
+
+The system is distributed because:
+
+1. The View/Web component runs on PC1.
+2. The backend runs on PC2.
+3. The computers have different IP addresses.
+4. They communicate through the network.
+5. gRPC is used for inter-node communication.
+6. The nodes have different responsibilities.
+7. The backend can fail independently from the web node.
+8. The web node can remain running while the backend is unavailable.
+
+Architecture:
 
 ```text
 PC1
-Web Server
-   ↓
-HTTP
-   ↓
+┌──────────────────────┐
+│ Web / View           │
+│ HTTP Server          │
+│ Port 8080            │
+└──────────┬───────────┘
+           │
+           │ gRPC
+           │
+           ▼
 PC2
-gRPC Backend
+┌──────────────────────┐
+│ Backend              │
+│ Authentication       │
+│ Courses              │
+│ Enrollment           │
+│ Grades               │
+│ Sessions             │
+│ Port 50051           │
+└──────────────────────┘
 ```
 
-The system currently supports:
+The system is a **distributed client-server application with a centralized backend node**.
+
+---
+
+# 19. MVC Architecture
+
+The application follows an MVC-oriented architecture.
+
+### View
+
+Located primarily on PC1.
+
+The browser displays:
+
+- Login
+- Courses
+- Enrollment
+- Admin pages
+- Faculty pages
+- Grades
+
+### Controller
+
+The web server receives browser requests and determines which backend operation should be called.
+
+For example:
 
 ```text
-✓ Distributed web server
-✓ Separate backend node
-✓ gRPC communication
-✓ Login
-✓ Logout
-✓ Session tracking
-✓ Student accounts
-✓ Admin accounts
-✓ Course listing
-✓ Course creation
-✓ Student creation
-✓ Student enrollment
-✓ Concurrent enrollment protection
-✓ Separate physical PCs
-✓ Cross-PC browser access
+POST /enroll
+        ↓
+Web server
+        ↓
+gRPC Enroll()
+        ↓
+Backend
 ```
 
-The major missing assignment functionality is:
+### Model / Business Logic
+
+Located on PC2.
+
+The backend manages:
+
+- Students
+- Faculty
+- Courses
+- Enrollments
+- Grades
+- Sessions
+- Authentication
+
+---
+
+# 20. Security
+
+The system uses JWT authentication.
+
+JWT contains information including:
 
 ```text
-✗ JWT/OAuth
-✗ Faculty role
-✗ Faculty grade upload
-✗ Student previous grades
-✗ Persistent database
+sub
+role
+jti
+iat
+exp
 ```
 
-The **core distributed architecture is already operational**, so the remaining work is primarily implementing the missing enrollment-system features rather than rebuilding the networking/gRPC foundation.
+The JWT is signed using HMAC-SHA256.
+
+The server also maintains an active session registry.
+
+Therefore, logging out removes the session from the server even though the JWT itself has not yet reached its expiration time.
+
+---
+
+# 21. Current Data Storage
+
+The current implementation stores runtime data in memory.
+
+This means:
+
+```text
+Server running
+    ↓
+Data exists in memory
+    ↓
+Server stops
+    ↓
+Runtime data is lost
+```
+
+The initial accounts and courses are recreated when the server starts.
+
+Database persistence was investigated using SQLite but is not currently part of the implementation.
+
+Database persistence and redundancy are considered optional/bonus functionality for the current assignment.
+
+---
+
+# 22. Optional Features Not Currently Implemented
+
+The following are not required for the core implementation:
+
+- Persistent database
+- Database replication/redundancy
+- Database connection pooling
+- Multiple backend nodes
+- Backend load balancing
+- TLS-secured gRPC
+- Faculty account administration
+- Advanced course/faculty assignment
+
+The core distributed enrollment requirements are already implemented.
+
+---
+
+# 23. Current Completion Status
+
+## Required Features
+
+- [x] Login
+- [x] Logout
+- [x] JWT authentication
+- [x] Distributed session tracking
+- [x] View courses
+- [x] Student enrollment
+- [x] Enrollment validation
+- [x] Course slot management
+- [x] View previous grades
+- [x] Faculty grade upload
+- [x] Admin student creation
+- [x] Admin course creation
+- [x] Web-based interface
+- [x] Separate View node
+- [x] Separate backend node
+- [x] Network communication
+- [x] gRPC communication
+- [x] Concurrency protection
+- [x] Node failure behavior
+- [x] Node recovery
+
+## Optional / Bonus
+
+- [ ] Persistent database
+- [ ] Database redundancy
+- [ ] Connection pooling
+- [ ] Multiple backend nodes
+- [ ] TLS for gRPC
+- [ ] Additional advanced features
+
+---
+
+# 24. Final Architecture Summary
+
+The completed system separates the application into two networked physical nodes:
+
+```text
+                    CLIENT
+                      │
+                      │ HTTP
+                      ▼
+             ┌─────────────────┐
+             │ PC1             │
+             │ 192.168.100.4   │
+             │                 │
+             │ Web / View      │
+             │ Port 8080       │
+             └────────┬────────┘
+                      │
+                      │ gRPC
+                      │
+                      ▼
+             ┌─────────────────┐
+             │ PC2             │
+             │ 192.168.100.22  │
+             │                 │
+             │ Backend         │
+             │ Port 50051      │
+             │                 │
+             │ JWT             │
+             │ Sessions        │
+             │ Courses         │
+             │ Enrollment      │
+             │ Grades          │
+             └─────────────────┘
+```
+
+The project demonstrates the fundamental characteristics of a distributed system through **physical node separation, network communication, remote procedure calls, independent node operation, authentication, concurrency control, and node failure handling**.

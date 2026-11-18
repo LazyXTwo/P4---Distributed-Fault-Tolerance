@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 
 package enrollment;
@@ -17,6 +16,10 @@ service EnrollmentService {
     rpc AddStudent (AddStudentRequest) returns (AddStudentReply);
 
     rpc AddCourse (AddCourseRequest) returns (AddCourseReply);
+
+    rpc UploadGrade (UploadGradeRequest) returns (UploadGradeReply);
+
+    rpc GetGrades (GetGradesRequest) returns (GetGradesReply);
 }
 
 
@@ -108,4 +111,45 @@ message AddCourseRequest {
 message AddCourseReply {
     bool success = 1;
     string message = 2;
+}
+
+
+// ============================================================
+// Upload grade
+// ============================================================
+
+message UploadGradeRequest {
+    string session_token = 1;
+    string student_username = 2;
+    string course_code = 3;
+    double grade = 4;
+}
+
+
+message UploadGradeReply {
+    bool success = 1;
+    string message = 2;
+}
+
+
+// ============================================================
+// Get grades
+// ============================================================
+
+message GetGradesRequest {
+    string session_token = 1;
+}
+
+
+message Grade {
+    string course_code = 1;
+    string course_name = 2;
+    double grade = 3;
+}
+
+
+message GetGradesReply {
+    bool success = 1;
+    string message = 2;
+    repeated Grade grades = 3;
 }
