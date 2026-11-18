@@ -1,6 +1,8 @@
+
 syntax = "proto3";
 
 package enrollment;
+
 
 service EnrollmentService {
 
@@ -11,6 +13,10 @@ service EnrollmentService {
     rpc GetCourses (GetCoursesRequest) returns (GetCoursesReply);
 
     rpc Enroll (EnrollRequest) returns (EnrollReply);
+
+    rpc AddStudent (AddStudentRequest) returns (AddStudentReply);
+
+    rpc AddCourse (AddCourseRequest) returns (AddCourseReply);
 }
 
 
@@ -24,6 +30,7 @@ message LoginReply {
     bool success = 1;
     string message = 2;
     string session_token = 3;
+    string role = 4;
 }
 
 
@@ -64,6 +71,41 @@ message EnrollRequest {
 
 
 message EnrollReply {
+    bool success = 1;
+    string message = 2;
+}
+
+
+// ============================================================
+// Add student
+// ============================================================
+
+message AddStudentRequest {
+    string session_token = 1;
+    string username = 2;
+    string password = 3;
+}
+
+
+message AddStudentReply {
+    bool success = 1;
+    string message = 2;
+}
+
+
+// ============================================================
+// Add course
+// ============================================================
+
+message AddCourseRequest {
+    string session_token = 1;
+    string course_code = 2;
+    string course_name = 3;
+    int32 slots = 4;
+}
+
+
+message AddCourseReply {
     bool success = 1;
     string message = 2;
 }

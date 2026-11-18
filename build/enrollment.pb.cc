@@ -47,6 +47,14 @@ PROTOBUF_CONSTINIT ::google::protobuf::internal::ReflectionData
         {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
         // ::enrollment::EnrollReply
         {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::AddStudentRequest
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::AddStudentReply
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::AddCourseRequest
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
+        // ::enrollment::AddCourseReply
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_enrollment_2eproto, /* tracker*/ nullptr,},
 };
 }  // namespace
 #endif
@@ -518,11 +526,11 @@ constexpr LoginReply::ParseTableT_ LoginReply::InternalGenerateParseTable_(const
     {
       PROTOBUF_FIELD_OFFSET(LoginReply, _impl_._has_bits_),
       0, // no _extensions_
-      3, 24,  // max_field_number, fast_idx_mask
+      4, 24,  // max_field_number, fast_idx_mask
       offsetof(ParseTableT_, field_lookup_table),
-      4294967288,  // skipmap
+      4294967280,  // skipmap
       offsetof(ParseTableT_, field_entries),
-      3,  // num_field_entries
+      4,  // num_field_entries
       0,  // num_aux_entries
       offsetof(ParseTableT_, field_names),  // no aux_entries
       class_data,
@@ -532,10 +540,13 @@ constexpr LoginReply::ParseTableT_ LoginReply::InternalGenerateParseTable_(const
       ::_pbi::TcParser::GetTable<::enrollment::LoginReply>(),  // to_prefetch
       #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
     }, {{
-      {::_pbi::TcParser::MiniParse, {}},
+      // string role = 4;
+      {::_pbi::TcParser::FastUS1,
+       {34, 2, 0,
+        PROTOBUF_FIELD_OFFSET(LoginReply, _impl_.role_)}},
       // bool success = 1;
-      {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(LoginReply, _impl_.success_), 2>(),
-       {8, 2, 0,
+      {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(LoginReply, _impl_.success_), 3>(),
+       {8, 3, 0,
         PROTOBUF_FIELD_OFFSET(LoginReply, _impl_.success_)}},
       // string message = 2;
       {::_pbi::TcParser::FastUS1,
@@ -549,18 +560,21 @@ constexpr LoginReply::ParseTableT_ LoginReply::InternalGenerateParseTable_(const
       65535, 65535
     }}, {{
       // bool success = 1;
-      {PROTOBUF_FIELD_OFFSET(LoginReply, _impl_.success_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+      {PROTOBUF_FIELD_OFFSET(LoginReply, _impl_.success_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
       // string message = 2;
       {PROTOBUF_FIELD_OFFSET(LoginReply, _impl_.message_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
       // string session_token = 3;
       {PROTOBUF_FIELD_OFFSET(LoginReply, _impl_.session_token_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string role = 4;
+      {PROTOBUF_FIELD_OFFSET(LoginReply, _impl_.role_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
     }},
     // no aux_entries
     {{
-      "\25\0\7\15\0\0\0\0"
+      "\25\0\7\15\4\0\0\0"
       "enrollment.LoginReply"
       "message"
       "session_token"
+      "role"
     }},
   };
 }
@@ -574,6 +588,9 @@ inline constexpr LoginReply::Impl_::Impl_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         session_token_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        role_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         success_{false} {}
@@ -1289,6 +1306,652 @@ const ::_pbi::ClassData* Course_get_class_data() {
 }
 }  // namespace
 #endif  // PROTOBUF_CUSTOM_VTABLE
+class AddStudentRequest::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<AddStudentRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_._has_bits_);
+};
+
+constexpr AddStudentRequest::ParseTableT_ AddStudentRequest::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_._has_bits_),
+      0, // no _extensions_
+      3, 24,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967288,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      3,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::AddStudentRequest>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      {::_pbi::TcParser::MiniParse, {}},
+      // string session_token = 1;
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_.session_token_)}},
+      // string username = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 1, 0,
+        PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_.username_)}},
+      // string password = 3;
+      {::_pbi::TcParser::FastUS1,
+       {26, 2, 0,
+        PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_.password_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string session_token = 1;
+      {PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_.session_token_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string username = 2;
+      {PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_.username_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string password = 3;
+      {PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_.password_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    }},
+    // no aux_entries
+    {{
+      "\34\15\10\10\0\0\0\0"
+      "enrollment.AddStudentRequest"
+      "session_token"
+      "username"
+      "password"
+    }},
+  };
+}
+
+
+inline constexpr AddStudentRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        session_token_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        username_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        password_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()) {}
+
+template <typename>
+constexpr AddStudentRequest::AddStudentRequest(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL AddStudentRequest::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) AddStudentRequest(arena);
+}
+constexpr auto AddStudentRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(AddStudentRequest), alignof(AddStudentRequest));
+}
+constexpr auto AddStudentRequest::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &AddStudentRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<AddStudentRequest>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &AddStudentRequest::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<AddStudentRequest>(), &AddStudentRequest::ByteSizeLong,
+              &AddStudentRequest::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(AddStudentRequest, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[9],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct AddStudentRequestGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr AddStudentRequestGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 AddStudentRequest_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(AddStudentRequest::InternalGenerateClassData_(
+            _default, &AddStudentRequest_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<AddStudentRequest>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~AddStudentRequestGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) AddStudentRequest _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<AddStudentRequest>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(AddStudentRequestGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST AddStudentRequestGlobalsTypeInternal AddStudentRequest_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* AddStudentRequest_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return AddStudentRequest_globals_.GetClassData();
+#else
+  return AddStudentRequest_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class AddStudentReply::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<AddStudentReply>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(AddStudentReply, _impl_._has_bits_);
+};
+
+constexpr AddStudentReply::ParseTableT_ AddStudentReply::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(AddStudentReply, _impl_._has_bits_),
+      0, // no _extensions_
+      2, 8,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967292,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      2,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::AddStudentReply>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // string message = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 0, 0,
+        PROTOBUF_FIELD_OFFSET(AddStudentReply, _impl_.message_)}},
+      // bool success = 1;
+      {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(AddStudentReply, _impl_.success_), 1>(),
+       {8, 1, 0,
+        PROTOBUF_FIELD_OFFSET(AddStudentReply, _impl_.success_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // bool success = 1;
+      {PROTOBUF_FIELD_OFFSET(AddStudentReply, _impl_.success_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+      // string message = 2;
+      {PROTOBUF_FIELD_OFFSET(AddStudentReply, _impl_.message_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    }},
+    // no aux_entries
+    {{
+      "\32\0\7\0\0\0\0\0"
+      "enrollment.AddStudentReply"
+      "message"
+    }},
+  };
+}
+
+
+inline constexpr AddStudentReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        message_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        success_{false} {}
+
+template <typename>
+constexpr AddStudentReply::AddStudentReply(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL AddStudentReply::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) AddStudentReply(arena);
+}
+constexpr auto AddStudentReply::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(AddStudentReply), alignof(AddStudentReply));
+}
+constexpr auto AddStudentReply::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &AddStudentReply::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<AddStudentReply>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &AddStudentReply::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<AddStudentReply>(), &AddStudentReply::ByteSizeLong,
+              &AddStudentReply::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(AddStudentReply, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[10],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct AddStudentReplyGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr AddStudentReplyGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 AddStudentReply_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(AddStudentReply::InternalGenerateClassData_(
+            _default, &AddStudentReply_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<AddStudentReply>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~AddStudentReplyGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) AddStudentReply _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<AddStudentReply>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(AddStudentReplyGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST AddStudentReplyGlobalsTypeInternal AddStudentReply_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* AddStudentReply_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return AddStudentReply_globals_.GetClassData();
+#else
+  return AddStudentReply_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class AddCourseRequest::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<AddCourseRequest>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_._has_bits_);
+};
+
+constexpr AddCourseRequest::ParseTableT_ AddCourseRequest::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_._has_bits_),
+      0, // no _extensions_
+      4, 24,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967280,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      4,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::AddCourseRequest>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // int32 slots = 4;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(AddCourseRequest, _impl_.slots_), 3>(),
+       {32, 3, 0,
+        PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.slots_)}},
+      // string session_token = 1;
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.session_token_)}},
+      // string course_code = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 1, 0,
+        PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.course_code_)}},
+      // string course_name = 3;
+      {::_pbi::TcParser::FastUS1,
+       {26, 2, 0,
+        PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.course_name_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string session_token = 1;
+      {PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.session_token_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string course_code = 2;
+      {PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.course_code_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string course_name = 3;
+      {PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.course_name_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // int32 slots = 4;
+      {PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_.slots_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+    }},
+    // no aux_entries
+    {{
+      "\33\15\13\13\0\0\0\0"
+      "enrollment.AddCourseRequest"
+      "session_token"
+      "course_code"
+      "course_name"
+    }},
+  };
+}
+
+
+inline constexpr AddCourseRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        session_token_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        course_code_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        course_name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        slots_{0} {}
+
+template <typename>
+constexpr AddCourseRequest::AddCourseRequest(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL AddCourseRequest::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) AddCourseRequest(arena);
+}
+constexpr auto AddCourseRequest::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(AddCourseRequest), alignof(AddCourseRequest));
+}
+constexpr auto AddCourseRequest::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &AddCourseRequest::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<AddCourseRequest>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &AddCourseRequest::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<AddCourseRequest>(), &AddCourseRequest::ByteSizeLong,
+              &AddCourseRequest::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(AddCourseRequest, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[11],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct AddCourseRequestGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr AddCourseRequestGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 AddCourseRequest_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(AddCourseRequest::InternalGenerateClassData_(
+            _default, &AddCourseRequest_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<AddCourseRequest>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~AddCourseRequestGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) AddCourseRequest _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<AddCourseRequest>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(AddCourseRequestGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST AddCourseRequestGlobalsTypeInternal AddCourseRequest_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* AddCourseRequest_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return AddCourseRequest_globals_.GetClassData();
+#else
+  return AddCourseRequest_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class AddCourseReply::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<AddCourseReply>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(AddCourseReply, _impl_._has_bits_);
+};
+
+constexpr AddCourseReply::ParseTableT_ AddCourseReply::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(AddCourseReply, _impl_._has_bits_),
+      0, // no _extensions_
+      2, 8,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967292,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      2,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::GenericFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::enrollment::AddCourseReply>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // string message = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 0, 0,
+        PROTOBUF_FIELD_OFFSET(AddCourseReply, _impl_.message_)}},
+      // bool success = 1;
+      {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(AddCourseReply, _impl_.success_), 1>(),
+       {8, 1, 0,
+        PROTOBUF_FIELD_OFFSET(AddCourseReply, _impl_.success_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // bool success = 1;
+      {PROTOBUF_FIELD_OFFSET(AddCourseReply, _impl_.success_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+      // string message = 2;
+      {PROTOBUF_FIELD_OFFSET(AddCourseReply, _impl_.message_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    }},
+    // no aux_entries
+    {{
+      "\31\0\7\0\0\0\0\0"
+      "enrollment.AddCourseReply"
+      "message"
+    }},
+  };
+}
+
+
+inline constexpr AddCourseReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        message_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        success_{false} {}
+
+template <typename>
+constexpr AddCourseReply::AddCourseReply(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : ::google::protobuf::Message(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL AddCourseReply::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) AddCourseReply(arena);
+}
+constexpr auto AddCourseReply::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(AddCourseReply), alignof(AddCourseReply));
+}
+constexpr auto AddCourseReply::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &AddCourseReply::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<AddCourseReply>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &AddCourseReply::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<AddCourseReply>(), &AddCourseReply::ByteSizeLong,
+              &AddCourseReply::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(AddCourseReply, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[12],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_enrollment_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct AddCourseReplyGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr AddCourseReplyGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 AddCourseReply_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(AddCourseReply::InternalGenerateClassData_(
+            _default, &AddCourseReply_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<AddCourseReply>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~AddCourseReplyGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) AddCourseReply _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<AddCourseReply>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(AddCourseReplyGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST AddCourseReplyGlobalsTypeInternal AddCourseReply_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* AddCourseReply_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return AddCourseReply_globals_.GetClassData();
+#else
+  return AddCourseReply_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
 class GetCoursesReply::_Internal {
  public:
   using HasBits = decltype(::std::declval<GetCoursesReply>()._impl_._has_bits_);
@@ -1477,13 +2140,15 @@ const ::uint32_t
         1,
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::enrollment::LoginReply, _impl_._has_bits_),
-        6, // hasbit index offset
+        7, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::enrollment::LoginReply, _impl_.success_),
         PROTOBUF_FIELD_OFFSET(::enrollment::LoginReply, _impl_.message_),
         PROTOBUF_FIELD_OFFSET(::enrollment::LoginReply, _impl_.session_token_),
-        2,
+        PROTOBUF_FIELD_OFFSET(::enrollment::LoginReply, _impl_.role_),
+        3,
         0,
         1,
+        2,
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::enrollment::LogoutRequest, _impl_._has_bits_),
         4, // hasbit index offset
@@ -1533,19 +2198,57 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::enrollment::EnrollReply, _impl_.message_),
         1,
         0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddStudentRequest, _impl_._has_bits_),
+        6, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddStudentRequest, _impl_.session_token_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddStudentRequest, _impl_.username_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddStudentRequest, _impl_.password_),
+        0,
+        1,
+        2,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddStudentReply, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddStudentReply, _impl_.success_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddStudentReply, _impl_.message_),
+        1,
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseRequest, _impl_._has_bits_),
+        7, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseRequest, _impl_.session_token_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseRequest, _impl_.course_code_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseRequest, _impl_.course_name_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseRequest, _impl_.slots_),
+        0,
+        1,
+        2,
+        3,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseReply, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseReply, _impl_.success_),
+        PROTOBUF_FIELD_OFFSET(::enrollment::AddCourseReply, _impl_.message_),
+        1,
+        0,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, sizeof(::enrollment::LoginRequest)},
         {7, sizeof(::enrollment::LoginReply)},
-        {16, sizeof(::enrollment::LogoutRequest)},
-        {21, sizeof(::enrollment::LogoutReply)},
-        {28, sizeof(::enrollment::GetCoursesRequest)},
-        {33, sizeof(::enrollment::Course)},
-        {42, sizeof(::enrollment::GetCoursesReply)},
-        {51, sizeof(::enrollment::EnrollRequest)},
-        {58, sizeof(::enrollment::EnrollReply)},
+        {18, sizeof(::enrollment::LogoutRequest)},
+        {23, sizeof(::enrollment::LogoutReply)},
+        {30, sizeof(::enrollment::GetCoursesRequest)},
+        {35, sizeof(::enrollment::Course)},
+        {44, sizeof(::enrollment::GetCoursesReply)},
+        {53, sizeof(::enrollment::EnrollRequest)},
+        {60, sizeof(::enrollment::EnrollReply)},
+        {67, sizeof(::enrollment::AddStudentRequest)},
+        {76, sizeof(::enrollment::AddStudentReply)},
+        {83, sizeof(::enrollment::AddCourseRequest)},
+        {94, sizeof(::enrollment::AddCourseReply)},
 };
 static const ::_pbi::MessageGlobalsBase* PROTOBUF_NONNULL const
     file_message_globals[] = {
@@ -1558,42 +2261,58 @@ static const ::_pbi::MessageGlobalsBase* PROTOBUF_NONNULL const
         &::enrollment::GetCoursesReply_globals_,
         &::enrollment::EnrollRequest_globals_,
         &::enrollment::EnrollReply_globals_,
+        &::enrollment::AddStudentRequest_globals_,
+        &::enrollment::AddStudentReply_globals_,
+        &::enrollment::AddCourseRequest_globals_,
+        &::enrollment::AddCourseReply_globals_,
 };
 const char descriptor_table_protodef_enrollment_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\020enrollment.proto\022\nenrollment\"2\n\014LoginR"
     "equest\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001"
-    "(\t\"E\n\nLoginReply\022\017\n\007success\030\001 \001(\010\022\017\n\007mes"
-    "sage\030\002 \001(\t\022\025\n\rsession_token\030\003 \001(\t\"&\n\rLog"
-    "outRequest\022\025\n\rsession_token\030\001 \001(\t\"/\n\013Log"
-    "outReply\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001"
-    "(\t\"*\n\021GetCoursesRequest\022\025\n\rsession_token"
-    "\030\001 \001(\t\"A\n\006Course\022\023\n\013course_code\030\001 \001(\t\022\023\n"
-    "\013course_name\030\002 \001(\t\022\r\n\005slots\030\003 \001(\005\"X\n\017Get"
-    "CoursesReply\022\017\n\007success\030\001 \001(\010\022\017\n\007message"
-    "\030\002 \001(\t\022#\n\007courses\030\003 \003(\0132\022.enrollment.Cou"
-    "rse\";\n\rEnrollRequest\022\025\n\rsession_token\030\001 "
-    "\001(\t\022\023\n\013course_code\030\002 \001(\t\"/\n\013EnrollReply\022"
-    "\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t2\224\002\n\021En"
-    "rollmentService\0229\n\005Login\022\030.enrollment.Lo"
-    "ginRequest\032\026.enrollment.LoginReply\022<\n\006Lo"
-    "gout\022\031.enrollment.LogoutRequest\032\027.enroll"
-    "ment.LogoutReply\022H\n\nGetCourses\022\035.enrollm"
-    "ent.GetCoursesRequest\032\033.enrollment.GetCo"
-    "ursesReply\022<\n\006Enroll\022\031.enrollment.Enroll"
-    "Request\032\027.enrollment.EnrollReplyb\006proto3"
+    "(\t\"S\n\nLoginReply\022\017\n\007success\030\001 \001(\010\022\017\n\007mes"
+    "sage\030\002 \001(\t\022\025\n\rsession_token\030\003 \001(\t\022\014\n\004rol"
+    "e\030\004 \001(\t\"&\n\rLogoutRequest\022\025\n\rsession_toke"
+    "n\030\001 \001(\t\"/\n\013LogoutReply\022\017\n\007success\030\001 \001(\010\022"
+    "\017\n\007message\030\002 \001(\t\"*\n\021GetCoursesRequest\022\025\n"
+    "\rsession_token\030\001 \001(\t\"A\n\006Course\022\023\n\013course"
+    "_code\030\001 \001(\t\022\023\n\013course_name\030\002 \001(\t\022\r\n\005slot"
+    "s\030\003 \001(\005\"X\n\017GetCoursesReply\022\017\n\007success\030\001 "
+    "\001(\010\022\017\n\007message\030\002 \001(\t\022#\n\007courses\030\003 \003(\0132\022."
+    "enrollment.Course\";\n\rEnrollRequest\022\025\n\rse"
+    "ssion_token\030\001 \001(\t\022\023\n\013course_code\030\002 \001(\t\"/"
+    "\n\013EnrollReply\022\017\n\007success\030\001 \001(\010\022\017\n\007messag"
+    "e\030\002 \001(\t\"N\n\021AddStudentRequest\022\025\n\rsession_"
+    "token\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022\020\n\010passwor"
+    "d\030\003 \001(\t\"3\n\017AddStudentReply\022\017\n\007success\030\001 "
+    "\001(\010\022\017\n\007message\030\002 \001(\t\"b\n\020AddCourseRequest"
+    "\022\025\n\rsession_token\030\001 \001(\t\022\023\n\013course_code\030\002"
+    " \001(\t\022\023\n\013course_name\030\003 \001(\t\022\r\n\005slots\030\004 \001(\005"
+    "\"2\n\016AddCourseReply\022\017\n\007success\030\001 \001(\010\022\017\n\007m"
+    "essage\030\002 \001(\t2\245\003\n\021EnrollmentService\0229\n\005Lo"
+    "gin\022\030.enrollment.LoginRequest\032\026.enrollme"
+    "nt.LoginReply\022<\n\006Logout\022\031.enrollment.Log"
+    "outRequest\032\027.enrollment.LogoutReply\022H\n\nG"
+    "etCourses\022\035.enrollment.GetCoursesRequest"
+    "\032\033.enrollment.GetCoursesReply\022<\n\006Enroll\022"
+    "\031.enrollment.EnrollRequest\032\027.enrollment."
+    "EnrollReply\022H\n\nAddStudent\022\035.enrollment.A"
+    "ddStudentRequest\032\033.enrollment.AddStudent"
+    "Reply\022E\n\tAddCourse\022\034.enrollment.AddCours"
+    "eRequest\032\032.enrollment.AddCourseReplyb\006pr"
+    "oto3"
 };
 static ::absl::once_flag descriptor_table_enrollment_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_enrollment_2eproto = {
     false,
     false,
-    840,
+    1284,
     descriptor_table_protodef_enrollment_2eproto,
     "enrollment.proto",
     &descriptor_table_enrollment_2eproto_once,
     nullptr,
     0,
-    9,
+    13,
     schemas,
     file_message_globals,
     TableStruct_enrollment_2eproto::offsets,
@@ -1871,7 +2590,8 @@ PROTOBUF_NDEBUG_INLINE LoginReply::Impl_::Impl_(
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         message_(arena, from.message_),
-        session_token_(arena, from.session_token_) {}
+        session_token_(arena, from.session_token_),
+        role_(arena, from.role_) {}
 
 LoginReply::LoginReply(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
@@ -1896,7 +2616,8 @@ PROTOBUF_NDEBUG_INLINE LoginReply::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
         message_(arena),
-        session_token_(arena) {}
+        session_token_(arena),
+        role_(arena) {}
 
 inline void LoginReply::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
@@ -1915,6 +2636,7 @@ inline void LoginReply::SharedDtor(MessageLite& self) {
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.message_.Destroy();
   this_._impl_.session_token_.Destroy();
+  this_._impl_.role_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -1952,12 +2674,15 @@ PROTOBUF_NOINLINE void LoginReply::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
       _impl_.message_.ClearNonDefaultToEmpty();
     }
     if (CheckHasBit(cached_has_bits, 0x00000002U)) {
       _impl_.session_token_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      _impl_.role_.ClearNonDefaultToEmpty();
     }
   }
   _impl_.success_ = false;
@@ -1985,7 +2710,7 @@ PROTOBUF_NOINLINE void LoginReply::Clear() {
 
   cached_has_bits = this_._impl_._has_bits_[0];
   // bool success = 1;
-  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
     if (this_._internal_success() != 0) {
       target = stream->EnsureSpace(target);
       target = ::_pbi::WireFormatLite::WriteBoolToArray(
@@ -2010,6 +2735,16 @@ PROTOBUF_NOINLINE void LoginReply::Clear() {
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
           _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.LoginReply.session_token");
       target = stream->WriteStringMaybeAliased(3, _s, target);
+    }
+  }
+
+  // string role = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (!this_._internal_role().empty()) {
+      const ::std::string& _s = this_._internal_role();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.LoginReply.role");
+      target = stream->WriteStringMaybeAliased(4, _s, target);
     }
   }
 
@@ -2038,7 +2773,7 @@ PROTOBUF_NOINLINE void LoginReply::Clear() {
 
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
   cached_has_bits = this_._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
     // string message = 2;
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
       if (!this_._internal_message().empty()) {
@@ -2053,8 +2788,15 @@ PROTOBUF_NOINLINE void LoginReply::Clear() {
                                         this_._internal_session_token());
       }
     }
-    // bool success = 1;
+    // string role = 4;
     if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!this_._internal_role().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_role());
+      }
+    }
+    // bool success = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
       if (this_._internal_success() != 0) {
         total_size += 2;
       }
@@ -2077,7 +2819,7 @@ void LoginReply::MergeImpl(::google::protobuf::MessageLite& to_msg,
   (void)cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
       if (!from._internal_message().empty()) {
         _this->_internal_set_message(from._internal_message());
@@ -2097,6 +2839,15 @@ void LoginReply::MergeImpl(::google::protobuf::MessageLite& to_msg,
       }
     }
     if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!from._internal_role().empty()) {
+        _this->_internal_set_role(from._internal_role());
+      } else {
+        if (_this->_impl_.role_.IsDefault()) {
+          _this->_internal_set_role("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
       if (from._internal_success() != 0) {
         _this->_impl_.success_ = from._impl_.success_;
       }
@@ -2123,6 +2874,7 @@ void LoginReply::InternalSwap(LoginReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL oth
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.session_token_, &other->_impl_.session_token_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.role_, &other->_impl_.role_, arena);
   swap(_impl_.success_, other->_impl_.success_);
 }
 
@@ -3851,6 +4603,1083 @@ void EnrollReply::InternalSwap(EnrollReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL o
 }
 
 ::google::protobuf::Metadata EnrollReply::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+AddStudentRequest::AddStudentRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddStudentRequest_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.AddStudentRequest)
+}
+PROTOBUF_NDEBUG_INLINE AddStudentRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::AddStudentRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        session_token_(arena, from.session_token_),
+        username_(arena, from.username_),
+        password_(arena, from.password_) {}
+
+AddStudentRequest::AddStudentRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const AddStudentRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddStudentRequest_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  AddStudentRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.AddStudentRequest)
+}
+PROTOBUF_NDEBUG_INLINE AddStudentRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        session_token_(arena),
+        username_(arena),
+        password_(arena) {}
+
+inline void AddStudentRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+AddStudentRequest::~AddStudentRequest() {
+  // @@protoc_insertion_point(destructor:enrollment.AddStudentRequest)
+  SharedDtor(*this);
+}
+inline void AddStudentRequest::SharedDtor(MessageLite& self) {
+  AddStudentRequest& this_ = static_cast<AddStudentRequest&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.session_token_.Destroy();
+  this_._impl_.username_.Destroy();
+  this_._impl_.password_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull AddStudentRequest_class_data_ =
+        AddStudentRequest::InternalGenerateClassData_(AddStudentRequest_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddStudentRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddStudentRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(AddStudentRequest_class_data_.tc_table);
+  return AddStudentRequest_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddStudentRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddStudentRequest_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&AddStudentRequest_globals_));
+  return AddStudentRequest_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const AddStudentRequest::ParseTableT_
+    AddStudentRequest::_table_ =
+        AddStudentRequest::InternalGenerateParseTable_(AddStudentRequest_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void AddStudentRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.AddStudentRequest)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.session_token_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _impl_.username_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      _impl_.password_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL AddStudentRequest::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const AddStudentRequest& this_ = static_cast<const AddStudentRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL AddStudentRequest::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const AddStudentRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.AddStudentRequest)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // string session_token = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_session_token().empty()) {
+      const ::std::string& _s = this_._internal_session_token();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddStudentRequest.session_token");
+      target = stream->WriteStringMaybeAliased(1, _s, target);
+    }
+  }
+
+  // string username = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_username().empty()) {
+      const ::std::string& _s = this_._internal_username();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddStudentRequest.username");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // string password = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (!this_._internal_password().empty()) {
+      const ::std::string& _s = this_._internal_password();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddStudentRequest.password");
+      target = stream->WriteStringMaybeAliased(3, _s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.AddStudentRequest)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t AddStudentRequest::ByteSizeLong(const MessageLite& base) {
+  const AddStudentRequest& this_ = static_cast<const AddStudentRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t AddStudentRequest::ByteSizeLong() const {
+  const AddStudentRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.AddStudentRequest)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    // string session_token = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_session_token().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_session_token());
+      }
+    }
+    // string username = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_username().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_username());
+      }
+    }
+    // string password = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!this_._internal_password().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_password());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void AddStudentRequest::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<AddStudentRequest*>(&to_msg);
+  auto& from = static_cast<const AddStudentRequest&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.AddStudentRequest)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_session_token().empty()) {
+        _this->_internal_set_session_token(from._internal_session_token());
+      } else {
+        if (_this->_impl_.session_token_.IsDefault()) {
+          _this->_internal_set_session_token("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_username().empty()) {
+        _this->_internal_set_username(from._internal_username());
+      } else {
+        if (_this->_impl_.username_.IsDefault()) {
+          _this->_internal_set_username("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!from._internal_password().empty()) {
+        _this->_internal_set_password(from._internal_password());
+      } else {
+        if (_this->_impl_.password_.IsDefault()) {
+          _this->_internal_set_password("");
+        }
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void AddStudentRequest::CopyFrom(const AddStudentRequest& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.AddStudentRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void AddStudentRequest::InternalSwap(AddStudentRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.session_token_, &other->_impl_.session_token_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.username_, &other->_impl_.username_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.password_, &other->_impl_.password_, arena);
+}
+
+::google::protobuf::Metadata AddStudentRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+AddStudentReply::AddStudentReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddStudentReply_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.AddStudentReply)
+}
+PROTOBUF_NDEBUG_INLINE AddStudentReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::AddStudentReply& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        message_(arena, from.message_) {}
+
+AddStudentReply::AddStudentReply(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const AddStudentReply& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddStudentReply_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  AddStudentReply* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.success_ = from._impl_.success_;
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.AddStudentReply)
+}
+PROTOBUF_NDEBUG_INLINE AddStudentReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        message_(arena) {}
+
+inline void AddStudentReply::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.success_ = {};
+}
+AddStudentReply::~AddStudentReply() {
+  // @@protoc_insertion_point(destructor:enrollment.AddStudentReply)
+  SharedDtor(*this);
+}
+inline void AddStudentReply::SharedDtor(MessageLite& self) {
+  AddStudentReply& this_ = static_cast<AddStudentReply&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.message_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull AddStudentReply_class_data_ =
+        AddStudentReply::InternalGenerateClassData_(AddStudentReply_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddStudentReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddStudentReply_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(AddStudentReply_class_data_.tc_table);
+  return AddStudentReply_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddStudentReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddStudentReply_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&AddStudentReply_globals_));
+  return AddStudentReply_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const AddStudentReply::ParseTableT_
+    AddStudentReply::_table_ =
+        AddStudentReply::InternalGenerateParseTable_(AddStudentReply_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void AddStudentReply::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.AddStudentReply)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    _impl_.message_.ClearNonDefaultToEmpty();
+  }
+  _impl_.success_ = false;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL AddStudentReply::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const AddStudentReply& this_ = static_cast<const AddStudentReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL AddStudentReply::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const AddStudentReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.AddStudentReply)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // bool success = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (this_._internal_success() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          1, this_._internal_success(), target);
+    }
+  }
+
+  // string message = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_message().empty()) {
+      const ::std::string& _s = this_._internal_message();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddStudentReply.message");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.AddStudentReply)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t AddStudentReply::ByteSizeLong(const MessageLite& base) {
+  const AddStudentReply& this_ = static_cast<const AddStudentReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t AddStudentReply::ByteSizeLong() const {
+  const AddStudentReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.AddStudentReply)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    // string message = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_message().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_message());
+      }
+    }
+    // bool success = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (this_._internal_success() != 0) {
+        total_size += 2;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void AddStudentReply::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<AddStudentReply*>(&to_msg);
+  auto& from = static_cast<const AddStudentReply&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.AddStudentReply)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_message().empty()) {
+        _this->_internal_set_message(from._internal_message());
+      } else {
+        if (_this->_impl_.message_.IsDefault()) {
+          _this->_internal_set_message("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (from._internal_success() != 0) {
+        _this->_impl_.success_ = from._impl_.success_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void AddStudentReply::CopyFrom(const AddStudentReply& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.AddStudentReply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void AddStudentReply::InternalSwap(AddStudentReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::google::protobuf::Metadata AddStudentReply::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+AddCourseRequest::AddCourseRequest(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddCourseRequest_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.AddCourseRequest)
+}
+PROTOBUF_NDEBUG_INLINE AddCourseRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::AddCourseRequest& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        session_token_(arena, from.session_token_),
+        course_code_(arena, from.course_code_),
+        course_name_(arena, from.course_name_) {}
+
+AddCourseRequest::AddCourseRequest(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const AddCourseRequest& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddCourseRequest_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  AddCourseRequest* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.slots_ = from._impl_.slots_;
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.AddCourseRequest)
+}
+PROTOBUF_NDEBUG_INLINE AddCourseRequest::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        session_token_(arena),
+        course_code_(arena),
+        course_name_(arena) {}
+
+inline void AddCourseRequest::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.slots_ = {};
+}
+AddCourseRequest::~AddCourseRequest() {
+  // @@protoc_insertion_point(destructor:enrollment.AddCourseRequest)
+  SharedDtor(*this);
+}
+inline void AddCourseRequest::SharedDtor(MessageLite& self) {
+  AddCourseRequest& this_ = static_cast<AddCourseRequest&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.session_token_.Destroy();
+  this_._impl_.course_code_.Destroy();
+  this_._impl_.course_name_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull AddCourseRequest_class_data_ =
+        AddCourseRequest::InternalGenerateClassData_(AddCourseRequest_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddCourseRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddCourseRequest_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(AddCourseRequest_class_data_.tc_table);
+  return AddCourseRequest_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddCourseRequest::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddCourseRequest_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&AddCourseRequest_globals_));
+  return AddCourseRequest_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const AddCourseRequest::ParseTableT_
+    AddCourseRequest::_table_ =
+        AddCourseRequest::InternalGenerateParseTable_(AddCourseRequest_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void AddCourseRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.AddCourseRequest)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.session_token_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _impl_.course_code_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      _impl_.course_name_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_.slots_ = 0;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL AddCourseRequest::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const AddCourseRequest& this_ = static_cast<const AddCourseRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL AddCourseRequest::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const AddCourseRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.AddCourseRequest)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // string session_token = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_session_token().empty()) {
+      const ::std::string& _s = this_._internal_session_token();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddCourseRequest.session_token");
+      target = stream->WriteStringMaybeAliased(1, _s, target);
+    }
+  }
+
+  // string course_code = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_course_code().empty()) {
+      const ::std::string& _s = this_._internal_course_code();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddCourseRequest.course_code");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // string course_name = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (!this_._internal_course_name().empty()) {
+      const ::std::string& _s = this_._internal_course_name();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddCourseRequest.course_name");
+      target = stream->WriteStringMaybeAliased(3, _s, target);
+    }
+  }
+
+  // int32 slots = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (this_._internal_slots() != 0) {
+      target =
+          ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<4>(
+              stream, this_._internal_slots(), target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.AddCourseRequest)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t AddCourseRequest::ByteSizeLong(const MessageLite& base) {
+  const AddCourseRequest& this_ = static_cast<const AddCourseRequest&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t AddCourseRequest::ByteSizeLong() const {
+  const AddCourseRequest& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.AddCourseRequest)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+    // string session_token = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_session_token().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_session_token());
+      }
+    }
+    // string course_code = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_course_code().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_course_code());
+      }
+    }
+    // string course_name = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!this_._internal_course_name().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_course_name());
+      }
+    }
+    // int32 slots = 4;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (this_._internal_slots() != 0) {
+        total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+            this_._internal_slots());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void AddCourseRequest::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<AddCourseRequest*>(&to_msg);
+  auto& from = static_cast<const AddCourseRequest&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.AddCourseRequest)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_session_token().empty()) {
+        _this->_internal_set_session_token(from._internal_session_token());
+      } else {
+        if (_this->_impl_.session_token_.IsDefault()) {
+          _this->_internal_set_session_token("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_course_code().empty()) {
+        _this->_internal_set_course_code(from._internal_course_code());
+      } else {
+        if (_this->_impl_.course_code_.IsDefault()) {
+          _this->_internal_set_course_code("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!from._internal_course_name().empty()) {
+        _this->_internal_set_course_name(from._internal_course_name());
+      } else {
+        if (_this->_impl_.course_name_.IsDefault()) {
+          _this->_internal_set_course_name("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (from._internal_slots() != 0) {
+        _this->_impl_.slots_ = from._impl_.slots_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void AddCourseRequest::CopyFrom(const AddCourseRequest& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.AddCourseRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void AddCourseRequest::InternalSwap(AddCourseRequest* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.session_token_, &other->_impl_.session_token_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.course_code_, &other->_impl_.course_code_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.course_name_, &other->_impl_.course_name_, arena);
+  swap(_impl_.slots_, other->_impl_.slots_);
+}
+
+::google::protobuf::Metadata AddCourseRequest::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+AddCourseReply::AddCourseReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddCourseReply_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:enrollment.AddCourseReply)
+}
+PROTOBUF_NDEBUG_INLINE AddCourseReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::enrollment::AddCourseReply& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        message_(arena, from.message_) {}
+
+AddCourseReply::AddCourseReply(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const AddCourseReply& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, AddCourseReply_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  AddCourseReply* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.success_ = from._impl_.success_;
+
+  // @@protoc_insertion_point(copy_constructor:enrollment.AddCourseReply)
+}
+PROTOBUF_NDEBUG_INLINE AddCourseReply::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        message_(arena) {}
+
+inline void AddCourseReply::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.success_ = {};
+}
+AddCourseReply::~AddCourseReply() {
+  // @@protoc_insertion_point(destructor:enrollment.AddCourseReply)
+  SharedDtor(*this);
+}
+inline void AddCourseReply::SharedDtor(MessageLite& self) {
+  AddCourseReply& this_ = static_cast<AddCourseReply&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.message_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull AddCourseReply_class_data_ =
+        AddCourseReply::InternalGenerateClassData_(AddCourseReply_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddCourseReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddCourseReply_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(AddCourseReply_class_data_.tc_table);
+  return AddCourseReply_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+AddCourseReply::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&AddCourseReply_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&AddCourseReply_globals_));
+  return AddCourseReply_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const AddCourseReply::ParseTableT_
+    AddCourseReply::_table_ =
+        AddCourseReply::InternalGenerateParseTable_(AddCourseReply_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void AddCourseReply::Clear() {
+// @@protoc_insertion_point(message_clear_start:enrollment.AddCourseReply)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    _impl_.message_.ClearNonDefaultToEmpty();
+  }
+  _impl_.success_ = false;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL AddCourseReply::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const AddCourseReply& this_ = static_cast<const AddCourseReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL AddCourseReply::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const AddCourseReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:enrollment.AddCourseReply)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // bool success = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (this_._internal_success() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          1, this_._internal_success(), target);
+    }
+  }
+
+  // string message = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_message().empty()) {
+      const ::std::string& _s = this_._internal_message();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "enrollment.AddCourseReply.message");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:enrollment.AddCourseReply)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t AddCourseReply::ByteSizeLong(const MessageLite& base) {
+  const AddCourseReply& this_ = static_cast<const AddCourseReply&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t AddCourseReply::ByteSizeLong() const {
+  const AddCourseReply& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:enrollment.AddCourseReply)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    // string message = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_message().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_message());
+      }
+    }
+    // bool success = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (this_._internal_success() != 0) {
+        total_size += 2;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void AddCourseReply::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<AddCourseReply*>(&to_msg);
+  auto& from = static_cast<const AddCourseReply&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:enrollment.AddCourseReply)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_message().empty()) {
+        _this->_internal_set_message(from._internal_message());
+      } else {
+        if (_this->_impl_.message_.IsDefault()) {
+          _this->_internal_set_message("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (from._internal_success() != 0) {
+        _this->_impl_.success_ = from._impl_.success_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void AddCourseReply::CopyFrom(const AddCourseReply& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:enrollment.AddCourseReply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void AddCourseReply::InternalSwap(AddCourseReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::google::protobuf::Metadata AddCourseReply::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

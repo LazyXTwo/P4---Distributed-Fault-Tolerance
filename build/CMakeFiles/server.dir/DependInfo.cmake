@@ -8,8 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "D:/School/STDISCIM/GRPC Test/build/enrollment.grpc.pb.cc" "CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj" "gcc" "CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj.d"
-  "D:/School/STDISCIM/GRPC Test/build/enrollment.pb.cc" "CMakeFiles/server.dir/enrollment.pb.cc.obj" "gcc" "CMakeFiles/server.dir/enrollment.pb.cc.obj.d"
   "D:/School/STDISCIM/GRPC Test/server.cpp" "CMakeFiles/server.dir/server.cpp.obj" "gcc" "CMakeFiles/server.dir/server.cpp.obj.d"
   )
 

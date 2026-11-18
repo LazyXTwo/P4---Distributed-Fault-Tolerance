@@ -9,8 +9,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/School/STDISCIM/GRPC Test/client.cpp" "CMakeFiles/client.dir/client.cpp.obj" "gcc" "CMakeFiles/client.dir/client.cpp.obj.d"
-  "D:/School/STDISCIM/GRPC Test/build/enrollment.grpc.pb.cc" "CMakeFiles/client.dir/enrollment.grpc.pb.cc.obj" "gcc" "CMakeFiles/client.dir/enrollment.grpc.pb.cc.obj.d"
-  "D:/School/STDISCIM/GRPC Test/build/enrollment.pb.cc" "CMakeFiles/client.dir/enrollment.pb.cc.obj" "gcc" "CMakeFiles/client.dir/enrollment.pb.cc.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -64,6 +64,20 @@ class EnrollmentService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::EnrollReply>> PrepareAsyncEnroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::EnrollReply>>(PrepareAsyncEnrollRaw(context, request, cq));
     }
+    virtual ::grpc::Status AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::enrollment::AddStudentReply* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddStudentReply>> AsyncAddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddStudentReply>>(AsyncAddStudentRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddStudentReply>> PrepareAsyncAddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddStudentReply>>(PrepareAsyncAddStudentRaw(context, request, cq));
+    }
+    virtual ::grpc::Status AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::enrollment::AddCourseReply* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddCourseReply>> AsyncAddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddCourseReply>>(AsyncAddCourseRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddCourseReply>> PrepareAsyncAddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddCourseReply>>(PrepareAsyncAddCourseRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -75,6 +89,10 @@ class EnrollmentService final {
       virtual void GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, std::function<void(::grpc::Status)>) = 0;
       virtual void Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -88,6 +106,10 @@ class EnrollmentService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::GetCoursesReply>* PrepareAsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::EnrollReply>* AsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::EnrollReply>* PrepareAsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddStudentReply>* AsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddStudentReply>* PrepareAsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddCourseReply>* AsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::enrollment::AddCourseReply>* PrepareAsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -120,6 +142,20 @@ class EnrollmentService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>> PrepareAsyncEnroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>>(PrepareAsyncEnrollRaw(context, request, cq));
     }
+    ::grpc::Status AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::enrollment::AddStudentReply* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>> AsyncAddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>>(AsyncAddStudentRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>> PrepareAsyncAddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>>(PrepareAsyncAddStudentRaw(context, request, cq));
+    }
+    ::grpc::Status AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::enrollment::AddCourseReply* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>> AsyncAddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>>(AsyncAddCourseRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>> PrepareAsyncAddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>>(PrepareAsyncAddCourseRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -131,6 +167,10 @@ class EnrollmentService final {
       void GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, ::grpc::ClientUnaryReactor* reactor) override;
       void Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, std::function<void(::grpc::Status)>) override;
       void Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, std::function<void(::grpc::Status)>) override;
+      void AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, std::function<void(::grpc::Status)>) override;
+      void AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -150,10 +190,16 @@ class EnrollmentService final {
     ::grpc::ClientAsyncResponseReader< ::enrollment::GetCoursesReply>* PrepareAsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* AsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* PrepareAsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* AsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* PrepareAsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* AsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* PrepareAsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_Login_;
     const ::grpc::internal::RpcMethod rpcmethod_Logout_;
     const ::grpc::internal::RpcMethod rpcmethod_GetCourses_;
     const ::grpc::internal::RpcMethod rpcmethod_Enroll_;
+    const ::grpc::internal::RpcMethod rpcmethod_AddStudent_;
+    const ::grpc::internal::RpcMethod rpcmethod_AddCourse_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -165,6 +211,8 @@ class EnrollmentService final {
     virtual ::grpc::Status Logout(::grpc::ServerContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response);
     virtual ::grpc::Status GetCourses(::grpc::ServerContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response);
     virtual ::grpc::Status Enroll(::grpc::ServerContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response);
+    virtual ::grpc::Status AddStudent(::grpc::ServerContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response);
+    virtual ::grpc::Status AddCourse(::grpc::ServerContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_Login : public BaseClass {
@@ -246,7 +294,47 @@ class EnrollmentService final {
       ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_Login<WithAsyncMethod_Logout<WithAsyncMethod_GetCourses<WithAsyncMethod_Enroll<Service > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_AddStudent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_AddStudent() {
+      ::grpc::Service::MarkMethodAsync(4);
+    }
+    ~WithAsyncMethod_AddStudent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddStudent(::grpc::ServerContext* /*context*/, const ::enrollment::AddStudentRequest* /*request*/, ::enrollment::AddStudentReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAddStudent(::grpc::ServerContext* context, ::enrollment::AddStudentRequest* request, ::grpc::ServerAsyncResponseWriter< ::enrollment::AddStudentReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_AddCourse : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_AddCourse() {
+      ::grpc::Service::MarkMethodAsync(5);
+    }
+    ~WithAsyncMethod_AddCourse() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCourse(::grpc::ServerContext* /*context*/, const ::enrollment::AddCourseRequest* /*request*/, ::enrollment::AddCourseReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAddCourse(::grpc::ServerContext* context, ::enrollment::AddCourseRequest* request, ::grpc::ServerAsyncResponseWriter< ::enrollment::AddCourseReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_Login<WithAsyncMethod_Logout<WithAsyncMethod_GetCourses<WithAsyncMethod_Enroll<WithAsyncMethod_AddStudent<WithAsyncMethod_AddCourse<Service > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_Login : public BaseClass {
    private:
@@ -355,7 +443,61 @@ class EnrollmentService final {
     virtual ::grpc::ServerUnaryReactor* Enroll(
       ::grpc::CallbackServerContext* /*context*/, const ::enrollment::EnrollRequest* /*request*/, ::enrollment::EnrollReply* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_Login<WithCallbackMethod_Logout<WithCallbackMethod_GetCourses<WithCallbackMethod_Enroll<Service > > > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_AddStudent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_AddStudent() {
+      ::grpc::Service::MarkMethodCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response) { return this->AddStudent(context, request, response); }));}
+    void SetMessageAllocatorFor_AddStudent(
+        ::grpc::MessageAllocator< ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_AddStudent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddStudent(::grpc::ServerContext* /*context*/, const ::enrollment::AddStudentRequest* /*request*/, ::enrollment::AddStudentReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AddStudent(
+      ::grpc::CallbackServerContext* /*context*/, const ::enrollment::AddStudentRequest* /*request*/, ::enrollment::AddStudentReply* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_AddCourse : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_AddCourse() {
+      ::grpc::Service::MarkMethodCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response) { return this->AddCourse(context, request, response); }));}
+    void SetMessageAllocatorFor_AddCourse(
+        ::grpc::MessageAllocator< ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_AddCourse() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCourse(::grpc::ServerContext* /*context*/, const ::enrollment::AddCourseRequest* /*request*/, ::enrollment::AddCourseReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AddCourse(
+      ::grpc::CallbackServerContext* /*context*/, const ::enrollment::AddCourseRequest* /*request*/, ::enrollment::AddCourseReply* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_Login<WithCallbackMethod_Logout<WithCallbackMethod_GetCourses<WithCallbackMethod_Enroll<WithCallbackMethod_AddStudent<WithCallbackMethod_AddCourse<Service > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_Login : public BaseClass {
@@ -421,6 +563,40 @@ class EnrollmentService final {
     }
     // disable synchronous version of this method
     ::grpc::Status Enroll(::grpc::ServerContext* /*context*/, const ::enrollment::EnrollRequest* /*request*/, ::enrollment::EnrollReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_AddStudent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_AddStudent() {
+      ::grpc::Service::MarkMethodGeneric(4);
+    }
+    ~WithGenericMethod_AddStudent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddStudent(::grpc::ServerContext* /*context*/, const ::enrollment::AddStudentRequest* /*request*/, ::enrollment::AddStudentReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_AddCourse : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_AddCourse() {
+      ::grpc::Service::MarkMethodGeneric(5);
+    }
+    ~WithGenericMethod_AddCourse() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCourse(::grpc::ServerContext* /*context*/, const ::enrollment::AddCourseRequest* /*request*/, ::enrollment::AddCourseReply* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -503,6 +679,46 @@ class EnrollmentService final {
     }
     void RequestEnroll(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_AddStudent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_AddStudent() {
+      ::grpc::Service::MarkMethodRaw(4);
+    }
+    ~WithRawMethod_AddStudent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddStudent(::grpc::ServerContext* /*context*/, const ::enrollment::AddStudentRequest* /*request*/, ::enrollment::AddStudentReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAddStudent(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_AddCourse : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_AddCourse() {
+      ::grpc::Service::MarkMethodRaw(5);
+    }
+    ~WithRawMethod_AddCourse() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCourse(::grpc::ServerContext* /*context*/, const ::enrollment::AddCourseRequest* /*request*/, ::enrollment::AddCourseReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAddCourse(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -591,6 +807,50 @@ class EnrollmentService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* Enroll(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_AddStudent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_AddStudent() {
+      ::grpc::Service::MarkMethodRawCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddStudent(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_AddStudent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddStudent(::grpc::ServerContext* /*context*/, const ::enrollment::AddStudentRequest* /*request*/, ::enrollment::AddStudentReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AddStudent(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_AddCourse : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_AddCourse() {
+      ::grpc::Service::MarkMethodRawCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddCourse(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_AddCourse() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCourse(::grpc::ServerContext* /*context*/, const ::enrollment::AddCourseRequest* /*request*/, ::enrollment::AddCourseReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AddCourse(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -701,9 +961,63 @@ class EnrollmentService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedEnroll(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::enrollment::EnrollRequest,::enrollment::EnrollReply>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_Login<WithStreamedUnaryMethod_Logout<WithStreamedUnaryMethod_GetCourses<WithStreamedUnaryMethod_Enroll<Service > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_AddStudent : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_AddStudent() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply>* streamer) {
+                       return this->StreamedAddStudent(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_AddStudent() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status AddStudent(::grpc::ServerContext* /*context*/, const ::enrollment::AddStudentRequest* /*request*/, ::enrollment::AddStudentReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedAddStudent(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::enrollment::AddStudentRequest,::enrollment::AddStudentReply>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_AddCourse : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_AddCourse() {
+      ::grpc::Service::MarkMethodStreamed(5,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply>* streamer) {
+                       return this->StreamedAddCourse(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_AddCourse() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status AddCourse(::grpc::ServerContext* /*context*/, const ::enrollment::AddCourseRequest* /*request*/, ::enrollment::AddCourseReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedAddCourse(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::enrollment::AddCourseRequest,::enrollment::AddCourseReply>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_Login<WithStreamedUnaryMethod_Logout<WithStreamedUnaryMethod_GetCourses<WithStreamedUnaryMethod_Enroll<WithStreamedUnaryMethod_AddStudent<WithStreamedUnaryMethod_AddCourse<Service > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_Login<WithStreamedUnaryMethod_Logout<WithStreamedUnaryMethod_GetCourses<WithStreamedUnaryMethod_Enroll<Service > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_Login<WithStreamedUnaryMethod_Logout<WithStreamedUnaryMethod_GetCourses<WithStreamedUnaryMethod_Enroll<WithStreamedUnaryMethod_AddStudent<WithStreamedUnaryMethod_AddCourse<Service > > > > > > StreamedService;
 };
 
 }  // namespace enrollment

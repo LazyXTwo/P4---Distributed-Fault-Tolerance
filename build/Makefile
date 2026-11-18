@@ -132,6 +132,19 @@ generate_proto/fast:
 .PHONY : generate_proto/fast
 
 #=============================================================================
+# Target rules for targets named enrollment_proto
+
+# Build rule for target.
+enrollment_proto: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 enrollment_proto
+.PHONY : enrollment_proto
+
+# fast build rule for target.
+enrollment_proto/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/build
+.PHONY : enrollment_proto/fast
+
+#=============================================================================
 # Target rules for targets named server
 
 # Build rule for target.
@@ -207,9 +220,7 @@ enrollment.grpc.pb.obj: enrollment.grpc.pb.cc.obj
 
 # target to build an object file
 enrollment.grpc.pb.cc.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/enrollment.grpc.pb.cc.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/enrollment.grpc.pb.cc.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/enrollment.grpc.pb.cc.obj
 .PHONY : enrollment.grpc.pb.cc.obj
 
 enrollment.grpc.pb.i: enrollment.grpc.pb.cc.i
@@ -217,9 +228,7 @@ enrollment.grpc.pb.i: enrollment.grpc.pb.cc.i
 
 # target to preprocess a source file
 enrollment.grpc.pb.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/enrollment.grpc.pb.cc.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/enrollment.grpc.pb.cc.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/enrollment.grpc.pb.cc.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/enrollment.grpc.pb.cc.i
 .PHONY : enrollment.grpc.pb.cc.i
 
 enrollment.grpc.pb.s: enrollment.grpc.pb.cc.s
@@ -227,9 +236,7 @@ enrollment.grpc.pb.s: enrollment.grpc.pb.cc.s
 
 # target to generate assembly for a file
 enrollment.grpc.pb.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/enrollment.grpc.pb.cc.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/enrollment.grpc.pb.cc.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/enrollment.grpc.pb.cc.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/enrollment.grpc.pb.cc.s
 .PHONY : enrollment.grpc.pb.cc.s
 
 enrollment.pb.obj: enrollment.pb.cc.obj
@@ -237,9 +244,7 @@ enrollment.pb.obj: enrollment.pb.cc.obj
 
 # target to build an object file
 enrollment.pb.cc.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/enrollment.pb.cc.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/enrollment.pb.cc.obj
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/enrollment.pb.cc.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/enrollment.pb.cc.obj
 .PHONY : enrollment.pb.cc.obj
 
 enrollment.pb.i: enrollment.pb.cc.i
@@ -247,9 +252,7 @@ enrollment.pb.i: enrollment.pb.cc.i
 
 # target to preprocess a source file
 enrollment.pb.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/enrollment.pb.cc.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/enrollment.pb.cc.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/enrollment.pb.cc.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/enrollment.pb.cc.i
 .PHONY : enrollment.pb.cc.i
 
 enrollment.pb.s: enrollment.pb.cc.s
@@ -257,9 +260,7 @@ enrollment.pb.s: enrollment.pb.cc.s
 
 # target to generate assembly for a file
 enrollment.pb.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/enrollment.pb.cc.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/enrollment.pb.cc.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/enrollment.pb.cc.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/enrollment.pb.cc.s
 .PHONY : enrollment.pb.cc.s
 
 server.obj: server.cpp.obj
@@ -320,6 +321,7 @@ help:
 	@echo ... rebuild_cache
 	@echo ... generate_proto
 	@echo ... client
+	@echo ... enrollment_proto
 	@echo ... server
 	@echo ... web_server
 	@echo ... client.obj

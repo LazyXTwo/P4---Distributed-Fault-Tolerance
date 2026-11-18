@@ -1,0 +1,2 @@
+D:\MSYS2\ucrt64\bin\ar.exe qc libenrollment_proto.a CMakeFiles/enrollment_proto.dir/enrollment.pb.cc.obj CMakeFiles/enrollment_proto.dir/enrollment.grpc.pb.cc.obj
+D:\MSYS2\ucrt64\bin\ranlib.exe libenrollment_proto.a

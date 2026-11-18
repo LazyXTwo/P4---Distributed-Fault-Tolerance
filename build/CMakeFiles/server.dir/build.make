@@ -89,52 +89,21 @@ CMakeFiles/server.dir/server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/server.cpp.s"
 	D:\MSYS2\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\School\STDISCIM\GRPC Test\server.cpp" -o CMakeFiles\server.dir\server.cpp.s
 
-CMakeFiles/server.dir/enrollment.pb.cc.obj: CMakeFiles/server.dir/flags.make
-CMakeFiles/server.dir/enrollment.pb.cc.obj: CMakeFiles/server.dir/includes_CXX.rsp
-CMakeFiles/server.dir/enrollment.pb.cc.obj: enrollment.pb.cc
-CMakeFiles/server.dir/enrollment.pb.cc.obj: CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/server.dir/enrollment.pb.cc.obj"
-	D:\MSYS2\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/enrollment.pb.cc.obj -MF CMakeFiles\server.dir\enrollment.pb.cc.obj.d -o CMakeFiles\server.dir\enrollment.pb.cc.obj -c "D:\School\STDISCIM\GRPC Test\build\enrollment.pb.cc"
-
-CMakeFiles/server.dir/enrollment.pb.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/enrollment.pb.cc.i"
-	D:\MSYS2\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\School\STDISCIM\GRPC Test\build\enrollment.pb.cc" > CMakeFiles\server.dir\enrollment.pb.cc.i
-
-CMakeFiles/server.dir/enrollment.pb.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/enrollment.pb.cc.s"
-	D:\MSYS2\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\School\STDISCIM\GRPC Test\build\enrollment.pb.cc" -o CMakeFiles\server.dir\enrollment.pb.cc.s
-
-CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj: CMakeFiles/server.dir/flags.make
-CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj: CMakeFiles/server.dir/includes_CXX.rsp
-CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj: enrollment.grpc.pb.cc
-CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj: CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj"
-	D:\MSYS2\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj -MF CMakeFiles\server.dir\enrollment.grpc.pb.cc.obj.d -o CMakeFiles\server.dir\enrollment.grpc.pb.cc.obj -c "D:\School\STDISCIM\GRPC Test\build\enrollment.grpc.pb.cc"
-
-CMakeFiles/server.dir/enrollment.grpc.pb.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/enrollment.grpc.pb.cc.i"
-	D:\MSYS2\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\School\STDISCIM\GRPC Test\build\enrollment.grpc.pb.cc" > CMakeFiles\server.dir\enrollment.grpc.pb.cc.i
-
-CMakeFiles/server.dir/enrollment.grpc.pb.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/enrollment.grpc.pb.cc.s"
-	D:\MSYS2\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\School\STDISCIM\GRPC Test\build\enrollment.grpc.pb.cc" -o CMakeFiles\server.dir\enrollment.grpc.pb.cc.s
-
 # Object files for target server
 server_OBJECTS = \
-"CMakeFiles/server.dir/server.cpp.obj" \
-"CMakeFiles/server.dir/enrollment.pb.cc.obj" \
-"CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj"
+"CMakeFiles/server.dir/server.cpp.obj"
 
 # External object files for target server
 server_EXTERNAL_OBJECTS =
 
 server.exe: CMakeFiles/server.dir/server.cpp.obj
-server.exe: CMakeFiles/server.dir/enrollment.pb.cc.obj
-server.exe: CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj
 server.exe: CMakeFiles/server.dir/build.make
+server.exe: libenrollment_proto.a
 server.exe: D:/grpc/install/lib/libgrpc++.a
 server.exe: D:/grpc/install/lib/libgrpc.a
 server.exe: D:/grpc/install/lib/libgpr.a
+server.exe: D:/grpc/install/lib/libaddress_sorting.a
+server.exe: D:/grpc/install/lib/libupb.a
 server.exe: D:/grpc/install/lib/libprotobuf.a
 server.exe: D:/grpc/install/lib/libabsl_base.a
 server.exe: D:/grpc/install/lib/libabsl_city.a
@@ -229,32 +198,11 @@ server.exe: D:/grpc/install/lib/libabsl_time_zone.a
 server.exe: D:/grpc/install/lib/libabsl_tracing_internal.a
 server.exe: D:/grpc/install/lib/libabsl_utf8_for_code_point.a
 server.exe: D:/grpc/install/lib/libabsl_vlog_config_internal.a
-server.exe: D:/grpc/install/lib/libupb.a
-server.exe: D:/grpc/install/lib/libupb_base_lib.a
-server.exe: D:/grpc/install/lib/libupb_descriptor_lib.a
-server.exe: D:/grpc/install/lib/libupb_hash_lib.a
-server.exe: D:/grpc/install/lib/libupb_json_lib.a
-server.exe: D:/grpc/install/lib/libupb_lex_lib.a
-server.exe: D:/grpc/install/lib/libupb_mem_lib.a
-server.exe: D:/grpc/install/lib/libupb_message_lib.a
-server.exe: D:/grpc/install/lib/libupb_mini_descriptor_lib.a
-server.exe: D:/grpc/install/lib/libupb_mini_table_lib.a
-server.exe: D:/grpc/install/lib/libupb_reflection_lib.a
-server.exe: D:/grpc/install/lib/libupb_textformat_lib.a
-server.exe: D:/grpc/install/lib/libupb_wire_lib.a
-server.exe: D:/grpc/install/lib/libaddress_sorting.a
-server.exe: D:/grpc/install/lib/libcares.a
-server.exe: D:/grpc/install/lib/libre2.a
-server.exe: D:/grpc/install/lib/libutf8_range.a
-server.exe: D:/grpc/install/lib/libutf8_range_lib.a
-server.exe: D:/grpc/install/lib/libutf8_validity.a
-server.exe: D:/grpc/install/lib/libssl.a
-server.exe: D:/grpc/install/lib/libcrypto.a
-server.exe: D:/grpc/install/lib/libzlibstatic.a
+server.exe: D:/MSYS2/ucrt64/lib/libsqlite3.a
 server.exe: CMakeFiles/server.dir/linkLibs.rsp
 server.exe: CMakeFiles/server.dir/objects1.rsp
 server.exe: CMakeFiles/server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable server.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable server.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\server.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

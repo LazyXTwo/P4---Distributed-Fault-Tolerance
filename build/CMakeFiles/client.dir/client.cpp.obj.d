@@ -1,172 +1,5 @@
 CMakeFiles/client.dir/client.cpp.obj: \
  D:\School\STDISCIM\GRPC\ Test\client.cpp \
- D:/MSYS2/ucrt64/include/c++/16.2.0/iostream \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/requires_hosted.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/c++config.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/os_defines.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/pstl/pstl_config.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ostream \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ios \
- D:/MSYS2/ucrt64/include/c++/16.2.0/iosfwd \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stringfwd.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/memoryfwd.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/version.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/postypes.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/cwchar \
- D:/MSYS2/ucrt64/include/wchar.h D:/MSYS2/ucrt64/include/corecrt.h \
- D:/MSYS2/ucrt64/include/_mingw.h D:/MSYS2/ucrt64/include/_mingw_mac.h \
- D:/MSYS2/ucrt64/include/_mingw_secapi.h D:/MSYS2/ucrt64/include/vadefs.h \
- D:/MSYS2/ucrt64/include/corecrt_wconio.h \
- D:/MSYS2/ucrt64/include/corecrt_stdio_config.h \
- D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stddef.h \
- D:/MSYS2/ucrt64/include/stddef.h D:/MSYS2/ucrt64/include/crtdefs.h \
- D:/MSYS2/ucrt64/include/corecrt_wctype.h \
- D:/MSYS2/ucrt64/include/corecrt_wdirect.h \
- D:/MSYS2/ucrt64/include/corecrt_wio.h \
- D:/MSYS2/ucrt64/include/corecrt_wprocess.h \
- D:/MSYS2/ucrt64/include/corecrt_wstdio.h \
- D:/MSYS2/ucrt64/include/corecrt_wstdlib.h \
- D:/MSYS2/ucrt64/include/corecrt_wstring.h \
- D:/MSYS2/ucrt64/include/corecrt_wtime.h \
- D:/MSYS2/ucrt64/include/sys/stat.h D:/MSYS2/ucrt64/include/io.h \
- D:/MSYS2/ucrt64/include/string.h \
- D:/MSYS2/ucrt64/include/corecrt_memory.h \
- D:/MSYS2/ucrt64/include/_mingw_off_t.h \
- D:/MSYS2/ucrt64/include/sys/types.h \
- D:/MSYS2/ucrt64/include/_mingw_stat64.h \
- D:/MSYS2/ucrt64/include/_mingw_locale.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/exception \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/exception.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/exception_ptr.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/exception_defines.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/cxxabi_init_exception.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/typeinfo \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/hash_bytes.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/new \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/new_except.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/move.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/type_traits \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/nested_exception.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/char_traits.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/localefwd.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/c++locale.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/clocale \
- D:/MSYS2/ucrt64/include/locale.h D:/MSYS2/ucrt64/include/stdio.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/cctype \
- D:/MSYS2/ucrt64/include/ctype.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ios_base.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ext/atomicity.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/gthr.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
- D:/MSYS2/ucrt64/include/pthread.h D:/MSYS2/ucrt64/include/errno.h \
- D:/MSYS2/ucrt64/include/process.h \
- D:/MSYS2/ucrt64/include/corecrt_startup.h \
- D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/limits.h \
- D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/syslimits.h \
- D:/MSYS2/ucrt64/include/limits.h D:/MSYS2/ucrt64/include/signal.h \
- D:/MSYS2/ucrt64/include/pthread_signal.h D:/MSYS2/ucrt64/include/time.h \
- D:/MSYS2/ucrt64/include/sys/timeb.h D:/MSYS2/ucrt64/include/_timeval.h \
- D:/MSYS2/ucrt64/include/pthread_time.h \
- D:/MSYS2/ucrt64/include/pthread_compat.h D:/MSYS2/ucrt64/include/sched.h \
- D:/MSYS2/ucrt64/include/pthread_unistd.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_classes.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/functexcept.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/string \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/allocator.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/new_allocator.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/new_throw.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/cpp_type_traits.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream_insert.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/cxxabi_forced.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_iterator_base_funcs.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/concept_check.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/debug/assertions.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_iterator_base_types.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_iterator.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ext/type_traits.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ptr_traits.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_function.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/backward/binders.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ext/numeric_traits.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stdexcept_throw.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stdexcept_throwfwd.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_algobase.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_pair.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/utility.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/debug/debug.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/predefined_ops.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bit \
- D:/MSYS2/ucrt64/include/c++/16.2.0/concepts \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/range_access.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/initializer_list \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/erase_if.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_string.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ext/alloc_traits.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/alloc_traits.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_construct.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/string_view \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/functional_hash.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/string_view.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ext/string_conversions.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/cstdlib \
- D:/MSYS2/ucrt64/include/stdlib.h \
- D:/MSYS2/ucrt64/include/corecrt_malloc.h \
- D:/MSYS2/ucrt64/include/malloc.h \
- D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/mm_malloc.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/stdlib.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/std_abs.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/cstdio \
- D:/MSYS2/ucrt64/include/c++/16.2.0/cerrno \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/charconv.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_string.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/memory_resource.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/cstddef \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/uses_allocator.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/uses_allocator_args.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/tuple \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/invoke.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_classes.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/system_error \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/error_constants.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/stdexcept \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stdexcept_except.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/streambuf \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/streambuf.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_ios.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_facets.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/cwctype \
- D:/MSYS2/ucrt64/include/wctype.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/ctype_base.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/streambuf_iterator.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_facets.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_ios.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream_print.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/istream \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/istream.tcc \
- D:/MSYS2/ucrt64/include/c++/16.2.0/memory \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_tempbuf.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_uninitialized.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_raw_storage_iter.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/align.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/unique_ptr.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/shared_ptr.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/shared_ptr_base.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/allocated_ptr.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/refwrap.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ext/aligned_buffer.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/ext/concurrence.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/shared_ptr_atomic.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/atomic_base.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/bits/atomic_lockfree_defines.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/backward/auto_ptr.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/pstl/glue_memory_defs.h \
- D:/MSYS2/ucrt64/include/c++/16.2.0/pstl/execution_defs.h \
  D:/grpc/install/include/grpcpp/grpcpp.h \
  D:/grpc/install/include/grpc/grpc.h \
  D:/grpc/install/include/grpc/byte_buffer.h \
@@ -174,8 +7,11 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/grpc/install/include/grpc/impl/channel_arg_names.h \
  D:/grpc/install/include/grpc/impl/compression_types.h \
  D:/grpc/install/include/grpc/support/port_platform.h \
- D:/MSYS2/ucrt64/include/windows.h D:/MSYS2/ucrt64/include/sdkddkver.h \
- D:/MSYS2/ucrt64/include/excpt.h \
+ D:/MSYS2/ucrt64/include/windows.h D:/MSYS2/ucrt64/include/_mingw.h \
+ D:/MSYS2/ucrt64/include/_mingw_mac.h \
+ D:/MSYS2/ucrt64/include/_mingw_secapi.h D:/MSYS2/ucrt64/include/vadefs.h \
+ D:/MSYS2/ucrt64/include/sdkddkver.h D:/MSYS2/ucrt64/include/excpt.h \
+ D:/MSYS2/ucrt64/include/crtdefs.h D:/MSYS2/ucrt64/include/corecrt.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdarg.h \
  D:/MSYS2/ucrt64/include/stdarg.h D:/MSYS2/ucrt64/include/_mingw_stdarg.h \
  D:/MSYS2/ucrt64/include/windef.h D:/MSYS2/ucrt64/include/winapifamily.h \
@@ -183,13 +19,19 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/MSYS2/ucrt64/include/specstrings.h D:/MSYS2/ucrt64/include/sal.h \
  D:/MSYS2/ucrt64/include/concurrencysal.h \
  D:/MSYS2/ucrt64/include/driverspecs.h D:/MSYS2/ucrt64/include/winnt.h \
- D:/MSYS2/ucrt64/include/_mingw_unicode.h \
+ D:/MSYS2/ucrt64/include/_mingw_unicode.h D:/MSYS2/ucrt64/include/ctype.h \
+ D:/MSYS2/ucrt64/include/corecrt_wctype.h \
  D:/MSYS2/ucrt64/include/apiset.h \
  D:/MSYS2/ucrt64/include/psdk_inc/intrin-impl.h \
  D:/MSYS2/ucrt64/include/basetsd.h D:/MSYS2/ucrt64/include/guiddef.h \
+ D:/MSYS2/ucrt64/include/string.h \
+ D:/MSYS2/ucrt64/include/corecrt_memory.h \
+ D:/MSYS2/ucrt64/include/corecrt_wstring.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/x86intrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/x86gprintrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/ia32intrin.h \
+ D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stddef.h \
+ D:/MSYS2/ucrt64/include/stddef.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/adxintrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/bmiintrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/bmi2intrin.h \
@@ -230,6 +72,21 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/immintrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/mmintrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/xmmintrin.h \
+ D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/mm_malloc.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/stdlib.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/cstdlib \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/c++config.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/os_defines.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/pstl/pstl_config.h \
+ D:/MSYS2/ucrt64/include/stdlib.h \
+ D:/MSYS2/ucrt64/include/corecrt_malloc.h \
+ D:/MSYS2/ucrt64/include/corecrt_wstdlib.h \
+ D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/limits.h \
+ D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/syslimits.h \
+ D:/MSYS2/ucrt64/include/limits.h D:/MSYS2/ucrt64/include/malloc.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/std_abs.h \
+ D:/MSYS2/ucrt64/include/errno.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/emmintrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/pmmintrin.h \
  D:/MSYS2/ucrt64/lib/gcc/x86_64-w64-mingw32/16.2.0/include/tmmintrin.h \
@@ -350,6 +207,10 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/grpc/install/include/grpc/impl/slice_type.h \
  D:/grpc/install/include/grpc/support/sync.h \
  D:/grpc/install/include/grpc/support/time.h \
+ D:/MSYS2/ucrt64/include/time.h D:/MSYS2/ucrt64/include/corecrt_wtime.h \
+ D:/MSYS2/ucrt64/include/sys/timeb.h D:/MSYS2/ucrt64/include/_timeval.h \
+ D:/MSYS2/ucrt64/include/pthread_time.h \
+ D:/MSYS2/ucrt64/include/pthread_compat.h \
  D:/grpc/install/include/grpc/support/sync_generic.h \
  D:/grpc/install/include/grpc/support/atm.h \
  D:/grpc/install/include/grpc/support/atm_gcc_atomic.h \
@@ -368,6 +229,85 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/grpc/install/include/grpc/event_engine/memory_allocator.h \
  D:/grpc/install/include/grpc/event_engine/internal/memory_allocator_impl.h \
  D:/grpc/install/include/grpc/event_engine/memory_request.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/string \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/requires_hosted.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stringfwd.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/memoryfwd.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/version.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/char_traits.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/postypes.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/cwchar \
+ D:/MSYS2/ucrt64/include/wchar.h D:/MSYS2/ucrt64/include/corecrt_wconio.h \
+ D:/MSYS2/ucrt64/include/corecrt_stdio_config.h \
+ D:/MSYS2/ucrt64/include/corecrt_wdirect.h \
+ D:/MSYS2/ucrt64/include/corecrt_wio.h \
+ D:/MSYS2/ucrt64/include/corecrt_wprocess.h \
+ D:/MSYS2/ucrt64/include/corecrt_wstdio.h \
+ D:/MSYS2/ucrt64/include/sys/stat.h D:/MSYS2/ucrt64/include/io.h \
+ D:/MSYS2/ucrt64/include/_mingw_off_t.h \
+ D:/MSYS2/ucrt64/include/sys/types.h \
+ D:/MSYS2/ucrt64/include/_mingw_stat64.h \
+ D:/MSYS2/ucrt64/include/_mingw_locale.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/type_traits \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/allocator.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/new_allocator.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/new \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/exception.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/new_except.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/exception_defines.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/new_throw.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/move.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/cpp_type_traits.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/localefwd.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/c++locale.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/clocale \
+ D:/MSYS2/ucrt64/include/locale.h D:/MSYS2/ucrt64/include/stdio.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/iosfwd \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/cctype \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream_insert.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/cxxabi_forced.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_iterator_base_funcs.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/concept_check.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/debug/assertions.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_iterator_base_types.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_iterator.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ext/type_traits.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ptr_traits.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_function.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/backward/binders.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ext/numeric_traits.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stdexcept_throw.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stdexcept_throwfwd.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_algobase.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_pair.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/utility.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/debug/debug.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/predefined_ops.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bit \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/concepts \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/range_access.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/initializer_list \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/erase_if.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_string.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ext/alloc_traits.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/alloc_traits.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_construct.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/string_view \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/functional_hash.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/hash_bytes.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/string_view.tcc \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ext/string_conversions.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/cstdio \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/cerrno \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/charconv.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_string.tcc \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/memory_resource.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/cstddef \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/uses_allocator.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/uses_allocator_args.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/tuple \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/invoke.h \
  D:/grpc/install/include/absl/strings/string_view.h \
  D:/grpc/install/include/absl/base/attributes.h \
  D:/grpc/install/include/absl/base/config.h \
@@ -379,7 +319,39 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/MSYS2/ucrt64/include/c++/16.2.0/bits/algorithmfwd.h \
  D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_heap.h \
  D:/MSYS2/ucrt64/include/c++/16.2.0/bits/uniform_int_dist.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_tempbuf.h \
  D:/MSYS2/ucrt64/include/c++/16.2.0/pstl/glue_algorithm_defs.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/pstl/execution_defs.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/memory \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_uninitialized.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_raw_storage_iter.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/align.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/unique_ptr.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/shared_ptr.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/shared_ptr_base.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/typeinfo \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/allocated_ptr.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/refwrap.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ext/aligned_buffer.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ext/atomicity.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/gthr.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
+ D:/MSYS2/ucrt64/include/pthread.h D:/MSYS2/ucrt64/include/process.h \
+ D:/MSYS2/ucrt64/include/corecrt_startup.h \
+ D:/MSYS2/ucrt64/include/signal.h \
+ D:/MSYS2/ucrt64/include/pthread_signal.h D:/MSYS2/ucrt64/include/sched.h \
+ D:/MSYS2/ucrt64/include/pthread_unistd.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ext/concurrence.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/exception \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/exception_ptr.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/cxxabi_init_exception.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/nested_exception.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/shared_ptr_atomic.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/atomic_base.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/atomic_lockfree_defines.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/backward/auto_ptr.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/pstl/glue_memory_defs.h \
  D:/MSYS2/ucrt64/include/c++/16.2.0/vector \
  D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_vector.h \
  D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stl_bvector.h \
@@ -423,6 +395,30 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/MSYS2/ucrt64/include/c++/16.2.0/tr1/poly_hermite.tcc \
  D:/MSYS2/ucrt64/include/c++/16.2.0/tr1/poly_laguerre.tcc \
  D:/MSYS2/ucrt64/include/c++/16.2.0/tr1/riemann_zeta.tcc \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ostream \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/ios \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ios_base.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_classes.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/functexcept.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_classes.tcc \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/system_error \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/error_constants.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/stdexcept \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stdexcept_except.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/streambuf \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/streambuf.tcc \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_ios.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_facets.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/cwctype \
+ D:/MSYS2/ucrt64/include/wctype.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/ctype_base.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/streambuf_iterator.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/locale_facets.tcc \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/basic_ios.tcc \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream_print.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/ostream.tcc \
  D:/grpc/install/include/absl/time/civil_time.h \
  D:/grpc/install/include/absl/time/internal/cctz/include/cctz/civil_time.h \
  D:/grpc/install/include/absl/time/internal/cctz/include/cctz/civil_time_detail.h \
@@ -441,6 +437,9 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/grpc/install/include/grpcpp/impl/serialization_traits.h \
  D:/grpc/install/include/grpcpp/support/slice.h \
  D:/grpc/install/include/grpcpp/support/string_ref.h \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/iostream \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/istream \
+ D:/MSYS2/ucrt64/include/c++/16.2.0/bits/istream.tcc \
  D:/MSYS2/ucrt64/include/c++/16.2.0/iterator \
  D:/MSYS2/ucrt64/include/c++/16.2.0/bits/stream_iterator.h \
  D:/MSYS2/ucrt64/include/c++/16.2.0/climits \
@@ -800,5 +799,4 @@ CMakeFiles/client.dir/client.cpp.obj: \
  D:/grpc/install/include/grpcpp/support/proto_buffer_writer.h \
  D:/grpc/install/include/grpcpp/support/stub_options.h \
  D:/grpc/install/include/grpcpp/ports_def.inc \
- D:/grpc/install/include/grpcpp/ports_undef.inc \
- D:/School/STDISCIM/GRPC\ Test/build/enrollment.pb.h
+ D:/grpc/install/include/grpcpp/ports_undef.inc

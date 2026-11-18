@@ -1,8 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj"
-  "CMakeFiles/server.dir/enrollment.grpc.pb.cc.obj.d"
-  "CMakeFiles/server.dir/enrollment.pb.cc.obj"
-  "CMakeFiles/server.dir/enrollment.pb.cc.obj.d"
   "CMakeFiles/server.dir/server.cpp.obj"
   "CMakeFiles/server.dir/server.cpp.obj.d"
   "libserver.dll.a"

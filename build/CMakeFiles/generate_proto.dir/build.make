@@ -75,8 +75,8 @@ CMakeFiles/generate_proto: enrollment.grpc.pb.h
 
 enrollment.pb.cc: D:/School/STDISCIM/GRPC\ Test/enrollment.proto
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Generating enrollment.pb.cc, enrollment.pb.h, enrollment.grpc.pb.cc, enrollment.grpc.pb.h"
-	D:\grpc\install\bin\protoc.exe "--proto_path=D:/School/STDISCIM/GRPC Test" "--cpp_out=D:/School/STDISCIM/GRPC Test/build" "D:/School/STDISCIM/GRPC Test/enrollment.proto"
-	D:\grpc\install\bin\protoc.exe "--proto_path=D:/School/STDISCIM/GRPC Test" "--grpc_out=D:/School/STDISCIM/GRPC Test/build" --plugin=protoc-gen-grpc=D:/grpc/install/bin/grpc_cpp_plugin.exe "D:/School/STDISCIM/GRPC Test/enrollment.proto"
+	D:\grpc\install\bin\protoc.exe --proto_path="D:/School/STDISCIM/GRPC Test" --cpp_out="D:/School/STDISCIM/GRPC Test/build" "D:/School/STDISCIM/GRPC Test/enrollment.proto"
+	D:\grpc\install\bin\protoc.exe --proto_path="D:/School/STDISCIM/GRPC Test" --grpc_out="D:/School/STDISCIM/GRPC Test/build" --plugin=protoc-gen-grpc="D:/grpc/install/bin/grpc_cpp_plugin.exe" "D:/School/STDISCIM/GRPC Test/enrollment.proto"
 
 enrollment.pb.h: enrollment.pb.cc
 	@$(CMAKE_COMMAND) -E touch_nocreate enrollment.pb.h

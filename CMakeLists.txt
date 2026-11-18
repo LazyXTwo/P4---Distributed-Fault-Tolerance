@@ -1,28 +1,43 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(GRPCTest)
+project(DistributedEnrollment)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # ============================================================
-# gRPC installation
+# Paths
 # ============================================================
 
-set(gRPC_INSTALL_DIR "D:/grpc/install")
+set(GRPC_INSTALL_DIR "D:/grpc/install")
 
 set(GRPC_INCLUDE_DIR
-    "${gRPC_INSTALL_DIR}/include"
+    "${GRPC_INSTALL_DIR}/include"
 )
 
-set(GRPC_LIB_DIR
-    "${gRPC_INSTALL_DIR}/lib"
+set(GRPC_LIBRARY_DIR
+    "${GRPC_INSTALL_DIR}/lib"
+)
+
+set(SQLITE_INCLUDE_DIR
+    "D:/MSYS2/ucrt64/include"
+)
+
+set(SQLITE_LIBRARY
+    "D:/MSYS2/ucrt64/lib/libsqlite3.a"
 )
 
 
 # ============================================================
-# Proto file
+# Threads
+# ============================================================
+
+find_package(Threads REQUIRED)
+
+
+# ============================================================
+# Proto generation
 # ============================================================
 
 set(PROTO_FILE
@@ -37,161 +52,134 @@ set(GENERATED_PROTO
 )
 
 
-# ============================================================
-# Generate protobuf and gRPC files
-# ============================================================
-
 add_custom_command(
     OUTPUT ${GENERATED_PROTO}
 
-    COMMAND "${gRPC_INSTALL_DIR}/bin/protoc.exe"
-    ARGS
-        --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
-        --cpp_out=${CMAKE_CURRENT_BINARY_DIR}
-        ${PROTO_FILE}
+    COMMAND
+        "${GRPC_INSTALL_DIR}/bin/protoc.exe"
 
-    COMMAND "${gRPC_INSTALL_DIR}/bin/protoc.exe"
-    ARGS
-        --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
-        --grpc_out=${CMAKE_CURRENT_BINARY_DIR}
-        --plugin=protoc-gen-grpc=${gRPC_INSTALL_DIR}/bin/grpc_cpp_plugin.exe
-        ${PROTO_FILE}
+        --proto_path="${CMAKE_CURRENT_SOURCE_DIR}"
+
+        --cpp_out="${CMAKE_CURRENT_BINARY_DIR}"
+
+        "${PROTO_FILE}"
+
+    COMMAND
+        "${GRPC_INSTALL_DIR}/bin/protoc.exe"
+
+        --proto_path="${CMAKE_CURRENT_SOURCE_DIR}"
+
+        --grpc_out="${CMAKE_CURRENT_BINARY_DIR}"
+
+        --plugin=protoc-gen-grpc="${GRPC_INSTALL_DIR}/bin/grpc_cpp_plugin.exe"
+
+        "${PROTO_FILE}"
 
     DEPENDS
         "${PROTO_FILE}"
-
-    VERBATIM
 )
 
 
-# ============================================================
-# Proto generation target
-# ============================================================
-
-add_custom_target(generate_proto
+add_custom_target(
+    generate_proto
     DEPENDS ${GENERATED_PROTO}
 )
 
 
 # ============================================================
-# Collect Abseil libraries
+# Generated gRPC library
 #
-# All Abseil libraries are included because gRPC was built
-# statically and several of its components depend on each other.
+# Compile the generated protobuf/gRPC source ONCE.
 # ============================================================
 
-file(GLOB ABSL_LIBRARIES
-    "${GRPC_LIB_DIR}/libabsl_*.a"
+add_library(
+    enrollment_proto
+    STATIC
+
+    "${CMAKE_CURRENT_BINARY_DIR}/enrollment.pb.cc"
+    "${CMAKE_CURRENT_BINARY_DIR}/enrollment.grpc.pb.cc"
+)
+
+
+add_dependencies(
+    enrollment_proto
+    generate_proto
+)
+
+
+target_include_directories(
+    enrollment_proto
+    PUBLIC
+
+    "${CMAKE_CURRENT_BINARY_DIR}"
+    "${GRPC_INCLUDE_DIR}"
 )
 
 
 # ============================================================
-# Static gRPC dependency group
+# Find all Abseil libraries
 #
-# --start-group / --end-group allows the linker to repeatedly
-# search static libraries until all circular dependencies are
-# resolved.
+# Protobuf/gRPC depend on many Abseil libraries.
+# Instead of manually guessing which ones are needed,
+# collect every static Abseil library from the installation.
 # ============================================================
 
-set(GRPC_STATIC_LIBRARIES
-
-    # --------------------------------------------------------
-    # Main gRPC libraries
-    # --------------------------------------------------------
-
-    "${GRPC_LIB_DIR}/libgrpc++.a"
-    "${GRPC_LIB_DIR}/libgrpc.a"
-    "${GRPC_LIB_DIR}/libgpr.a"
-
-
-    # --------------------------------------------------------
-    # Protocol Buffers
-    # --------------------------------------------------------
-
-    "${GRPC_LIB_DIR}/libprotobuf.a"
-
-
-    # --------------------------------------------------------
-    # Abseil
-    # --------------------------------------------------------
-
-    ${ABSL_LIBRARIES}
-
-
-    # --------------------------------------------------------
-    # upb
-    # --------------------------------------------------------
-
-    "${GRPC_LIB_DIR}/libupb.a"
-    "${GRPC_LIB_DIR}/libupb_base_lib.a"
-    "${GRPC_LIB_DIR}/libupb_descriptor_lib.a"
-    "${GRPC_LIB_DIR}/libupb_hash_lib.a"
-    "${GRPC_LIB_DIR}/libupb_json_lib.a"
-    "${GRPC_LIB_DIR}/libupb_lex_lib.a"
-    "${GRPC_LIB_DIR}/libupb_mem_lib.a"
-    "${GRPC_LIB_DIR}/libupb_message_lib.a"
-    "${GRPC_LIB_DIR}/libupb_mini_descriptor_lib.a"
-    "${GRPC_LIB_DIR}/libupb_mini_table_lib.a"
-    "${GRPC_LIB_DIR}/libupb_reflection_lib.a"
-    "${GRPC_LIB_DIR}/libupb_textformat_lib.a"
-    "${GRPC_LIB_DIR}/libupb_wire_lib.a"
-
-
-    # --------------------------------------------------------
-    # Other gRPC dependencies
-    # --------------------------------------------------------
-
-    "${GRPC_LIB_DIR}/libaddress_sorting.a"
-    "${GRPC_LIB_DIR}/libcares.a"
-    "${GRPC_LIB_DIR}/libre2.a"
-    "${GRPC_LIB_DIR}/libutf8_range.a"
-    "${GRPC_LIB_DIR}/libutf8_range_lib.a"
-    "${GRPC_LIB_DIR}/libutf8_validity.a"
-
-
-    # --------------------------------------------------------
-    # OpenSSL
-    # --------------------------------------------------------
-
-    "${GRPC_LIB_DIR}/libssl.a"
-    "${GRPC_LIB_DIR}/libcrypto.a"
-
-
-    # --------------------------------------------------------
-    # zlib
-    # --------------------------------------------------------
-
-    "${GRPC_LIB_DIR}/libzlibstatic.a"
+file(
+    GLOB
+    ABSL_LIBRARIES
+    "${GRPC_LIBRARY_DIR}/libabsl_*.a"
 )
 
 
 # ============================================================
-# Function to link gRPC
+# gRPC / Protobuf libraries
 # ============================================================
 
-function(link_grpc_static TARGET)
+set(GRPC_LIBRARIES
 
-    target_link_libraries(${TARGET} PRIVATE
+    "${GRPC_LIBRARY_DIR}/libgrpc++.a"
 
-        "-Wl,--start-group"
+    "${GRPC_LIBRARY_DIR}/libgrpc.a"
 
-        ${GRPC_STATIC_LIBRARIES}
+    "${GRPC_LIBRARY_DIR}/libgpr.a"
 
-        "-Wl,--end-group"
+    "${GRPC_LIBRARY_DIR}/libaddress_sorting.a"
+
+    "${GRPC_LIBRARY_DIR}/libupb.a"
+
+    "${GRPC_LIBRARY_DIR}/libprotobuf.a"
+
+)
+
+
+# ============================================================
+# Common gRPC linking
+# ============================================================
+
+function(link_grpc TARGET_NAME)
+
+    target_link_libraries(
+        ${TARGET_NAME}
+
+        PRIVATE
+
+        enrollment_proto
+
+        ${GRPC_LIBRARIES}
+
+        ${ABSL_LIBRARIES}
 
         ws2_32
+
         advapi32
+
         iphlpapi
-        user32
-        gdi32
-        shell32
-        ole32
-        oleaut32
-        uuid
-        comdlg32
-        dbghelp
-        crypt32
+
         bcrypt
+
+        crypt32
+
+        Threads::Threads
     )
 
 endfunction()
@@ -201,53 +189,100 @@ endfunction()
 # Server
 # ============================================================
 
-add_executable(server
+add_executable(
+    server
     server.cpp
-    ${GENERATED_PROTO}
 )
 
-add_dependencies(server generate_proto)
 
-target_include_directories(server PRIVATE
+target_include_directories(
+    server
+
+    PRIVATE
+
     "${CMAKE_CURRENT_BINARY_DIR}"
+
     "${GRPC_INCLUDE_DIR}"
+
+    "${SQLITE_INCLUDE_DIR}"
 )
 
-link_grpc_static(server)
+
+link_grpc(server)
+
+
+target_link_libraries(
+    server
+
+    PRIVATE
+
+    "${SQLITE_LIBRARY}"
+)
 
 
 # ============================================================
 # Client
 # ============================================================
 
-add_executable(client
+add_executable(
+    client
     client.cpp
-    ${GENERATED_PROTO}
 )
 
-add_dependencies(client generate_proto)
 
-target_include_directories(client PRIVATE
+target_include_directories(
+    client
+
+    PRIVATE
+
     "${CMAKE_CURRENT_BINARY_DIR}"
+
     "${GRPC_INCLUDE_DIR}"
 )
 
-link_grpc_static(client)
+
+link_grpc(client)
+
 
 # ============================================================
 # Web server
 # ============================================================
 
-add_executable(web_server
+add_executable(
+    web_server
     web_server.cpp
-    ${GENERATED_PROTO}
 )
 
-add_dependencies(web_server generate_proto)
 
-target_include_directories(web_server PRIVATE
+target_include_directories(
+    web_server
+
+    PRIVATE
+
     "${CMAKE_CURRENT_BINARY_DIR}"
+
     "${GRPC_INCLUDE_DIR}"
 )
 
-link_grpc_static(web_server)
+
+link_grpc(web_server)
+
+
+# ============================================================
+# Proto dependency
+# ============================================================
+
+add_dependencies(
+    server
+    generate_proto
+)
+
+add_dependencies(
+    client
+    generate_proto
+)
+
+add_dependencies(
+    web_server
+    generate_proto
+)
