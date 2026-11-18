@@ -1,498 +1,647 @@
-# Distributed Enrollment System — Current Status
+# Distributed Enrollment System
 
-## Important Current Status
-
-The project is currently **between the working in-memory version and the SQLite version**.
-
-The original in-memory backend was working successfully.
-
-We then started migrating the backend to SQLite to provide persistent storage and better database-level concurrency handling.
-
-However, the SQLite migration has **not been successfully completed yet** because the project is currently stuck on the CMake/static-linking and long compilation stage.
-
-Therefore:
-
-> **SQLite is installed, but the SQLite-based application is NOT currently confirmed working.**
-
-Do not treat the SQLite functionality described below as completed functionality yet.
+A distributed online enrollment system built with **C++**, **gRPC**, and a simple **HTTP/MVC-style web interface** running across two physical PCs.
 
 ---
 
-# 1. What Was Working Before the SQLite Migration
+## 1. Project Overview
 
-The original backend used in-memory C++ data structures.
+This project is a distributed enrollment system where the **web interface** and **backend/API** run on separate computers.
 
-That version successfully supported:
+The browser connects to the Web/View node, which communicates with the Backend node using **gRPC**.
 
-- Student login
+### Current Architecture
+
+```text
+                    USER BROWSER
+                         |
+                         | HTTP :8080
+                         v
+              +-----------------------+
+              | PC1 - WEB / VIEW NODE |
+              | IP: 192.168.100.4     |
+              |                       |
+              | web_server.exe         |
+              +-----------------------+
+                         |
+                         | gRPC :50051
+                         v
+             +------------------------+
+             | PC2 - BACKEND NODE     |
+             | IP: 192.168.100.22     |
+             |                        |
+             | server.exe             |
+             | EnrollmentService      |
+             +------------------------+
+```
+
+### Responsibilities
+
+**PC1 – Web/View Node**
+
+- Serves the web pages
+- Handles browser HTTP requests
+- Maintains browser sessions
+- Sends requests to the backend through gRPC
+- Displays courses and enrollment results
+- Provides admin pages
+
+**PC2 – Backend Node**
+
+- Handles authentication
+- Maintains student accounts
+- Maintains course information
+- Handles enrollment
+- Tracks backend sessions
+- Enforces permissions
+- Handles concurrent enrollment requests
+
+---
+
+# 2. Technologies
+
+- C++
+- gRPC
+- Protocol Buffers
+- CMake
+- MinGW / MSYS2
+- Winsock
+- HTTP
+- VS Code
+- Windows
+- Two physical PCs
+
+### gRPC Installation
+
+```text
+D:\grpc\grpc
+D:\grpc\grpc\cmake\build
+D:\grpc\install
+```
+
+### Compiler
+
+```text
+D:\MSYS2\ucrt64\bin\c++.exe
+```
+
+---
+
+# 3. Project Files
+
+```text
+GRPC Test/
+│
+├── CMakeLists.txt
+├── enrollment.proto
+├── server.cpp
+├── client.cpp
+├── web_server.cpp
+│
+└── build/
+    ├── server.exe
+    ├── client.exe
+    ├── web_server.exe
+    ├── enrollment.pb.cc
+    ├── enrollment.pb.h
+    ├── enrollment.grpc.pb.cc
+    └── enrollment.grpc.pb.h
+```
+
+---
+
+# 4. Network Configuration
+
+## PC1
+
+```text
+IP: 192.168.100.4
+Web Server: 0.0.0.0:8080
+```
+
+The browser accesses:
+
+```text
+http://192.168.100.4:8080
+```
+
+## PC2
+
+```text
+IP: 192.168.100.22
+gRPC Server: 0.0.0.0:50051
+```
+
+PC1 connects to:
+
+```text
+192.168.100.22:50051
+```
+
+---
+
+# 5. Current Features
+
+## Login
+
+The system currently supports:
+
 - Admin login
-- Logout
-- Course listing
-- Student enrollment
-- Admin adding students
-- Admin adding courses
-- gRPC communication
-- Web browser communication
-- PC1 → PC2 communication
-- Web server on PC1
-- Backend server on PC2
+- Student login
+- Password checking
+- Session creation
+- Role detection
 
-The working architecture was:
+### Admin Account
+
+```text
+Username: admin123
+Password: password123
+```
+
+### Student Accounts
+
+```text
+student1 / password123
+student2 / password123
+```
+
+---
+
+## Logout
+
+Users can log out through the web interface.
+
+Logout performs two actions:
+
+1. Calls the backend `Logout` gRPC method.
+2. Removes the browser-side web session.
+
+---
+
+## View Available Courses
+
+Students can view the currently available courses.
+
+Current courses:
+
+```text
+CS101 - Introduction to Computing - 30 slots
+CS102 - Data Structures            - 25 slots
+CS103 - Database Systems           - 20 slots
+```
+
+The course list is retrieved from the backend through gRPC.
+
+---
+
+## Student Enrollment
+
+Students can enroll in available courses.
+
+The backend checks:
+
+- Whether the session is valid
+- Whether the user is a student
+- Whether the course exists
+- Whether the student is already enrolled
+- Whether available slots remain
+
+When enrollment succeeds:
+
+```text
+Student enrollment is added
+Course slot count decreases by 1
+```
+
+---
+
+# 6. Concurrent Enrollment Handling
+
+The backend uses a mutex to protect shared enrollment data.
+
+The important operations are performed while holding the same mutex:
+
+```text
+Check course
+Check remaining slots
+Check duplicate enrollment
+Add enrollment
+Decrease available slots
+```
+
+This prevents a race condition where two students attempt to take the final available slot simultaneously.
+
+For example:
+
+```text
+Course has 1 slot remaining
+
+Student A ---> Enroll
+Student B ---> Enroll
+```
+
+The mutex ensures that only one request can successfully claim the final slot.
+
+This is important because the application is intended to support multiple users concurrently.
+
+---
+
+# 7. Admin Features
+
+The admin page currently supports:
+
+### Add Student
+
+Admin can create a new student account.
+
+Validation includes:
+
+- Username cannot be empty
+- Password cannot be empty
+- Username must not already exist
+- `admin123` cannot be created as a normal student account
+
+### Add Course
+
+Admin can create a new course.
+
+Validation includes:
+
+- Course code cannot be empty
+- Course name cannot be empty
+- Slots cannot be negative
+- Course code must be unique
+
+---
+
+# 8. gRPC Service
+
+The system uses the following gRPC service:
+
+```proto
+service EnrollmentService {
+    rpc Login (LoginRequest) returns (LoginReply);
+    rpc Logout (LogoutRequest) returns (LogoutReply);
+    rpc GetCourses (GetCoursesRequest) returns (GetCoursesReply);
+    rpc Enroll (EnrollRequest) returns (EnrollReply);
+    rpc AddStudent (AddStudentRequest) returns (AddStudentReply);
+    rpc AddCourse (AddCourseRequest) returns (AddCourseReply);
+}
+```
+
+The `.proto` file is used to generate:
+
+```text
+enrollment.pb.cc
+enrollment.pb.h
+enrollment.grpc.pb.cc
+enrollment.grpc.pb.h
+```
+
+---
+
+# 9. Session System
+
+There are currently two session layers.
+
+## Backend Session
+
+The backend stores:
+
+```text
+session token -> username
+```
+
+Example:
+
+```text
+session_1 -> student1
+session_2 -> student2
+```
+
+The backend uses a mutex to protect the session map.
+
+## Web Session
+
+The web server stores:
+
+```text
+browser session -> gRPC token + role
+```
+
+Example:
+
+```text
+web_1 -> session_1 + student
+```
+
+The browser receives a cookie:
+
+```text
+session=web_1
+```
+
+The web server uses this cookie to identify the logged-in browser.
+
+---
+
+# 10. Current Authentication Limitation
+
+The assignment requires:
+
+> Login/logout. Track sessions across different nodes. (Use OAuth / JWT)
+
+The current system **does track sessions across the two nodes**, but it does **not yet use JWT or OAuth**.
+
+Currently, the backend generates simple tokens:
+
+```text
+session_1
+session_2
+session_3
+```
+
+Therefore requirement #1 is currently only partially complete.
+
+### Required Improvement
+
+Replace the current simple session token with a properly signed **JWT**.
+
+The intended flow is:
 
 ```text
 Browser
-   ↓
+   |
+   | Login
+   v
 PC1 Web Server
-192.168.100.4:8080
-   ↓
-gRPC
-   ↓
+   |
+   | gRPC Login
+   v
 PC2 Backend
-192.168.100.22:50051
-   ↓
-In-memory data
+   |
+   | Generate JWT
+   v
+PC1
+   |
+   | JWT cookie
+   v
+Browser
 ```
+
+For subsequent requests:
+
+```text
+Browser
+   |
+   | JWT
+   v
+PC1
+   |
+   | gRPC + JWT
+   v
+PC2
+   |
+   | Validate JWT
+   v
+Request accepted/rejected
+```
+
+JWT should contain information such as:
+
+```text
+username
+role
+session ID / jti
+expiration time
+```
+
+The backend should also maintain a server-side revocation/session registry so that logout can invalidate the JWT before its expiration.
 
 ---
 
-# 2. Current Architecture
+# 11. Database Status
 
-The intended architecture is still:
+SQLite was previously investigated but is **not currently being used**.
 
-```text
-                 PC1
-        ┌───────────────────┐
-        │      Browser      │
-        └─────────┬─────────┘
-                  │
-                HTTP
-                  │
-                  ▼
-        ┌───────────────────┐
-        │    Web Server     │
-        │ 192.168.100.4     │
-        │      :8080        │
-        └─────────┬─────────┘
-                  │
-                gRPC
-                  │
-                  ▼
-        ┌───────────────────┐
-        │  Backend Server   │
-        │ 192.168.100.22    │
-        │      :50051       │
-        └─────────┬─────────┘
-                  │
-                SQLite
-                  │
-                  ▼
-        ┌───────────────────┐
-        │   enrollment.db   │
-        └───────────────────┘
-                  PC2
-```
-
-The architecture itself is established.
-
-The problem is currently the **build**, not the architecture.
-
----
-
-# 3. PC Configuration
-
-## PC1 — Web Node
-
-IP:
+SQLite is installed in the MSYS2 environment:
 
 ```text
-192.168.100.4
+/ucrt64/include/sqlite3.h
+/ucrt64/lib/libsqlite3.a
+/ucrt64/lib/libsqlite3.dll.a
 ```
 
-Runs:
+However, the SQLite implementation was abandoned because:
+
+- Build times became excessive
+- CMake/linking became complicated
+- Runtime persistence was not successfully verified
+- The current in-memory implementation is working
+
+The current backend therefore uses:
 
 ```text
-web_server.exe
+C++ vectors
+C++ unordered_map
 ```
 
-Port:
+for its data.
 
-```text
-8080
-```
+### Current Limitation
 
----
-
-## PC2 — Backend Node
-
-IP:
-
-```text
-192.168.100.22
-```
-
-Runs:
+All data is lost when:
 
 ```text
 server.exe
 ```
 
-Port:
-
-```text
-50051
-```
-
-SQLite is intended to run on this PC.
+is stopped.
 
 ---
 
-# 4. Project Files
+# 12. Assignment Requirement Status
 
-Project:
+| Requirement | Status |
+|---|---|
+| 1. Login/logout + distributed sessions + OAuth/JWT | 🟡 Partially Complete |
+| 2. View available courses | 🟢 Complete |
+| 3. Students enroll in open courses | 🟢 Complete |
+| 4. Students view previous grades | 🔴 Not Implemented |
+| 5. Faculty upload grades | 🔴 Not Implemented |
+| 6. Web-based using MVC | 🟡 Partially Complete |
+| 7. View is a separate node | 🟢 Complete |
+| 8. Networked physical PCs/VMs | 🟢 Complete |
+| 9. Node failure affects only its features | 🟢 Mostly Complete |
+| 10. gRPC inter-node communication | 🟢 Complete |
+| Bonus: Persistent/redundant DB | 🔴 Not Implemented |
+
+---
+
+# 13. MVC / Distributed Design
+
+The project separates the View/Web node from the Backend node.
+
+### View
+
+Located on:
+
+```text
+PC1
+```
+
+Handled by:
+
+```text
+web_server.cpp
+```
+
+### Controller / API
+
+Located on:
+
+```text
+PC2
+```
+
+Handled by:
+
+```text
+server.cpp
+```
+
+### Communication
+
+Handled using:
+
+```text
+gRPC
+```
+
+This means the browser does not directly communicate with the backend.
+
+Instead:
+
+```text
+Browser
+   ↓
+Web/View
+   ↓
+gRPC
+   ↓
+Backend
+```
+
+---
+
+# 14. Node Failure Behavior
+
+The architecture allows different parts of the application to fail independently.
+
+## If PC2 / Backend goes down
+
+PC1's web server can still technically be running, but backend-dependent features will fail because gRPC requests cannot reach:
+
+```text
+192.168.100.22:50051
+```
+
+Affected functionality includes:
+
+- Login
+- Course retrieval
+- Enrollment
+- Admin operations
+- Logout
+
+## If PC1 / Web Node goes down
+
+The browser cannot access the web interface.
+
+The backend itself can still be running and listening for gRPC requests.
+
+---
+
+# 15. Building the Project
+
+From:
 
 ```text
 D:\School\STDISCIM\GRPC Test
 ```
 
-Important files:
+create/use the build directory:
 
-```text
-CMakeLists.txt
-enrollment.proto
-server.cpp
-client.cpp
-web_server.cpp
+```cmd
+cd /d "D:\School\STDISCIM\GRPC Test\build"
 ```
 
-Build directory:
+Configure:
+
+```cmd
+cmake .. -G "MinGW Makefiles"
+```
+
+Build:
+
+```cmd
+cmake --build . --parallel 4
+```
+
+Successful builds generate:
 
 ```text
-D:\School\STDISCIM\GRPC Test\build
+server.exe
+client.exe
+web_server.exe
 ```
 
 ---
 
-# 5. gRPC
+# 16. Running the System
 
-gRPC has already been installed and configured.
+## PC2 — Backend
 
-Source:
+On PC2:
 
-```text
-D:\grpc\grpc
+```cmd
+cd /d "D:\School\STDISCIM\GRPC Test\build"
+server.exe
 ```
 
-Installation:
-
-```text
-D:\grpc\install
-```
-
-The project successfully reached the point where gRPC communication between the two PCs worked.
-
-The backend listens on:
+The server should listen on:
 
 ```text
 0.0.0.0:50051
 ```
 
-The web server connects to:
+Expected output:
 
 ```text
-192.168.100.22:50051
+Server listening on 0.0.0.0:50051
 ```
+
+Keep this window open.
 
 ---
 
-# 6. SQLite Installation
-
-SQLite itself **is installed**.
-
-Confirmed:
-
-```text
-D:\MSYS2\ucrt64\include\sqlite3.h
-```
-
-and:
-
-```text
-D:\MSYS2\ucrt64\lib\libsqlite3.a
-```
-
-Installed package:
-
-```text
-mingw-w64-ucrt-x86_64-sqlite3
-```
-
-Version:
-
-```text
-3.53.4-1
-```
-
-The SQLite command-line executable is not installed, but that is not required for the C++ application.
-
----
-
-# 7. IMPORTANT — SQLite Application Status
-
-Although SQLite is installed, the application has **not successfully completed the SQLite migration**.
-
-The following was implemented in `server.cpp`:
-
-- SQLite database initialization
-- `students` table
-- `courses` table
-- `enrollments` table
-- Initial data seeding
-- SQLite queries
-- SQLite transactions
-- WAL mode
-- Busy timeout
-- Atomic enrollment
-- Duplicate-enrollment protection
-- Course slot protection
-
-However, this code has **not been successfully compiled and tested as the final working server**.
-
-Therefore these should currently be considered:
-
-```text
-SQLite installation       ✓
-SQLite code written       ✓
-SQLite database design    ✓
-SQLite build              ✗
-SQLite runtime testing    ✗
-SQLite persistence test   ✗
-```
-
----
-
-# 8. Current Major Problem — Build Time
-
-The biggest problem currently is the build.
-
-The generated gRPC source contains:
-
-```text
-enrollment.pb.cc
-enrollment.grpc.pb.cc
-```
-
-The generated gRPC file is very large and requires many gRPC, protobuf, and Abseil headers/libraries.
-
-During a clean build, the process reached approximately:
-
-```text
-76%
-```
-
-while compiling:
-
-```text
-enrollment.grpc.pb.cc
-```
-
-The compiler produced many warnings, including gRPC deprecation warnings.
-
-The warnings themselves are not the main problem.
-
-The problem is that the generated gRPC code takes a very long time to compile/link.
-
----
-
-# 9. Why We Changed CMake
-
-Originally, the generated gRPC files could be compiled separately for:
-
-```text
-server
-client
-web_server
-```
-
-This meant the same expensive generated source could be compiled multiple times.
-
-We changed the CMake design to create:
-
-```text
-enrollment_proto
-```
-
-as a static library.
-
-The intended structure is:
-
-```text
-enrollment.pb.cc
-enrollment.grpc.pb.cc
-           │
-           ▼
-   enrollment_proto
-       /    |    \
-      /     |     \
- server  client  web_server
-```
-
-This should allow the generated source to be compiled once and reused.
-
----
-
-# 10. CMake Problem
-
-The first attempt manually linked a few Abseil libraries.
-
-That failed because protobuf requires many more Abseil libraries.
-
-Errors included:
-
-```text
-undefined reference to
-absl::lts_20260526::log_internal::...
-```
-
-A second attempt used the installed CMake targets:
-
-```text
-gRPC::grpc++
-protobuf::libprotobuf
-```
-
-CMake then failed with:
-
-```text
-IMPORTED_LOCATION not set for imported target "gRPC::grpc++".
-```
-
-and:
-
-```text
-IMPORTED_LOCATION not set for imported target "protobuf::libprotobuf".
-```
-
-Therefore we returned to manual static linking.
-
-The current approach attempts to collect the installed Abseil libraries automatically:
-
-```cmake
-file(
-    GLOB
-    ABSL_LIBRARIES
-    "${GRPC_LIBRARY_DIR}/libabsl_*.a"
-)
-```
-
-This approach has **not yet been successfully built**.
-
----
-
-# 11. Current Build Status
-
-At this exact checkpoint:
-
-```text
-CMake configuration       ← CURRENT PROBLEM
-Static gRPC linking        ← CURRENT PROBLEM
-Long compilation time      ← CURRENT PROBLEM
-
-server.exe                 ← NOT CURRENTLY CONFIRMED
-client.exe                 ← NOT CURRENTLY CONFIRMED
-web_server.exe             ← NOT CURRENTLY CONFIRMED
-
-SQLite server              ← NOT CONFIRMED
-SQLite persistence         ← NOT CONFIRMED
-SQLite enrollment          ← NOT CONFIRMED
-```
-
----
-
-# 12. What NOT to Assume
-
-Do not currently assume:
-
-```text
-enrollment.db
-```
-
-is being successfully used by the running application.
-
-Do not currently assume:
-
-```text
-SQLite enrollment transactions
-```
-
-are working.
-
-Do not currently assume:
-
-```text
-SQLite persistence
-```
-
-has been tested.
-
-The old **in-memory version** is the last version that was fully confirmed working.
-
----
-
-# 13. Last Known Working System
-
-The last fully working system was:
-
-```text
-PC1
-192.168.100.4
-    │
-    ▼
-web_server.exe
-    │
-    │ gRPC
-    ▼
-PC2
-192.168.100.22
-    │
-    ▼
-server.exe
-    │
-    ▼
-In-memory C++ data
-```
-
-It successfully handled:
-
-```text
-Login
-Logout
-Get Courses
-Enroll
-Add Student
-Add Course
-```
-
-The browser interface also worked.
-
----
-
-# 14. How the Working Version Was Run
-
-On PC2:
-
-```bat
-cd /d "D:\School\STDISCIM\GRPC Test\build"
-server.exe
-```
+## PC1 — Web Server
 
 On PC1:
 
-```bat
+```cmd
 cd /d "D:\School\STDISCIM\GRPC Test\build"
 web_server.exe
 ```
 
-Then from a browser:
+The web server should listen on:
+
+```text
+0.0.0.0:8080
+```
+
+The browser can then access:
 
 ```text
 http://192.168.100.4:8080
@@ -500,235 +649,333 @@ http://192.168.100.4:8080
 
 ---
 
-# 15. Current Goal
+# 17. Client.exe
 
-The immediate goal is **NOT to add new assignment features yet**.
+`client.exe` is currently a development/testing client for the gRPC backend.
 
-The immediate goal is:
+It is **not required for normal browser operation**.
+
+The final application flow is:
 
 ```text
-Fix CMake
-   ↓
-Finish compilation
-   ↓
-Produce server.exe
-client.exe
+Browser
+    ↓
 web_server.exe
-   ↓
-Run backend
-   ↓
-Run web server
-   ↓
-Test browser
-   ↓
-Test SQLite
-```
-
-Only after this is working should development continue.
-
----
-
-# 16. Next Build Attempt
-
-From:
-
-```text
-D:\School\STDISCIM\GRPC Test\build
-```
-
-run:
-
-```bat
-cmake .. -G "MinGW Makefiles"
-```
-
-If configuration succeeds:
-
-```bat
-cmake --build . --parallel 8
-```
-
-If the build fails, **do not immediately make another CMake change**.
-
-Check the final error.
-
-In particular, distinguish between:
-
-```text
-undefined reference
-```
-
-which indicates a linking/dependency problem,
-
-and:
-
-```text
-Building CXX object ... enrollment.grpc.pb.cc.obj
-```
-
-which indicates the long compilation stage.
-
----
-
-# 17. Once CMake Finally Works
-
-After a successful build, test in this order.
-
-### 1. PC2 backend
-
-```bat
-cd /d "D:\School\STDISCIM\GRPC Test\build"
+    ↓
 server.exe
 ```
 
-### 2. PC1 web server
-
-```bat
-cd /d "D:\School\STDISCIM\GRPC Test\build"
-web_server.exe
-```
-
-### 3. Browser
-
-```text
-http://192.168.100.4:8080
-```
-
-### 4. Test student
-
-```text
-student1
-password123
-```
-
-### 5. Test admin
-
-```text
-admin123
-password123
-```
-
-### 6. Test SQLite
-
-After the server successfully starts with the SQLite version:
-
-- Add a student.
-- Add a course.
-- Enroll a student.
-- Stop the server.
-- Start the server again.
-- Confirm the data remains.
-
-Only after this test passes can we say the SQLite migration is complete.
+`client.exe` is useful for testing the gRPC service directly.
 
 ---
 
-# 18. Remaining Assignment Work
+# 18. Windows Firewall
 
-After the build and SQLite migration are confirmed:
+The following ports may need to be allowed through Windows Firewall.
 
-## Required
+## PC1
 
+```text
+TCP 8080
+```
+
+Required so other computers can access the web server.
+
+## PC2
+
+```text
+TCP 50051
+```
+
+Required so PC1 can connect to the gRPC backend.
+
+---
+
+# 19. Current CMake Linking
+
+The project uses static gRPC libraries.
+
+The CMake configuration currently links a limited set of required libraries rather than every `.a` file in the gRPC installation.
+
+Important libraries include:
+
+```text
+libabsl_*.a
+libupb*.a
+libutf8*.a
+libre2.a
+libcares.a
+libzlibstatic.a
+libprotobuf.a
+libgrpc_unsecure.a
+libgrpc++_unsecure.a
+libgpr.a
+libaddress_sorting.a
+```
+
+Windows libraries include:
+
+```text
+ws2_32
+advapi32
+iphlpapi
+bcrypt
+crypt32
+dbghelp
+```
+
+`dbghelp` was required to resolve linker errors involving:
+
+```text
+SymSetOptions
+SymInitialize
+SymFromAddr
+```
+
+---
+
+# 20. Previous Build Issue
+
+The project previously had very long build/link times.
+
+The main cause was excessive static library linking.
+
+The CMake configuration was initially globbing a very large number of `.a` libraries from the gRPC installation.
+
+This caused the linker to process many unnecessary libraries.
+
+The configuration was changed to only include the required library groups.
+
+The project now builds successfully.
+
+---
+
+# 21. Current Executable Sizes
+
+The current statically linked executables are large:
+
+```text
+server.exe      ~119 MB
+client.exe      ~116 MB
+web_server.exe  ~116 MB
+```
+
+This is primarily because gRPC, Protocol Buffers, Abseil, and related dependencies are statically linked.
+
+This is not currently preventing the application from working.
+
+---
+
+# 22. Current Data Model
+
+### Student
+
+```text
+username
+password
+```
+
+### Course
+
+```text
+course_code
+course_name
+slots
+```
+
+### Session
+
+```text
+session_token
+username
+```
+
+### Enrollment
+
+```text
+username
+course_code
+```
+
+At the moment, enrollment information is stored in memory.
+
+---
+
+# 23. Remaining Work
+
+The next major features that need to be implemented are:
+
+## 1. JWT Authentication
+
+Replace:
+
+```text
+session_1
+session_2
+```
+
+with properly signed JWT tokens.
+
+This will complete the OAuth/JWT portion of requirement #1.
+
+---
+
+## 2. Previous Grades
+
+Students need a way to view their previous grades.
+
+This will require:
+
+- Grade data
+- Student/grade relationship
+- gRPC request/reply
+- Backend implementation
+- Web page
+- Student navigation
+
+Possible flow:
+
+```text
+Student
+   ↓
+View Grades
+   ↓
+PC1 Web Server
+   ↓
+gRPC
+   ↓
+PC2 Backend
+   ↓
+Student's Grades
+```
+
+---
+
+## 3. Faculty Accounts / Faculty Role
+
+The current system has:
+
+```text
+admin
+student
+```
+
+A faculty role should be added.
+
+Example:
+
+```text
+faculty1
+```
+
+Faculty should be able to upload grades.
+
+---
+
+## 4. Faculty Grade Upload
+
+Add a gRPC operation similar to:
+
+```text
+UploadGrade
+```
+
+The backend should validate:
+
+- Session
 - Faculty role
-- Faculty grade upload
-- Student previous grades
-- OAuth/JWT if required by the assignment
-- More complete authentication/security
-- Concurrency testing
-- Node failure testing
+- Student
+- Course
+- Grade
 
-## Possible bonus
-
-- Database redundancy
-- Database connection pooling
-- Additional node functionality
+Then store the grade.
 
 ---
 
-# 19. Recommended Order From Here
+## 5. Student Grade Viewing
+
+Add a gRPC operation such as:
 
 ```text
-CURRENT
-   │
-   ▼
-Fix CMake
-   │
-   ▼
-Finish build
-   │
-   ▼
-Confirm server/client/web_server
-   │
-   ▼
-Confirm browser still works
-   │
-   ▼
-Confirm SQLite works
-   │
-   ▼
-Confirm persistence
-   │
-   ▼
-Add faculty role
-   │
-   ▼
-Add grades
-   │
-   ▼
-Add faculty grade upload
-   │
-   ▼
-Add student grade viewing
-   │
-   ▼
-Authentication improvements
-   │
-   ▼
-OAuth/JWT
-   │
-   ▼
-Concurrency testing
-   │
-   ▼
-Node failure testing
-   │
-   ▼
-UI cleanup
-   │
-   ▼
-Bonus features
+GetGrades
+```
+
+Students should only be able to retrieve **their own grades**.
+
+---
+
+# 24. Recommended Development Order
+
+The remaining implementation should be done in this order:
+
+```text
+1. JWT authentication
+       ↓
+2. Faculty role
+       ↓
+3. Grade data structure
+       ↓
+4. UploadGrade gRPC method
+       ↓
+5. GetGrades gRPC method
+       ↓
+6. Faculty web page
+       ↓
+7. Student grades web page
+       ↓
+8. Test concurrent users
+       ↓
+9. Test node failure
+       ↓
+10. Final documentation/demo
 ```
 
 ---
 
-# 20. Final Current-State Summary
+# 25. Current Overall State
 
-The project is **not currently in a finished working state**.
+The distributed foundation is working.
 
-The important distinction is:
+The following has already been demonstrated:
 
 ```text
-                WORKING
-                   │
-                   ▼
-        Original in-memory system
-                   │
-                   │
-                   ▼
-          SQLite migration started
-                   │
-                   ▼
-       CMake/static linking problem
-                   │
-                   ▼
-       Very long generated gRPC build
-                   │
-                   ▼
-             CURRENT POINT
+PC1
+Web Server
+   ↓
+HTTP
+   ↓
+PC2
+gRPC Backend
 ```
 
-The distributed architecture, gRPC communication, web server, database design, and much of the backend logic have already been developed.
+The system currently supports:
 
-The current blocker is getting the **new SQLite-based build through CMake and compilation**.
+```text
+✓ Distributed web server
+✓ Separate backend node
+✓ gRPC communication
+✓ Login
+✓ Logout
+✓ Session tracking
+✓ Student accounts
+✓ Admin accounts
+✓ Course listing
+✓ Course creation
+✓ Student creation
+✓ Student enrollment
+✓ Concurrent enrollment protection
+✓ Separate physical PCs
+✓ Cross-PC browser access
+```
 
-Once that is solved, the first priority is to verify that the SQLite version actually runs before continuing with the remaining assignment features.
+The major missing assignment functionality is:
+
+```text
+✗ JWT/OAuth
+✗ Faculty role
+✗ Faculty grade upload
+✗ Student previous grades
+✗ Persistent database
+```
+
+The **core distributed architecture is already operational**, so the remaining work is primarily implementing the missing enrollment-system features rather than rebuilding the networking/gRPC foundation.

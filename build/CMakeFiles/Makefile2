@@ -158,7 +158,6 @@ CMakeFiles/enrollment_proto.dir/clean:
 # Target rules for target CMakeFiles/server.dir
 
 # All Build rule for target.
-CMakeFiles/server.dir/all: CMakeFiles/generate_proto.dir/all
 CMakeFiles/server.dir/all: CMakeFiles/enrollment_proto.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/build
@@ -177,7 +176,7 @@ server: CMakeFiles/server.dir/rule
 .PHONY : server
 
 # codegen rule for target.
-CMakeFiles/server.dir/codegen: CMakeFiles/generate_proto.dir/codegen
+CMakeFiles/server.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=7,8 "Finished codegen for target server"
 .PHONY : CMakeFiles/server.dir/codegen
@@ -191,7 +190,6 @@ CMakeFiles/server.dir/clean:
 # Target rules for target CMakeFiles/client.dir
 
 # All Build rule for target.
-CMakeFiles/client.dir/all: CMakeFiles/generate_proto.dir/all
 CMakeFiles/client.dir/all: CMakeFiles/enrollment_proto.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/build
@@ -210,7 +208,7 @@ client: CMakeFiles/client.dir/rule
 .PHONY : client
 
 # codegen rule for target.
-CMakeFiles/client.dir/codegen: CMakeFiles/generate_proto.dir/codegen
+CMakeFiles/client.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=1,2 "Finished codegen for target client"
 .PHONY : CMakeFiles/client.dir/codegen
@@ -224,7 +222,6 @@ CMakeFiles/client.dir/clean:
 # Target rules for target CMakeFiles/web_server.dir
 
 # All Build rule for target.
-CMakeFiles/web_server.dir/all: CMakeFiles/generate_proto.dir/all
 CMakeFiles/web_server.dir/all: CMakeFiles/enrollment_proto.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/build
@@ -243,7 +240,7 @@ web_server: CMakeFiles/web_server.dir/rule
 .PHONY : web_server
 
 # codegen rule for target.
-CMakeFiles/web_server.dir/codegen: CMakeFiles/generate_proto.dir/codegen
+CMakeFiles/web_server.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="D:\School\STDISCIM\GRPC Test\build\CMakeFiles" --progress-num=9,10 "Finished codegen for target web_server"
 .PHONY : CMakeFiles/web_server.dir/codegen
