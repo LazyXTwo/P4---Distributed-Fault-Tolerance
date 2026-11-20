@@ -34,7 +34,7 @@ config.ini
 
 ### Required DLLs
 
-If the executables were built with MinGW and the DLLs are not already installed on the PC, also copy:
+If the DLLs are not already installed on the PC, also copy:
 
 ```text
 libgcc_s_seh-1.dll
