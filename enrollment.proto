@@ -3,7 +3,63 @@ syntax = "proto3";
 package enrollment;
 
 
-service EnrollmentService {
+// ============================================================
+// ADMIN SERVICE
+// ============================================================
+
+service AdminService {
+
+    rpc Login (LoginRequest) returns (LoginReply);
+
+    rpc Logout (LogoutRequest) returns (LogoutReply);
+
+    rpc AddStudent (AddStudentRequest) returns (AddStudentReply);
+
+    rpc AddCourse (AddCourseRequest) returns (AddCourseReply);
+}
+
+
+// ============================================================
+// STUDENT SERVICE
+// ============================================================
+
+service StudentService {
+
+    rpc Login (LoginRequest) returns (LoginReply);
+
+    rpc Logout (LogoutRequest) returns (LogoutReply);
+
+    rpc GetCourses (GetCoursesRequest) returns (GetCoursesReply);
+
+    rpc Enroll (EnrollRequest) returns (EnrollReply);
+
+    rpc GetGrades (GetGradesRequest) returns (GetGradesReply);
+}
+
+
+// ============================================================
+// FACULTY SERVICE
+// ============================================================
+
+service FacultyService {
+
+    rpc Login (LoginRequest) returns (LoginReply);
+
+    rpc Logout (LogoutRequest) returns (LogoutReply);
+
+    rpc UploadGrade (UploadGradeRequest) returns (UploadGradeReply);
+}
+
+
+// ============================================================
+// CORE SERVICE
+//
+// Internal service used by the Student and Faculty nodes.
+// The Core service owns the shared application data,
+// authentication and session registry.
+// ============================================================
+
+service CoreService {
 
     rpc Login (LoginRequest) returns (LoginReply);
 
@@ -23,133 +79,193 @@ service EnrollmentService {
 }
 
 
+// ============================================================
+// LOGIN
+// ============================================================
+
 message LoginRequest {
+
     string username = 1;
+
     string password = 2;
 }
 
 
 message LoginReply {
+
     bool success = 1;
+
     string message = 2;
+
     string session_token = 3;
+
     string role = 4;
 }
 
 
+// ============================================================
+// LOGOUT
+// ============================================================
+
 message LogoutRequest {
+
     string session_token = 1;
 }
 
 
 message LogoutReply {
+
     bool success = 1;
+
     string message = 2;
 }
 
 
+// ============================================================
+// COURSES
+// ============================================================
+
 message GetCoursesRequest {
+
     string session_token = 1;
 }
 
 
 message Course {
+
     string course_code = 1;
+
     string course_name = 2;
+
     int32 slots = 3;
 }
 
 
 message GetCoursesReply {
+
     bool success = 1;
+
     string message = 2;
+
     repeated Course courses = 3;
 }
 
 
+// ============================================================
+// ENROLLMENT
+// ============================================================
+
 message EnrollRequest {
+
     string session_token = 1;
+
     string course_code = 2;
 }
 
 
 message EnrollReply {
+
     bool success = 1;
+
     string message = 2;
 }
 
 
 // ============================================================
-// Add student
+// ADD STUDENT
 // ============================================================
 
 message AddStudentRequest {
+
     string session_token = 1;
+
     string username = 2;
+
     string password = 3;
 }
 
 
 message AddStudentReply {
+
     bool success = 1;
+
     string message = 2;
 }
 
 
 // ============================================================
-// Add course
+// ADD COURSE
 // ============================================================
 
 message AddCourseRequest {
+
     string session_token = 1;
+
     string course_code = 2;
+
     string course_name = 3;
+
     int32 slots = 4;
 }
 
 
 message AddCourseReply {
+
     bool success = 1;
+
     string message = 2;
 }
 
 
 // ============================================================
-// Upload grade
+// UPLOAD GRADE
 // ============================================================
 
 message UploadGradeRequest {
+
     string session_token = 1;
+
     string student_username = 2;
+
     string course_code = 3;
+
     double grade = 4;
 }
 
 
 message UploadGradeReply {
+
     bool success = 1;
+
     string message = 2;
 }
 
 
 // ============================================================
-// Get grades
+// GET GRADES
 // ============================================================
 
 message GetGradesRequest {
+
     string session_token = 1;
 }
 
 
 message Grade {
+
     string course_code = 1;
+
     string course_name = 2;
+
     double grade = 3;
 }
 
 
 message GetGradesReply {
+
     bool success = 1;
+
     string message = 2;
+
     repeated Grade grades = 3;
 }

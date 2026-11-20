@@ -1,6 +1,9 @@
 D:/School/STDISCIM/GRPC Test/build/CMakeFiles/generate_proto.dir
 D:/School/STDISCIM/GRPC Test/build/CMakeFiles/enrollment_proto.dir
 D:/School/STDISCIM/GRPC Test/build/CMakeFiles/server.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/admin_server.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/student_server.dir
+D:/School/STDISCIM/GRPC Test/build/CMakeFiles/faculty_server.dir
 D:/School/STDISCIM/GRPC Test/build/CMakeFiles/client.dir
 D:/School/STDISCIM/GRPC Test/build/CMakeFiles/web_server.dir
 D:/School/STDISCIM/GRPC Test/build/CMakeFiles/edit_cache.dir

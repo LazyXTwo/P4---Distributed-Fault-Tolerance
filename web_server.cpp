@@ -7,6 +7,8 @@
 #include <vector>
 #include <algorithm>
 #include <cctype>
+#include <iomanip>
+#include <memory>
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -14,6 +16,7 @@
 #include <grpcpp/grpcpp.h>
 
 #include "enrollment.grpc.pb.h"
+#include "config.h"
 
 
 #pragma comment(lib, "ws2_32.lib")
@@ -48,14 +51,63 @@ std::mutex web_session_counter_mutex;
 
 
 // ============================================================
-// Create gRPC stub
+// Server configuration
 // ============================================================
 
-std::unique_ptr<enrollment::EnrollmentService::Stub> create_stub()
+ServerConfig server_config;
+
+
+// ============================================================
+// Create AdminService stub
+// ============================================================
+
+std::unique_ptr<enrollment::AdminService::Stub>
+create_admin_stub()
 {
-    return enrollment::EnrollmentService::NewStub(
+    return enrollment::AdminService::NewStub(
         grpc::CreateChannel(
-            "192.168.100.22:50051",
+            make_address(
+                server_config.admin_server_ip,
+                server_config.admin_server_port
+            ),
+            grpc::InsecureChannelCredentials()
+        )
+    );
+}
+
+
+// ============================================================
+// Create StudentService stub
+// ============================================================
+
+std::unique_ptr<enrollment::StudentService::Stub>
+create_student_stub()
+{
+    return enrollment::StudentService::NewStub(
+        grpc::CreateChannel(
+            make_address(
+                server_config.student_server_ip,
+                server_config.student_server_port
+            ),
+            grpc::InsecureChannelCredentials()
+        )
+    );
+}
+
+
+// ============================================================
+// Create FacultyService stub
+// ============================================================
+
+std::unique_ptr<enrollment::FacultyService::Stub>
+create_faculty_stub()
+{
+    return enrollment::FacultyService::NewStub(
+        grpc::CreateChannel(
+            make_address(
+                server_config.faculty_server_ip,
+                server_config.faculty_server_port
+            ),
             grpc::InsecureChannelCredentials()
         )
     );
@@ -649,8 +701,13 @@ void handle_login(
     std::string password =
         form["password"];
 
-    auto stub =
-        create_stub();
+
+    // ========================================================
+    // Login starts through Admin/Core
+    // ========================================================
+
+    auto admin_stub =
+        create_admin_stub();
 
     enrollment::LoginRequest request;
 
@@ -667,7 +724,7 @@ void handle_login(
     ClientContext context;
 
     Status status =
-        stub->Login(
+        admin_stub->Login(
             &context,
             request,
             &reply
@@ -698,6 +755,11 @@ void handle_login(
 
         return;
     }
+
+
+    // ========================================================
+    // Create web session
+    // ========================================================
 
     std::string web_session =
         create_web_session(
@@ -731,7 +793,11 @@ void handle_login(
             "/courses";
     }
 
-    send_redirect_with_cookie:
+
+    // ========================================================
+    // Redirect with cookie
+    // ========================================================
+
     {
         std::string headers =
             "Set-Cookie: session=" +
@@ -809,6 +875,7 @@ void handle_admin(
             << message
             << "</div>";
     }
+
 
     // ========================================================
     // Add student
@@ -911,7 +978,7 @@ void handle_add_student(
         parse_form(body);
 
     auto stub =
-        create_stub();
+        create_admin_stub();
 
     enrollment::AddStudentRequest request;
 
@@ -1002,7 +1069,7 @@ void handle_add_course(
     }
 
     auto stub =
-        create_stub();
+        create_admin_stub();
 
     enrollment::AddCourseRequest request;
 
@@ -1065,7 +1132,7 @@ void handle_courses(
     const WebSession& session)
 {
     auto stub =
-        create_stub();
+        create_student_stub();
 
     enrollment::GetCoursesRequest request;
 
@@ -1095,7 +1162,7 @@ void handle_courses(
             ) +
             "<div class='container'>"
             "<div class='error'>"
-            "Could not connect to enrollment server."
+            "Could not connect to student server."
             "</div>"
             "</div>" +
             html_footer()
@@ -1156,6 +1223,17 @@ void handle_courses(
         html
             << "<a href='/grades'>"
             << "My Grades"
+            << "</a>";
+    }
+
+    if (
+        session.role ==
+        "faculty"
+    ) {
+
+        html
+            << "<a href='/faculty'>"
+            << "Faculty"
             << "</a>";
     }
 
@@ -1266,7 +1344,7 @@ void handle_enroll(
         parse_form(body);
 
     auto stub =
-        create_stub();
+        create_student_stub();
 
     enrollment::EnrollRequest request;
 
@@ -1300,7 +1378,7 @@ void handle_enroll(
             ) +
             "<div class='container'>"
             "<div class='error'>"
-            "Could not connect to enrollment server."
+            "Could not connect to student server."
             "</div>"
             "<a href='/courses'>Back to Courses</a>"
             "</div>" +
@@ -1547,7 +1625,7 @@ void handle_upload_grade(
     }
 
     auto stub =
-        create_stub();
+        create_faculty_stub();
 
     enrollment::UploadGradeRequest request;
 
@@ -1585,7 +1663,7 @@ void handle_upload_grade(
         handle_faculty(
             client_socket,
             session,
-            "Could not connect to enrollment server.",
+            "Could not connect to faculty server.",
             true
         );
 
@@ -1648,7 +1726,7 @@ void handle_grades(
     }
 
     auto stub =
-        create_stub();
+        create_student_stub();
 
     enrollment::GetGradesRequest request;
 
@@ -1678,7 +1756,7 @@ void handle_grades(
             ) +
             "<div class='container'>"
             "<div class='error'>"
-            "Could not connect to enrollment server."
+            "Could not connect to student server."
             "</div>"
             "<a href='/courses'>"
             "Back to Courses"
@@ -1811,24 +1889,87 @@ void handle_logout(
     const WebSession& session,
     const std::string& web_session_id)
 {
-    auto stub =
-        create_stub();
+    Status status;
 
-    enrollment::LogoutRequest request;
+    // ========================================================
+    // Logout through the service that owns the user's role
+    // ========================================================
 
-    request.set_session_token(
-        session.grpc_token
-    );
+    if (
+        session.role ==
+        "admin"
+    ) {
 
-    enrollment::LogoutReply reply;
+        auto stub =
+            create_admin_stub();
 
-    ClientContext context;
+        enrollment::LogoutRequest request;
 
-    stub->Logout(
-        &context,
-        request,
-        &reply
-    );
+        request.set_session_token(
+            session.grpc_token
+        );
+
+        enrollment::LogoutReply reply;
+
+        ClientContext context;
+
+        status =
+            stub->Logout(
+                &context,
+                request,
+                &reply
+            );
+    }
+
+    else if (
+        session.role ==
+        "faculty"
+    ) {
+
+        auto stub =
+            create_faculty_stub();
+
+        enrollment::LogoutRequest request;
+
+        request.set_session_token(
+            session.grpc_token
+        );
+
+        enrollment::LogoutReply reply;
+
+        ClientContext context;
+
+        status =
+            stub->Logout(
+                &context,
+                request,
+                &reply
+            );
+    }
+
+    else {
+
+        auto stub =
+            create_student_stub();
+
+        enrollment::LogoutRequest request;
+
+        request.set_session_token(
+            session.grpc_token
+        );
+
+        enrollment::LogoutReply reply;
+
+        ClientContext context;
+
+        status =
+            stub->Logout(
+                &context,
+                request,
+                &reply
+            );
+    }
+
 
     remove_web_session(
         web_session_id
@@ -2329,6 +2470,74 @@ void handle_client(
 
 int main()
 {
+    // ========================================================
+    // Load configuration
+    // ========================================================
+
+    if (
+        !load_config(
+            "config.ini",
+            server_config
+        )
+    ) {
+
+        std::cerr
+            << "ERROR: Could not load config.ini."
+            << std::endl;
+
+        return 1;
+    }
+
+
+    std::cout
+        << "========================================"
+        << std::endl;
+
+    std::cout
+        << "     DISTRIBUTED ENROLLMENT WEB SERVER"
+        << std::endl;
+
+    std::cout
+        << "========================================"
+        << std::endl;
+
+    std::cout
+        << "Web server: "
+        << make_address(
+            server_config.web_server_ip,
+            server_config.web_server_port
+        )
+        << std::endl;
+
+    std::cout
+        << "Admin/Core server: "
+        << make_address(
+            server_config.admin_server_ip,
+            server_config.admin_server_port
+        )
+        << std::endl;
+
+    std::cout
+        << "Student server: "
+        << make_address(
+            server_config.student_server_ip,
+            server_config.student_server_port
+        )
+        << std::endl;
+
+    std::cout
+        << "Faculty server: "
+        << make_address(
+            server_config.faculty_server_ip,
+            server_config.faculty_server_port
+        )
+        << std::endl;
+
+
+    // ========================================================
+    // Start Winsock
+    // ========================================================
+
     WSADATA wsa_data;
 
     if (
@@ -2390,7 +2599,9 @@ int main()
         INADDR_ANY;
 
     server_address.sin_port =
-        htons(8080);
+        htons(
+            server_config.web_server_port
+        );
 
 
     if (
@@ -2404,7 +2615,9 @@ int main()
     ) {
 
         std::cerr
-            << "Failed to bind to port 8080."
+            << "Failed to bind to port "
+            << server_config.web_server_port
+            << "."
             << std::endl;
 
         closesocket(
@@ -2439,15 +2652,48 @@ int main()
 
 
     std::cout
-        << "Web server running on "
-        << "0.0.0.0:8080"
         << std::endl;
 
     std::cout
-        << "Backend gRPC server: "
-        << "192.168.100.22:50051"
+        << "[WEB] Server started successfully."
         << std::endl;
 
+    std::cout
+        << "[WEB] Address: "
+        << make_address(
+            server_config.web_server_ip,
+            server_config.web_server_port
+        )
+        << std::endl;
+
+    std::cout
+        << "[WEB] Admin/Core: "
+        << make_address(
+            server_config.admin_server_ip,
+            server_config.admin_server_port
+        )
+        << std::endl;
+
+    std::cout
+        << "[WEB] Student: "
+        << make_address(
+            server_config.student_server_ip,
+            server_config.student_server_port
+        )
+        << std::endl;
+
+    std::cout
+        << "[WEB] Faculty: "
+        << make_address(
+            server_config.faculty_server_ip,
+            server_config.faculty_server_port
+        )
+        << std::endl;
+
+
+    // ========================================================
+    // Accept connections
+    // ========================================================
 
     while (true) {
 

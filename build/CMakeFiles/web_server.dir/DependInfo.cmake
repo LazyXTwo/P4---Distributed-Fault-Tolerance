@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "D:/School/STDISCIM/GRPC Test/config.cpp" "CMakeFiles/web_server.dir/config.cpp.obj" "gcc" "CMakeFiles/web_server.dir/config.cpp.obj.d"
   "D:/School/STDISCIM/GRPC Test/web_server.cpp" "CMakeFiles/web_server.dir/web_server.cpp.obj" "gcc" "CMakeFiles/web_server.dir/web_server.cpp.obj.d"
   )
 

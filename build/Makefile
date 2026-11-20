@@ -158,6 +158,45 @@ server/fast:
 .PHONY : server/fast
 
 #=============================================================================
+# Target rules for targets named admin_server
+
+# Build rule for target.
+admin_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 admin_server
+.PHONY : admin_server
+
+# fast build rule for target.
+admin_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\admin_server.dir\build.make CMakeFiles/admin_server.dir/build
+.PHONY : admin_server/fast
+
+#=============================================================================
+# Target rules for targets named student_server
+
+# Build rule for target.
+student_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 student_server
+.PHONY : student_server
+
+# fast build rule for target.
+student_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\student_server.dir\build.make CMakeFiles/student_server.dir/build
+.PHONY : student_server/fast
+
+#=============================================================================
+# Target rules for targets named faculty_server
+
+# Build rule for target.
+faculty_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 faculty_server
+.PHONY : faculty_server
+
+# fast build rule for target.
+faculty_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\faculty_server.dir\build.make CMakeFiles/faculty_server.dir/build
+.PHONY : faculty_server/fast
+
+#=============================================================================
 # Target rules for targets named client
 
 # Build rule for target.
@@ -191,6 +230,30 @@ test_prep/all: cmake_check_build_system
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_prep/all
 .PHONY : test_prep/all
 
+admin_server.obj: admin_server.cpp.obj
+.PHONY : admin_server.obj
+
+# target to build an object file
+admin_server.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\admin_server.dir\build.make CMakeFiles/admin_server.dir/admin_server.cpp.obj
+.PHONY : admin_server.cpp.obj
+
+admin_server.i: admin_server.cpp.i
+.PHONY : admin_server.i
+
+# target to preprocess a source file
+admin_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\admin_server.dir\build.make CMakeFiles/admin_server.dir/admin_server.cpp.i
+.PHONY : admin_server.cpp.i
+
+admin_server.s: admin_server.cpp.s
+.PHONY : admin_server.s
+
+# target to generate assembly for a file
+admin_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\admin_server.dir\build.make CMakeFiles/admin_server.dir/admin_server.cpp.s
+.PHONY : admin_server.cpp.s
+
 client.obj: client.cpp.obj
 .PHONY : client.obj
 
@@ -214,6 +277,45 @@ client.s: client.cpp.s
 client.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/client.cpp.s
 .PHONY : client.cpp.s
+
+config.obj: config.cpp.obj
+.PHONY : config.obj
+
+# target to build an object file
+config.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/config.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\admin_server.dir\build.make CMakeFiles/admin_server.dir/config.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\student_server.dir\build.make CMakeFiles/student_server.dir/config.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\faculty_server.dir\build.make CMakeFiles/faculty_server.dir/config.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/config.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/config.cpp.obj
+.PHONY : config.cpp.obj
+
+config.i: config.cpp.i
+.PHONY : config.i
+
+# target to preprocess a source file
+config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/config.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\admin_server.dir\build.make CMakeFiles/admin_server.dir/config.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\student_server.dir\build.make CMakeFiles/student_server.dir/config.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\faculty_server.dir\build.make CMakeFiles/faculty_server.dir/config.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/config.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/config.cpp.i
+.PHONY : config.cpp.i
+
+config.s: config.cpp.s
+.PHONY : config.s
+
+# target to generate assembly for a file
+config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/config.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\admin_server.dir\build.make CMakeFiles/admin_server.dir/config.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\student_server.dir\build.make CMakeFiles/student_server.dir/config.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\faculty_server.dir\build.make CMakeFiles/faculty_server.dir/config.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\client.dir\build.make CMakeFiles/client.dir/config.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\web_server.dir\build.make CMakeFiles/web_server.dir/config.cpp.s
+.PHONY : config.cpp.s
 
 enrollment.grpc.pb.obj: enrollment.grpc.pb.cc.obj
 .PHONY : enrollment.grpc.pb.obj
@@ -263,6 +365,30 @@ enrollment.pb.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\enrollment_proto.dir\build.make CMakeFiles/enrollment_proto.dir/enrollment.pb.cc.s
 .PHONY : enrollment.pb.cc.s
 
+faculty_server.obj: faculty_server.cpp.obj
+.PHONY : faculty_server.obj
+
+# target to build an object file
+faculty_server.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\faculty_server.dir\build.make CMakeFiles/faculty_server.dir/faculty_server.cpp.obj
+.PHONY : faculty_server.cpp.obj
+
+faculty_server.i: faculty_server.cpp.i
+.PHONY : faculty_server.i
+
+# target to preprocess a source file
+faculty_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\faculty_server.dir\build.make CMakeFiles/faculty_server.dir/faculty_server.cpp.i
+.PHONY : faculty_server.cpp.i
+
+faculty_server.s: faculty_server.cpp.s
+.PHONY : faculty_server.s
+
+# target to generate assembly for a file
+faculty_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\faculty_server.dir\build.make CMakeFiles/faculty_server.dir/faculty_server.cpp.s
+.PHONY : faculty_server.cpp.s
+
 server.obj: server.cpp.obj
 .PHONY : server.obj
 
@@ -286,6 +412,30 @@ server.s: server.cpp.s
 server.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/server.cpp.s
 .PHONY : server.cpp.s
+
+student_server.obj: student_server.cpp.obj
+.PHONY : student_server.obj
+
+# target to build an object file
+student_server.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\student_server.dir\build.make CMakeFiles/student_server.dir/student_server.cpp.obj
+.PHONY : student_server.cpp.obj
+
+student_server.i: student_server.cpp.i
+.PHONY : student_server.i
+
+# target to preprocess a source file
+student_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\student_server.dir\build.make CMakeFiles/student_server.dir/student_server.cpp.i
+.PHONY : student_server.cpp.i
+
+student_server.s: student_server.cpp.s
+.PHONY : student_server.s
+
+# target to generate assembly for a file
+student_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\student_server.dir\build.make CMakeFiles/student_server.dir/student_server.cpp.s
+.PHONY : student_server.cpp.s
 
 web_server.obj: web_server.cpp.obj
 .PHONY : web_server.obj
@@ -320,22 +470,37 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... generate_proto
+	@echo ... admin_server
 	@echo ... client
 	@echo ... enrollment_proto
+	@echo ... faculty_server
 	@echo ... server
+	@echo ... student_server
 	@echo ... web_server
+	@echo ... admin_server.obj
+	@echo ... admin_server.i
+	@echo ... admin_server.s
 	@echo ... client.obj
 	@echo ... client.i
 	@echo ... client.s
+	@echo ... config.obj
+	@echo ... config.i
+	@echo ... config.s
 	@echo ... enrollment.grpc.pb.obj
 	@echo ... enrollment.grpc.pb.i
 	@echo ... enrollment.grpc.pb.s
 	@echo ... enrollment.pb.obj
 	@echo ... enrollment.pb.i
 	@echo ... enrollment.pb.s
+	@echo ... faculty_server.obj
+	@echo ... faculty_server.i
+	@echo ... faculty_server.s
 	@echo ... server.obj
 	@echo ... server.i
 	@echo ... server.s
+	@echo ... student_server.obj
+	@echo ... student_server.i
+	@echo ... student_server.s
 	@echo ... web_server.obj
 	@echo ... web_server.i
 	@echo ... web_server.s

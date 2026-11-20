@@ -3166,27 +3166,48 @@ const char descriptor_table_protodef_enrollment_2eproto[] ABSL_ATTRIBUTE_SECTION
     "\030\001 \001(\t\022\023\n\013course_name\030\002 \001(\t\022\r\n\005grade\030\003 \001"
     "(\001\"U\n\016GetGradesReply\022\017\n\007success\030\001 \001(\010\022\017\n"
     "\007message\030\002 \001(\t\022!\n\006grades\030\003 \003(\0132\021.enrollm"
-    "ent.Grade2\271\004\n\021EnrollmentService\0229\n\005Login"
+    "ent.Grade2\230\002\n\014AdminService\0229\n\005Login\022\030.en"
+    "rollment.LoginRequest\032\026.enrollment.Login"
+    "Reply\022<\n\006Logout\022\031.enrollment.LogoutReque"
+    "st\032\027.enrollment.LogoutReply\022H\n\nAddStuden"
+    "t\022\035.enrollment.AddStudentRequest\032\033.enrol"
+    "lment.AddStudentReply\022E\n\tAddCourse\022\034.enr"
+    "ollment.AddCourseRequest\032\032.enrollment.Ad"
+    "dCourseReply2\330\002\n\016StudentService\0229\n\005Login"
     "\022\030.enrollment.LoginRequest\032\026.enrollment."
     "LoginReply\022<\n\006Logout\022\031.enrollment.Logout"
     "Request\032\027.enrollment.LogoutReply\022H\n\nGetC"
     "ourses\022\035.enrollment.GetCoursesRequest\032\033."
     "enrollment.GetCoursesReply\022<\n\006Enroll\022\031.e"
     "nrollment.EnrollRequest\032\027.enrollment.Enr"
-    "ollReply\022H\n\nAddStudent\022\035.enrollment.AddS"
-    "tudentRequest\032\033.enrollment.AddStudentRep"
-    "ly\022E\n\tAddCourse\022\034.enrollment.AddCourseRe"
-    "quest\032\032.enrollment.AddCourseReply\022K\n\013Upl"
-    "oadGrade\022\036.enrollment.UploadGradeRequest"
-    "\032\034.enrollment.UploadGradeReply\022E\n\tGetGra"
-    "des\022\034.enrollment.GetGradesRequest\032\032.enro"
-    "llment.GetGradesReplyb\006proto3"
+    "ollReply\022E\n\tGetGrades\022\034.enrollment.GetGr"
+    "adesRequest\032\032.enrollment.GetGradesReply2"
+    "\326\001\n\016FacultyService\0229\n\005Login\022\030.enrollment"
+    ".LoginRequest\032\026.enrollment.LoginReply\022<\n"
+    "\006Logout\022\031.enrollment.LogoutRequest\032\027.enr"
+    "ollment.LogoutReply\022K\n\013UploadGrade\022\036.enr"
+    "ollment.UploadGradeRequest\032\034.enrollment."
+    "UploadGradeReply2\263\004\n\013CoreService\0229\n\005Logi"
+    "n\022\030.enrollment.LoginRequest\032\026.enrollment"
+    ".LoginReply\022<\n\006Logout\022\031.enrollment.Logou"
+    "tRequest\032\027.enrollment.LogoutReply\022H\n\nGet"
+    "Courses\022\035.enrollment.GetCoursesRequest\032\033"
+    ".enrollment.GetCoursesReply\022<\n\006Enroll\022\031."
+    "enrollment.EnrollRequest\032\027.enrollment.En"
+    "rollReply\022H\n\nAddStudent\022\035.enrollment.Add"
+    "StudentRequest\032\033.enrollment.AddStudentRe"
+    "ply\022E\n\tAddCourse\022\034.enrollment.AddCourseR"
+    "equest\032\032.enrollment.AddCourseReply\022K\n\013Up"
+    "loadGrade\022\036.enrollment.UploadGradeReques"
+    "t\032\034.enrollment.UploadGradeReply\022E\n\tGetGr"
+    "ades\022\034.enrollment.GetGradesRequest\032\032.enr"
+    "ollment.GetGradesReplyb\006proto3"
 };
 static ::absl::once_flag descriptor_table_enrollment_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_enrollment_2eproto = {
     false,
     false,
-    1789,
+    2630,
     descriptor_table_protodef_enrollment_2eproto,
     "enrollment.proto",
     &descriptor_table_enrollment_2eproto_once,

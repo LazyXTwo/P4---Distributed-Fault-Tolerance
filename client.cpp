@@ -1,51 +1,106 @@
+#include <iostream>
+#include <memory>
+
 #include <grpcpp/grpcpp.h>
 
 #include "enrollment.grpc.pb.h"
-
-#include <iostream>
-#include <memory>
-#include <string>
-#include <chrono>
+#include "config.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
 
-using enrollment::EnrollmentService;
+using enrollment::StudentService;
 using enrollment::LoginRequest;
 using enrollment::LoginReply;
 
 
+// ============================================================
+// MAIN
+// ============================================================
+
 int main()
 {
+    std::cout
+        << "========================================"
+        << std::endl;
+
+    std::cout
+        << "     STUDENT CLIENT TEST"
+        << std::endl;
+
+    std::cout
+        << "========================================"
+        << std::endl;
+
+
     // ============================================================
-    // Connect to backend
+    // LOAD CONFIGURATION
+    // ============================================================
+
+    ServerConfig config;
+
+    if (!load_config("config.ini", config))
+    {
+        std::cerr
+            << "ERROR: Could not load config.ini."
+            << std::endl;
+
+        return 1;
+    }
+
+
+    // ============================================================
+    // CREATE STUDENT SERVER ADDRESS
+    // ============================================================
+
+    std::string server_address =
+        make_address(
+            config.student_server_ip,
+            config.student_server_port
+        );
+
+    std::cout
+        << "Student server: "
+        << server_address
+        << std::endl;
+
+
+    // ============================================================
+    // CREATE GRPC CHANNEL
     // ============================================================
 
     std::cout
         << "Creating gRPC channel..."
         << std::endl;
 
-    auto channel =
+    std::shared_ptr<Channel> channel =
         grpc::CreateChannel(
-            "192.168.100.22:50051",
+            server_address,
             grpc::InsecureChannelCredentials()
         );
 
+
+    // ============================================================
+    // CREATE STUDENT SERVICE STUB
+    // ============================================================
+
     std::cout
-        << "Creating gRPC stub..."
+        << "Creating StudentService stub..."
         << std::endl;
 
-    std::unique_ptr<EnrollmentService::Stub> stub =
-        EnrollmentService::NewStub(channel);
+    std::unique_ptr<StudentService::Stub> stub =
+        StudentService::NewStub(
+            channel
+        );
 
     std::cout
-        << "gRPC stub created."
+        << "StudentService stub created."
         << std::endl;
 
 
     // ============================================================
-    // Login
+    // PREPARE LOGIN REQUEST
     // ============================================================
 
     std::cout
@@ -54,31 +109,28 @@ int main()
 
     LoginRequest request;
 
-    request.set_username("student1");
-    request.set_password("password123");
+    request.set_username(
+        "student1"
+    );
 
-    LoginReply reply;
-
-    ClientContext context;
-
-
-    // ============================================================
-    // Set RPC timeout
-    // ============================================================
-
-    context.set_deadline(
-        std::chrono::system_clock::now()
-        + std::chrono::seconds(10)
+    request.set_password(
+        "password123"
     );
 
 
     // ============================================================
-    // Send Login RPC
+    // SEND LOGIN REQUEST
     // ============================================================
 
     std::cout
-        << "Sending Login RPC to 192.168.100.22:50051..."
+        << "Sending Login RPC to "
+        << server_address
+        << "..."
         << std::endl;
+
+    ClientContext context;
+
+    LoginReply reply;
 
     Status status =
         stub->Login(
@@ -89,25 +141,21 @@ int main()
 
 
     // ============================================================
-    // Display result
+    // CHECK GRPC STATUS
     // ============================================================
-
-    std::cout
-        << "Login RPC returned."
-        << std::endl;
 
     if (!status.ok())
     {
-        std::cout
-            << "RPC failed."
+        std::cerr
+            << "Login RPC failed."
             << std::endl;
 
-        std::cout
+        std::cerr
             << "Error code: "
             << status.error_code()
             << std::endl;
 
-        std::cout
+        std::cerr
             << "Error message: "
             << status.error_message()
             << std::endl;
@@ -116,29 +164,63 @@ int main()
     }
 
 
+    // ============================================================
+    // DISPLAY LOGIN RESULT
+    // ============================================================
+
+    std::cout
+        << std::endl;
+
+    std::cout
+        << "========================================"
+        << std::endl;
+
+    std::cout
+        << "LOGIN RESULT"
+        << std::endl;
+
+    std::cout
+        << "========================================"
+        << std::endl;
+
+    std::cout
+        << "Success: "
+        << (reply.success() ? "true" : "false")
+        << std::endl;
+
+    std::cout
+        << "Message: "
+        << reply.message()
+        << std::endl;
+
+    std::cout
+        << "Role: "
+        << reply.role()
+        << std::endl;
+
+
     if (reply.success())
     {
         std::cout
-            << "Login successful."
+            << "Session token received: YES"
             << std::endl;
 
         std::cout
-            << "Session token: "
-            << reply.session_token()
-            << std::endl;
-
-        std::cout
-            << "Role: "
-            << reply.role()
+            << "Token length: "
+            << reply.session_token().length()
             << std::endl;
     }
     else
     {
         std::cout
-            << "Login failed: "
-            << reply.message()
+            << "Session token received: NO"
             << std::endl;
     }
+
+
+    std::cout
+        << "========================================"
+        << std::endl;
 
 
     return 0;

@@ -22,294 +22,376 @@
 #include <grpcpp/ports_def.inc>
 namespace enrollment {
 
-static const char* EnrollmentService_method_names[] = {
-  "/enrollment.EnrollmentService/Login",
-  "/enrollment.EnrollmentService/Logout",
-  "/enrollment.EnrollmentService/GetCourses",
-  "/enrollment.EnrollmentService/Enroll",
-  "/enrollment.EnrollmentService/AddStudent",
-  "/enrollment.EnrollmentService/AddCourse",
-  "/enrollment.EnrollmentService/UploadGrade",
-  "/enrollment.EnrollmentService/GetGrades",
+static const char* AdminService_method_names[] = {
+  "/enrollment.AdminService/Login",
+  "/enrollment.AdminService/Logout",
+  "/enrollment.AdminService/AddStudent",
+  "/enrollment.AdminService/AddCourse",
 };
 
-std::unique_ptr< EnrollmentService::Stub> EnrollmentService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+std::unique_ptr< AdminService::Stub> AdminService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
   (void)options;
-  std::unique_ptr< EnrollmentService::Stub> stub(new EnrollmentService::Stub(channel, options));
+  std::unique_ptr< AdminService::Stub> stub(new AdminService::Stub(channel, options));
   return stub;
 }
 
-EnrollmentService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
-  : channel_(channel), rpcmethod_Login_(EnrollmentService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Logout_(EnrollmentService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetCourses_(EnrollmentService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Enroll_(EnrollmentService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AddStudent_(EnrollmentService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AddCourse_(EnrollmentService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UploadGrade_(EnrollmentService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetGrades_(EnrollmentService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+AdminService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_Login_(AdminService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Logout_(AdminService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddStudent_(AdminService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddCourse_(AdminService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status EnrollmentService::Stub::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::enrollment::LoginReply* response) {
+::grpc::Status AdminService::Stub::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::enrollment::LoginReply* response) {
   return ::grpc::internal::BlockingUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Login_, context, request, response);
 }
 
-void EnrollmentService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, std::function<void(::grpc::Status)> f) {
+void AdminService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, std::function<void(::grpc::Status)> f) {
   ::grpc::internal::CallbackUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, std::move(f));
 }
 
-void EnrollmentService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, ::grpc::ClientUnaryReactor* reactor) {
+void AdminService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* EnrollmentService::Stub::PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* AdminService::Stub::PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LoginReply, ::enrollment::LoginRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Login_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* EnrollmentService::Stub::AsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* AdminService::Stub::AsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncLoginRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status EnrollmentService::Stub::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::enrollment::LogoutReply* response) {
+::grpc::Status AdminService::Stub::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::enrollment::LogoutReply* response) {
   return ::grpc::internal::BlockingUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Logout_, context, request, response);
 }
 
-void EnrollmentService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, std::function<void(::grpc::Status)> f) {
+void AdminService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, std::function<void(::grpc::Status)> f) {
   ::grpc::internal::CallbackUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, std::move(f));
 }
 
-void EnrollmentService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, ::grpc::ClientUnaryReactor* reactor) {
+void AdminService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* EnrollmentService::Stub::PrepareAsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* AdminService::Stub::PrepareAsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LogoutReply, ::enrollment::LogoutRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Logout_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* EnrollmentService::Stub::AsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* AdminService::Stub::AsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncLogoutRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status EnrollmentService::Stub::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::enrollment::GetCoursesReply* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetCourses_, context, request, response);
-}
-
-void EnrollmentService::Stub::async::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCourses_, context, request, response, std::move(f));
-}
-
-void EnrollmentService::Stub::async::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCourses_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::GetCoursesReply>* EnrollmentService::Stub::PrepareAsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::GetCoursesReply, ::enrollment::GetCoursesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetCourses_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::GetCoursesReply>* EnrollmentService::Stub::AsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncGetCoursesRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-::grpc::Status EnrollmentService::Stub::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::enrollment::EnrollReply* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Enroll_, context, request, response);
-}
-
-void EnrollmentService::Stub::async::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Enroll_, context, request, response, std::move(f));
-}
-
-void EnrollmentService::Stub::async::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Enroll_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* EnrollmentService::Stub::PrepareAsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::EnrollReply, ::enrollment::EnrollRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Enroll_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* EnrollmentService::Stub::AsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncEnrollRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-::grpc::Status EnrollmentService::Stub::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::enrollment::AddStudentReply* response) {
+::grpc::Status AdminService::Stub::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::enrollment::AddStudentReply* response) {
   return ::grpc::internal::BlockingUnaryCall< ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AddStudent_, context, request, response);
 }
 
-void EnrollmentService::Stub::async::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, std::function<void(::grpc::Status)> f) {
+void AdminService::Stub::async::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, std::function<void(::grpc::Status)> f) {
   ::grpc::internal::CallbackUnaryCall< ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddStudent_, context, request, response, std::move(f));
 }
 
-void EnrollmentService::Stub::async::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, ::grpc::ClientUnaryReactor* reactor) {
+void AdminService::Stub::async::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddStudent_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* EnrollmentService::Stub::PrepareAsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* AdminService::Stub::PrepareAsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::AddStudentReply, ::enrollment::AddStudentRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AddStudent_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* EnrollmentService::Stub::AsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* AdminService::Stub::AsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncAddStudentRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status EnrollmentService::Stub::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::enrollment::AddCourseReply* response) {
+::grpc::Status AdminService::Stub::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::enrollment::AddCourseReply* response) {
   return ::grpc::internal::BlockingUnaryCall< ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AddCourse_, context, request, response);
 }
 
-void EnrollmentService::Stub::async::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, std::function<void(::grpc::Status)> f) {
+void AdminService::Stub::async::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, std::function<void(::grpc::Status)> f) {
   ::grpc::internal::CallbackUnaryCall< ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCourse_, context, request, response, std::move(f));
 }
 
-void EnrollmentService::Stub::async::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, ::grpc::ClientUnaryReactor* reactor) {
+void AdminService::Stub::async::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCourse_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* EnrollmentService::Stub::PrepareAsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* AdminService::Stub::PrepareAsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::AddCourseReply, ::enrollment::AddCourseRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AddCourse_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* EnrollmentService::Stub::AsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* AdminService::Stub::AsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncAddCourseRaw(context, request, cq);
   result->StartCall();
   return result;
 }
 
-::grpc::Status EnrollmentService::Stub::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::enrollment::UploadGradeReply* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UploadGrade_, context, request, response);
-}
-
-void EnrollmentService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, std::move(f));
-}
-
-void EnrollmentService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* EnrollmentService::Stub::PrepareAsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::UploadGradeReply, ::enrollment::UploadGradeRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UploadGrade_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* EnrollmentService::Stub::AsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncUploadGradeRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-::grpc::Status EnrollmentService::Stub::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::enrollment::GetGradesReply* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetGrades_, context, request, response);
-}
-
-void EnrollmentService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, std::move(f));
-}
-
-void EnrollmentService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, ::grpc::ClientUnaryReactor* reactor) {
-  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, reactor);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* EnrollmentService::Stub::PrepareAsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::GetGradesReply, ::enrollment::GetGradesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetGrades_, context, request);
-}
-
-::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* EnrollmentService::Stub::AsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
-  auto* result =
-    this->PrepareAsyncGetGradesRaw(context, request, cq);
-  result->StartCall();
-  return result;
-}
-
-EnrollmentService::Service::Service() {
+AdminService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[0],
+      AdminService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< AdminService::Service, ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](AdminService::Service* service,
              ::grpc::ServerContext* ctx,
              const ::enrollment::LoginRequest* req,
              ::enrollment::LoginReply* resp) {
                return service->Login(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[1],
+      AdminService_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< AdminService::Service, ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](AdminService::Service* service,
              ::grpc::ServerContext* ctx,
              const ::enrollment::LogoutRequest* req,
              ::enrollment::LogoutReply* resp) {
                return service->Logout(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[2],
+      AdminService_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::enrollment::GetCoursesRequest* req,
-             ::enrollment::GetCoursesReply* resp) {
-               return service->GetCourses(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[3],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
-             ::grpc::ServerContext* ctx,
-             const ::enrollment::EnrollRequest* req,
-             ::enrollment::EnrollReply* resp) {
-               return service->Enroll(ctx, req, resp);
-             }, this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[4],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< AdminService::Service, ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](AdminService::Service* service,
              ::grpc::ServerContext* ctx,
              const ::enrollment::AddStudentRequest* req,
              ::enrollment::AddStudentReply* resp) {
                return service->AddStudent(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[5],
+      AdminService_method_names[3],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< AdminService::Service, ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](AdminService::Service* service,
              ::grpc::ServerContext* ctx,
              const ::enrollment::AddCourseRequest* req,
              ::enrollment::AddCourseReply* resp) {
                return service->AddCourse(ctx, req, resp);
              }, this)));
+}
+
+AdminService::Service::~Service() {
+}
+
+::grpc::Status AdminService::Service::Login(::grpc::ServerContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status AdminService::Service::Logout(::grpc::ServerContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status AdminService::Service::AddStudent(::grpc::ServerContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status AdminService::Service::AddCourse(::grpc::ServerContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+
+static const char* StudentService_method_names[] = {
+  "/enrollment.StudentService/Login",
+  "/enrollment.StudentService/Logout",
+  "/enrollment.StudentService/GetCourses",
+  "/enrollment.StudentService/Enroll",
+  "/enrollment.StudentService/GetGrades",
+};
+
+std::unique_ptr< StudentService::Stub> StudentService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  (void)options;
+  std::unique_ptr< StudentService::Stub> stub(new StudentService::Stub(channel, options));
+  return stub;
+}
+
+StudentService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_Login_(StudentService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Logout_(StudentService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetCourses_(StudentService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Enroll_(StudentService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetGrades_(StudentService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  {}
+
+::grpc::Status StudentService::Stub::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::enrollment::LoginReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Login_, context, request, response);
+}
+
+void StudentService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, std::move(f));
+}
+
+void StudentService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* StudentService::Stub::PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LoginReply, ::enrollment::LoginRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Login_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* StudentService::Stub::AsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncLoginRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status StudentService::Stub::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::enrollment::LogoutReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Logout_, context, request, response);
+}
+
+void StudentService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, std::move(f));
+}
+
+void StudentService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* StudentService::Stub::PrepareAsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LogoutReply, ::enrollment::LogoutRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Logout_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* StudentService::Stub::AsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncLogoutRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status StudentService::Stub::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::enrollment::GetCoursesReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetCourses_, context, request, response);
+}
+
+void StudentService::Stub::async::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCourses_, context, request, response, std::move(f));
+}
+
+void StudentService::Stub::async::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCourses_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetCoursesReply>* StudentService::Stub::PrepareAsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::GetCoursesReply, ::enrollment::GetCoursesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetCourses_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetCoursesReply>* StudentService::Stub::AsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetCoursesRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status StudentService::Stub::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::enrollment::EnrollReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Enroll_, context, request, response);
+}
+
+void StudentService::Stub::async::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Enroll_, context, request, response, std::move(f));
+}
+
+void StudentService::Stub::async::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Enroll_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* StudentService::Stub::PrepareAsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::EnrollReply, ::enrollment::EnrollRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Enroll_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* StudentService::Stub::AsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncEnrollRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status StudentService::Stub::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::enrollment::GetGradesReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetGrades_, context, request, response);
+}
+
+void StudentService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, std::move(f));
+}
+
+void StudentService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* StudentService::Stub::PrepareAsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::GetGradesReply, ::enrollment::GetGradesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetGrades_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* StudentService::Stub::AsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetGradesRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+StudentService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[6],
+      StudentService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< StudentService::Service, ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](StudentService::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::enrollment::UploadGradeRequest* req,
-             ::enrollment::UploadGradeReply* resp) {
-               return service->UploadGrade(ctx, req, resp);
+             const ::enrollment::LoginRequest* req,
+             ::enrollment::LoginReply* resp) {
+               return service->Login(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      EnrollmentService_method_names[7],
+      StudentService_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< EnrollmentService::Service, ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
-          [](EnrollmentService::Service* service,
+      new ::grpc::internal::RpcMethodHandler< StudentService::Service, ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](StudentService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::LogoutRequest* req,
+             ::enrollment::LogoutReply* resp) {
+               return service->Logout(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      StudentService_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< StudentService::Service, ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](StudentService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::GetCoursesRequest* req,
+             ::enrollment::GetCoursesReply* resp) {
+               return service->GetCourses(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      StudentService_method_names[3],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< StudentService::Service, ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](StudentService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::EnrollRequest* req,
+             ::enrollment::EnrollReply* resp) {
+               return service->Enroll(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      StudentService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< StudentService::Service, ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](StudentService::Service* service,
              ::grpc::ServerContext* ctx,
              const ::enrollment::GetGradesRequest* req,
              ::enrollment::GetGradesReply* resp) {
@@ -317,59 +399,538 @@ EnrollmentService::Service::Service() {
              }, this)));
 }
 
-EnrollmentService::Service::~Service() {
+StudentService::Service::~Service() {
 }
 
-::grpc::Status EnrollmentService::Service::Login(::grpc::ServerContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response) {
+::grpc::Status StudentService::Service::Login(::grpc::ServerContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status EnrollmentService::Service::Logout(::grpc::ServerContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response) {
+::grpc::Status StudentService::Service::Logout(::grpc::ServerContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status EnrollmentService::Service::GetCourses(::grpc::ServerContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response) {
+::grpc::Status StudentService::Service::GetCourses(::grpc::ServerContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status EnrollmentService::Service::Enroll(::grpc::ServerContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response) {
+::grpc::Status StudentService::Service::Enroll(::grpc::ServerContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status EnrollmentService::Service::AddStudent(::grpc::ServerContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response) {
+::grpc::Status StudentService::Service::GetGrades(::grpc::ServerContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status EnrollmentService::Service::AddCourse(::grpc::ServerContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response) {
+
+static const char* FacultyService_method_names[] = {
+  "/enrollment.FacultyService/Login",
+  "/enrollment.FacultyService/Logout",
+  "/enrollment.FacultyService/UploadGrade",
+};
+
+std::unique_ptr< FacultyService::Stub> FacultyService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  (void)options;
+  std::unique_ptr< FacultyService::Stub> stub(new FacultyService::Stub(channel, options));
+  return stub;
+}
+
+FacultyService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_Login_(FacultyService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Logout_(FacultyService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UploadGrade_(FacultyService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  {}
+
+::grpc::Status FacultyService::Stub::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::enrollment::LoginReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Login_, context, request, response);
+}
+
+void FacultyService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, std::move(f));
+}
+
+void FacultyService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* FacultyService::Stub::PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LoginReply, ::enrollment::LoginRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Login_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* FacultyService::Stub::AsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncLoginRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status FacultyService::Stub::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::enrollment::LogoutReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Logout_, context, request, response);
+}
+
+void FacultyService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, std::move(f));
+}
+
+void FacultyService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* FacultyService::Stub::PrepareAsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LogoutReply, ::enrollment::LogoutRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Logout_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* FacultyService::Stub::AsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncLogoutRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status FacultyService::Stub::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::enrollment::UploadGradeReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UploadGrade_, context, request, response);
+}
+
+void FacultyService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, std::move(f));
+}
+
+void FacultyService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* FacultyService::Stub::PrepareAsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::UploadGradeReply, ::enrollment::UploadGradeRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UploadGrade_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* FacultyService::Stub::AsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncUploadGradeRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+FacultyService::Service::Service() {
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      FacultyService_method_names[0],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< FacultyService::Service, ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](FacultyService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::LoginRequest* req,
+             ::enrollment::LoginReply* resp) {
+               return service->Login(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      FacultyService_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< FacultyService::Service, ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](FacultyService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::LogoutRequest* req,
+             ::enrollment::LogoutReply* resp) {
+               return service->Logout(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      FacultyService_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< FacultyService::Service, ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](FacultyService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::UploadGradeRequest* req,
+             ::enrollment::UploadGradeReply* resp) {
+               return service->UploadGrade(ctx, req, resp);
+             }, this)));
+}
+
+FacultyService::Service::~Service() {
+}
+
+::grpc::Status FacultyService::Service::Login(::grpc::ServerContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status EnrollmentService::Service::UploadGrade(::grpc::ServerContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response) {
+::grpc::Status FacultyService::Service::Logout(::grpc::ServerContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status EnrollmentService::Service::GetGrades(::grpc::ServerContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response) {
+::grpc::Status FacultyService::Service::UploadGrade(::grpc::ServerContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+
+static const char* CoreService_method_names[] = {
+  "/enrollment.CoreService/Login",
+  "/enrollment.CoreService/Logout",
+  "/enrollment.CoreService/GetCourses",
+  "/enrollment.CoreService/Enroll",
+  "/enrollment.CoreService/AddStudent",
+  "/enrollment.CoreService/AddCourse",
+  "/enrollment.CoreService/UploadGrade",
+  "/enrollment.CoreService/GetGrades",
+};
+
+std::unique_ptr< CoreService::Stub> CoreService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
+  (void)options;
+  std::unique_ptr< CoreService::Stub> stub(new CoreService::Stub(channel, options));
+  return stub;
+}
+
+CoreService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
+  : channel_(channel), rpcmethod_Login_(CoreService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Logout_(CoreService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetCourses_(CoreService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Enroll_(CoreService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddStudent_(CoreService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddCourse_(CoreService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UploadGrade_(CoreService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetGrades_(CoreService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  {}
+
+::grpc::Status CoreService::Stub::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::enrollment::LoginReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Login_, context, request, response);
+}
+
+void CoreService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::Login(::grpc::ClientContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Login_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* CoreService::Stub::PrepareAsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LoginReply, ::enrollment::LoginRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Login_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LoginReply>* CoreService::Stub::AsyncLoginRaw(::grpc::ClientContext* context, const ::enrollment::LoginRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncLoginRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CoreService::Stub::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::enrollment::LogoutReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Logout_, context, request, response);
+}
+
+void CoreService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::Logout(::grpc::ClientContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Logout_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* CoreService::Stub::PrepareAsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::LogoutReply, ::enrollment::LogoutRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Logout_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::LogoutReply>* CoreService::Stub::AsyncLogoutRaw(::grpc::ClientContext* context, const ::enrollment::LogoutRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncLogoutRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CoreService::Stub::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::enrollment::GetCoursesReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetCourses_, context, request, response);
+}
+
+void CoreService::Stub::async::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCourses_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::GetCourses(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCourses_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetCoursesReply>* CoreService::Stub::PrepareAsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::GetCoursesReply, ::enrollment::GetCoursesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetCourses_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetCoursesReply>* CoreService::Stub::AsyncGetCoursesRaw(::grpc::ClientContext* context, const ::enrollment::GetCoursesRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetCoursesRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CoreService::Stub::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::enrollment::EnrollReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Enroll_, context, request, response);
+}
+
+void CoreService::Stub::async::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Enroll_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::Enroll(::grpc::ClientContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Enroll_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* CoreService::Stub::PrepareAsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::EnrollReply, ::enrollment::EnrollRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Enroll_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::EnrollReply>* CoreService::Stub::AsyncEnrollRaw(::grpc::ClientContext* context, const ::enrollment::EnrollRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncEnrollRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CoreService::Stub::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::enrollment::AddStudentReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AddStudent_, context, request, response);
+}
+
+void CoreService::Stub::async::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddStudent_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::AddStudent(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddStudent_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* CoreService::Stub::PrepareAsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::AddStudentReply, ::enrollment::AddStudentRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AddStudent_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::AddStudentReply>* CoreService::Stub::AsyncAddStudentRaw(::grpc::ClientContext* context, const ::enrollment::AddStudentRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAddStudentRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CoreService::Stub::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::enrollment::AddCourseReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AddCourse_, context, request, response);
+}
+
+void CoreService::Stub::async::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCourse_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::AddCourse(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCourse_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* CoreService::Stub::PrepareAsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::AddCourseReply, ::enrollment::AddCourseRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AddCourse_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::AddCourseReply>* CoreService::Stub::AsyncAddCourseRaw(::grpc::ClientContext* context, const ::enrollment::AddCourseRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAddCourseRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CoreService::Stub::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::enrollment::UploadGradeReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UploadGrade_, context, request, response);
+}
+
+void CoreService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::UploadGrade(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UploadGrade_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* CoreService::Stub::PrepareAsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::UploadGradeReply, ::enrollment::UploadGradeRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UploadGrade_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::UploadGradeReply>* CoreService::Stub::AsyncUploadGradeRaw(::grpc::ClientContext* context, const ::enrollment::UploadGradeRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncUploadGradeRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CoreService::Stub::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::enrollment::GetGradesReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetGrades_, context, request, response);
+}
+
+void CoreService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, std::move(f));
+}
+
+void CoreService::Stub::async::GetGrades(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetGrades_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* CoreService::Stub::PrepareAsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::enrollment::GetGradesReply, ::enrollment::GetGradesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetGrades_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::enrollment::GetGradesReply>* CoreService::Stub::AsyncGetGradesRaw(::grpc::ClientContext* context, const ::enrollment::GetGradesRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetGradesRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+CoreService::Service::Service() {
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[0],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::LoginRequest, ::enrollment::LoginReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::LoginRequest* req,
+             ::enrollment::LoginReply* resp) {
+               return service->Login(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::LogoutRequest, ::enrollment::LogoutReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::LogoutRequest* req,
+             ::enrollment::LogoutReply* resp) {
+               return service->Logout(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::GetCoursesRequest, ::enrollment::GetCoursesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::GetCoursesRequest* req,
+             ::enrollment::GetCoursesReply* resp) {
+               return service->GetCourses(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[3],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::EnrollRequest, ::enrollment::EnrollReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::EnrollRequest* req,
+             ::enrollment::EnrollReply* resp) {
+               return service->Enroll(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::AddStudentRequest, ::enrollment::AddStudentReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::AddStudentRequest* req,
+             ::enrollment::AddStudentReply* resp) {
+               return service->AddStudent(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[5],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::AddCourseRequest, ::enrollment::AddCourseReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::AddCourseRequest* req,
+             ::enrollment::AddCourseReply* resp) {
+               return service->AddCourse(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[6],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::UploadGradeRequest, ::enrollment::UploadGradeReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::UploadGradeRequest* req,
+             ::enrollment::UploadGradeReply* resp) {
+               return service->UploadGrade(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CoreService_method_names[7],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CoreService::Service, ::enrollment::GetGradesRequest, ::enrollment::GetGradesReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CoreService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::enrollment::GetGradesRequest* req,
+             ::enrollment::GetGradesReply* resp) {
+               return service->GetGrades(ctx, req, resp);
+             }, this)));
+}
+
+CoreService::Service::~Service() {
+}
+
+::grpc::Status CoreService::Service::Login(::grpc::ServerContext* context, const ::enrollment::LoginRequest* request, ::enrollment::LoginReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CoreService::Service::Logout(::grpc::ServerContext* context, const ::enrollment::LogoutRequest* request, ::enrollment::LogoutReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CoreService::Service::GetCourses(::grpc::ServerContext* context, const ::enrollment::GetCoursesRequest* request, ::enrollment::GetCoursesReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CoreService::Service::Enroll(::grpc::ServerContext* context, const ::enrollment::EnrollRequest* request, ::enrollment::EnrollReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CoreService::Service::AddStudent(::grpc::ServerContext* context, const ::enrollment::AddStudentRequest* request, ::enrollment::AddStudentReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CoreService::Service::AddCourse(::grpc::ServerContext* context, const ::enrollment::AddCourseRequest* request, ::enrollment::AddCourseReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CoreService::Service::UploadGrade(::grpc::ServerContext* context, const ::enrollment::UploadGradeRequest* request, ::enrollment::UploadGradeReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CoreService::Service::GetGrades(::grpc::ServerContext* context, const ::enrollment::GetGradesRequest* request, ::enrollment::GetGradesReply* response) {
   (void) context;
   (void) request;
   (void) response;

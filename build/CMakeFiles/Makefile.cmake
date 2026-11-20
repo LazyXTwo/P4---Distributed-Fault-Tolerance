@@ -52,6 +52,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/4.5.0/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.5.0/CMakeRCCompiler.cmake"
   "CMakeFiles/4.5.0/CMakeSystem.cmake"
+  "D:/School/STDISCIM/GRPC Test/config.ini"
   )
 
 # The corresponding makefile is:
@@ -62,6 +63,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
+  "config.ini"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
@@ -70,6 +72,9 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/generate_proto.dir/DependInfo.cmake"
   "CMakeFiles/enrollment_proto.dir/DependInfo.cmake"
   "CMakeFiles/server.dir/DependInfo.cmake"
+  "CMakeFiles/admin_server.dir/DependInfo.cmake"
+  "CMakeFiles/student_server.dir/DependInfo.cmake"
+  "CMakeFiles/faculty_server.dir/DependInfo.cmake"
   "CMakeFiles/client.dir/DependInfo.cmake"
   "CMakeFiles/web_server.dir/DependInfo.cmake"
   )

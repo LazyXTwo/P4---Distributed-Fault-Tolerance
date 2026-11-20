@@ -16,8 +16,21 @@ include_directories(
 
 find_package(Threads REQUIRED)
 
+
 # ============================================================
-# Generate protobuf / gRPC files
+# CONFIG FILE
+# Copy config.ini into the build directory automatically.
+# ============================================================
+
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/config.ini"
+    "${CMAKE_CURRENT_BINARY_DIR}/config.ini"
+    COPYONLY
+)
+
+
+# ============================================================
+# PROTO FILE
 # ============================================================
 
 set(PROTO_FILE
@@ -39,6 +52,11 @@ set(GRPC_SRC
 set(GRPC_HDR
     "${CMAKE_CURRENT_BINARY_DIR}/enrollment.grpc.pb.h"
 )
+
+
+# ============================================================
+# GENERATE PROTOBUF / GRPC FILES
+# ============================================================
 
 add_custom_command(
     OUTPUT
@@ -63,6 +81,7 @@ add_custom_command(
     COMMENT "Generating protobuf and gRPC files"
 )
 
+
 add_custom_target(
     generate_proto
     DEPENDS
@@ -72,8 +91,9 @@ add_custom_target(
         "${GRPC_HDR}"
 )
 
+
 # ============================================================
-# Generated protobuf / gRPC library
+# PROTOBUF / GRPC LIBRARY
 # ============================================================
 
 add_library(
@@ -83,10 +103,12 @@ add_library(
         "${GRPC_SRC}"
 )
 
+
 add_dependencies(
     enrollment_proto
     generate_proto
 )
+
 
 target_include_directories(
     enrollment_proto
@@ -95,8 +117,9 @@ target_include_directories(
         "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
+
 # ============================================================
-# gRPC static libraries
+# GRPC STATIC LIBRARIES
 # ============================================================
 
 file(
@@ -104,30 +127,21 @@ file(
     GRPC_STATIC_LIBRARIES
 
     "${GRPC_LIBRARY_DIR}/libabsl_*.a"
-
     "${GRPC_LIBRARY_DIR}/libupb*.a"
-
     "${GRPC_LIBRARY_DIR}/libutf8*.a"
-
     "${GRPC_LIBRARY_DIR}/libre2.a"
-
     "${GRPC_LIBRARY_DIR}/libcares.a"
-
     "${GRPC_LIBRARY_DIR}/libzlibstatic.a"
-
     "${GRPC_LIBRARY_DIR}/libprotobuf.a"
-
     "${GRPC_LIBRARY_DIR}/libgrpc_unsecure.a"
-
     "${GRPC_LIBRARY_DIR}/libgrpc++_unsecure.a"
-
     "${GRPC_LIBRARY_DIR}/libgpr.a"
-
     "${GRPC_LIBRARY_DIR}/libaddress_sorting.a"
 )
 
+
 # ============================================================
-# Common libraries
+# WINDOWS LIBRARIES
 # ============================================================
 
 set(
@@ -140,21 +154,37 @@ set(
     dbghelp
 )
 
+
 # ============================================================
-# Backend server
+# COMMON SOURCES
+# ============================================================
+
+set(
+    COMMON_SOURCES
+    config.cpp
+)
+
+
+# ============================================================
+# SERVER
+# Old server kept as backup/development target.
 # ============================================================
 
 add_executable(
     server
     server.cpp
+    ${COMMON_SOURCES}
 )
+
 
 target_include_directories(
     server
     PRIVATE
         "${GRPC_INCLUDE_DIR}"
         "${CMAKE_CURRENT_BINARY_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
 )
+
 
 target_link_libraries(
     server
@@ -169,21 +199,127 @@ target_link_libraries(
         ${WINDOWS_LIBRARIES}
 )
 
+
 # ============================================================
-# Test client
+# ADMIN SERVER
+# Core/shared-state server.
+# ============================================================
+
+add_executable(
+    admin_server
+    admin_server.cpp
+    ${COMMON_SOURCES}
+)
+
+
+target_include_directories(
+    admin_server
+    PRIVATE
+        "${GRPC_INCLUDE_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+
+target_link_libraries(
+    admin_server
+    PRIVATE
+        enrollment_proto
+
+        -Wl,--start-group
+        ${GRPC_STATIC_LIBRARIES}
+        -Wl,--end-group
+
+        Threads::Threads
+        ${WINDOWS_LIBRARIES}
+)
+
+
+# ============================================================
+# STUDENT SERVER
+# ============================================================
+
+add_executable(
+    student_server
+    student_server.cpp
+    ${COMMON_SOURCES}
+)
+
+
+target_include_directories(
+    student_server
+    PRIVATE
+        "${GRPC_INCLUDE_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+
+target_link_libraries(
+    student_server
+    PRIVATE
+        enrollment_proto
+
+        -Wl,--start-group
+        ${GRPC_STATIC_LIBRARIES}
+        -Wl,--end-group
+
+        Threads::Threads
+        ${WINDOWS_LIBRARIES}
+)
+
+# ============================================================
+# FACULTY SERVER
+# ============================================================
+
+add_executable(
+    faculty_server
+    faculty_server.cpp
+    ${COMMON_SOURCES}
+)
+
+
+target_include_directories(
+    faculty_server
+    PRIVATE
+        "${GRPC_INCLUDE_DIR}"
+        "${CMAKE_CURRENT_BINARY_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+
+target_link_libraries(
+    faculty_server
+    PRIVATE
+        enrollment_proto
+
+        -Wl,--start-group
+        ${GRPC_STATIC_LIBRARIES}
+        -Wl,--end-group
+
+        Threads::Threads
+        ${WINDOWS_LIBRARIES}
+)
+
+# ============================================================
+# CLIENT
 # ============================================================
 
 add_executable(
     client
     client.cpp
+    ${COMMON_SOURCES}
 )
+
 
 target_include_directories(
     client
     PRIVATE
         "${GRPC_INCLUDE_DIR}"
         "${CMAKE_CURRENT_BINARY_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
 )
+
 
 target_link_libraries(
     client
@@ -198,21 +334,26 @@ target_link_libraries(
         ${WINDOWS_LIBRARIES}
 )
 
+
 # ============================================================
-# Web server / MVC View node
+# WEB SERVER
 # ============================================================
 
 add_executable(
     web_server
     web_server.cpp
+    ${COMMON_SOURCES}
 )
+
 
 target_include_directories(
     web_server
     PRIVATE
         "${GRPC_INCLUDE_DIR}"
         "${CMAKE_CURRENT_BINARY_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}"
 )
+
 
 target_link_libraries(
     web_server

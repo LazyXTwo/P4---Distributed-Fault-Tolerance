@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/web_server.dir/config.cpp.obj"
+  "CMakeFiles/web_server.dir/config.cpp.obj.d"
   "CMakeFiles/web_server.dir/web_server.cpp.obj"
   "CMakeFiles/web_server.dir/web_server.cpp.obj.d"
   "libweb_server.dll.a"
